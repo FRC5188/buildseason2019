@@ -19,7 +19,7 @@ public class OI {
 
   //user controllers
   //access with OI.Controller.CONTROLLERNAME
-	public static class Controller {
+	private static class Controller {
 		public static final int DRIVE = 0, OPERATOR = 1;
 	}
 	
@@ -54,8 +54,8 @@ public class OI {
 	}
 	
 	//controllers
-	public Joystick drive;
-	public Joystick operator;
+	public static Joystick drive;
+	public static Joystick operator;
 		
 	public OI() {
 		//create controllers
