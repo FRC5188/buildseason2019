@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+//basic motor mappings for h-drrive
 public class RobotMap {
   public static final int frontLeft = 0;
   public static final int frontRight = 2;
