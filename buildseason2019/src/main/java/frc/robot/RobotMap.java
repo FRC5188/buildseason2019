@@ -14,4 +14,7 @@ public class RobotMap {
   public static final int backLeft = 1;
   public static final int backRight = 3;
   public static final int hWheel = 4;
+
+  public static final int leftHSelenoid = 1;
+  public static final int rightHSelenoid = 2;
 }
