@@ -19,7 +19,6 @@ import frc.robot.subsystems.DriveTrain;
  * project.
  */
 
- //cleans up robot class
 public class Robot extends TimedRobot {
 
   public static DriveTrain driveTrain;
