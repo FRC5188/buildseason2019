@@ -23,7 +23,6 @@ public class Robot extends TimedRobot {
 
   public static DriveTrain driveTrain;
   public static OI oi;
-
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
