@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.OI;
 import frc.robot.Robot;
 
 /**
@@ -27,6 +28,28 @@ public class Drive extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
+		// double leftThrottle = OI.drive.getRawAxis(OI.Axis.LY);
+		// double rightThrottle = OI.drive.getRawAxis(OI.Axis.RY);
+		// double strafe = OI.drive.getRawAxis(OI.Axis.LX);
+		double throttle = OI.drive.getRawAxis(OI.Axis.LY);
+		double turn =  OI.drive.getRawAxis(OI.Axis.RX);
+		double strafe =  OI.drive.getRawAxis(OI.Axis.LX);
+		double shifter = OI.drive.getRawButton(OI.Buttons.R) ? .5 : 1;
+
+		double lDrive;
+		double rDrive;
+		
+		if (Math.abs(throttle) < 0.05) {
+			// quick turn
+			lDrive = -turn * shifter * 0.60;
+			rDrive = turn * shifter * 0.60;
+			// drive in arcade
+		} else {
+			lDrive = shifter * throttle * (1 + Math.min(0, turn));
+			rDrive = shifter * throttle * (1 - Math.max(0, turn));
+		}
+		
+		Robot.driveTrain.drive(lDrive, rDrive, strafe);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
