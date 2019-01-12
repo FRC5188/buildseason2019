@@ -15,11 +15,12 @@ public class Pneumatics extends Subsystem{
         compressor.setClosedLoopControl(true);
     }
 
-    public setHWheelSelenoids(boolean val){
+    public void setHWheelSelenoids(boolean val) {
         System.out.println("setting H Wheel Selenoids " + val);
         leftHSelenoid.set(val);
         rightHSelenoid.set(val);
     }
+    
 	@Override
 	protected void initDefaultCommand() {
 		
