@@ -101,8 +101,10 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-  }
-
+   for(int i=0; i<10; i++){
+     System.out.println('x');
+   }
+    }
   /**
    * This function is called periodically during test mode.
    */
