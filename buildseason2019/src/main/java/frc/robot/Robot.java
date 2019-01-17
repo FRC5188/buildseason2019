@@ -34,6 +34,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     CameraServer.getInstance().startAutomaticCapture();
+    // 160x120 30fps 0/HW  used 1.2 Mbps min, 1.7 Mbps during testing // 
     driveTrain = new DriveTrain();
     pneumatics = new Pneumatics();
     // oi needs to be created last
