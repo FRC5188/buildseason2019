@@ -7,7 +7,11 @@
 
 package frc.robot;
 
+<<<<<<< HEAD
 import edu.wpi.first.wpilibj.SerialPort;
+=======
+import edu.wpi.first.cameraserver.CameraServer;
+>>>>>>> master
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.subsystems.DriveTrain;
@@ -34,6 +38,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    CameraServer.getInstance().startAutomaticCapture();
+    // 160x120 30fps 0/HW  used 1.2 Mbps min, 1.7 Mbps during testing // 
     driveTrain = new DriveTrain();
     pneumatics = new Pneumatics();
     // oi needs to be created last
@@ -101,9 +107,16 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
+<<<<<<< HEAD
     System.out.println(arduino.readString());
   }
 
+=======
+   for(int i=0; i<10; i++){
+     System.out.println('x');
+   }
+    }
+>>>>>>> master
   /**
    * This function is called periodically during test mode.
    */
