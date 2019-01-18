@@ -7,6 +7,9 @@
 
 package frc.robot;
 
+import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.SerialPort;
+
 //basic motor mappings for h-drrive
 public class RobotMap {
   public static final int frontLeft = 0;
@@ -17,4 +20,5 @@ public class RobotMap {
 
   public static final int leftHSelenoid = 1;
   public static final int rightHSelenoid = 2;
+ // public static AHRS gyro = new AHRS(SerialPort.Port.kMXP); 
 }
