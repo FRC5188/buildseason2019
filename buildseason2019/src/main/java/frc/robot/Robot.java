@@ -107,16 +107,9 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-<<<<<<< HEAD
     System.out.println(arduino.readString());
   }
 
-=======
-   for(int i=0; i<10; i++){
-     System.out.println('x');
-   }
-    }
->>>>>>> master
   /**
    * This function is called periodically during test mode.
    */
