@@ -7,7 +7,10 @@
 
 package frc.robot;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.subsystems.DriveTrain;
@@ -39,6 +42,8 @@ public class Robot extends TimedRobot {
     pneumatics = new Pneumatics();
     // oi needs to be created last
     oi = new OI();
+
+    RobotMap.gyro.zeroYaw();
   }
 
   /**
@@ -94,6 +99,7 @@ public class Robot extends TimedRobot {
     // if (m_autonomousCommand != null) {
     // m_autonomousCommand.cancel();
     // }
+    //RobotMap.gyro.zeroYaw();
   }
 
   /**
@@ -102,14 +108,15 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-   for(int i=0; i<10; i++){
-     System.out.println('x');
-   }
+   
+    System.out.println(RobotMap.gyro.getAngle());
     }
   /**
    * This function is called periodically during test mode.
    */
+
   @Override
   public void testPeriodic() {
   }
 }
+
