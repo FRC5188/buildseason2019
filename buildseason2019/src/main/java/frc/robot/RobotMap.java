@@ -20,5 +20,5 @@ public class RobotMap {
 
   public static final int leftHSelenoid = 1;
   public static final int rightHSelenoid = 2;
- // public static AHRS gyro = new AHRS(SerialPort.Port.kMXP); 
+  public static AHRS gyro = new AHRS(SerialPort.Port.kMXP); 
 }
