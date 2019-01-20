@@ -7,11 +7,11 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.I2C;
 import frc.robot.subsystems.Pneumatics;
 
 /**
@@ -27,8 +27,9 @@ public class Robot extends TimedRobot {
 
   public static DriveTrain driveTrain;
   public static Pneumatics pneumatics;
+  public static I2C i2c;
   public static OI oi;
-//SerialPort arduino = new SerialPort(9600, SerialPort.Port.kUSB1);
+
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
@@ -36,11 +37,20 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     CameraServer.getInstance().startAutomaticCapture();
-    // 160x120 30fps 0/HW  used 1.2 Mbps min, 1.7 Mbps during testing // 
+    /*
+    Settings during testing: 
+        160x120
+        30fps 
+        0/HW  
+        used 1.2 Mbps min, 1.7 Mbps max 
+    */
+
     driveTrain = new DriveTrain();
     pneumatics = new Pneumatics();
-    // oi needs to be created last
-    oi = new OI();
+    i2c = new I2C();
+
+    oi = new OI();    // oi needs to be created last
+
   }
 
   /**
@@ -104,7 +114,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    System.out.println(arduino.readString());
   }
 
   /**
