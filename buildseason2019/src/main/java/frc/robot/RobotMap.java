@@ -20,6 +20,5 @@ public class RobotMap {
 
   public static final int leftHSelenoid = 1;
   public static final int rightHSelenoid = 2;
-  public static I2C Wire = new I2C(Port.kMXP, 4); //uses the i2c port on the RoboRIO
-
+  public static I2C wire = new I2C(Port.kMXP, 4); //uses the i2c port on the RoboRIO
 }
