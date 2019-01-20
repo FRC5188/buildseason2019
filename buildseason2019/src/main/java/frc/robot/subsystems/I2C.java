@@ -28,10 +28,9 @@ public class I2C extends Subsystem {
 	
 		/**
 		 * Reads data from the Arduino on the I2C bus
-		 * 
 		 * @return String recieed from the I2C bus
 		 */
-	private String read(){
+	public String read(){
 		byte[] data = new byte[MAX_BYTES];//create a byte array to hold the incoming data
 		wire.read(4, MAX_BYTES, data);//use address 4 on i2c and store it in data
 		String output = new String(data);//create a string from the byte array
