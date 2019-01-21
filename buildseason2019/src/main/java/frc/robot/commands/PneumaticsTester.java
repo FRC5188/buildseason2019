@@ -10,6 +10,8 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
+//probably should remove this command and put the H-Wheel 
+//code in the Drive command
 public class PneumaticsTester extends Command {
 
     public PneumaticsTester() {

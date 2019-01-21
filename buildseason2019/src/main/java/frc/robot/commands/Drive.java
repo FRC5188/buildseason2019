@@ -10,9 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
 
-/**
- * An example command. You can replace me with your own command.
- */
+
 public class Drive extends Command {
 	public Drive() {
 		// Use requires() here to declare subsystem dependencies
@@ -27,9 +25,6 @@ public class Drive extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		// double leftThrottle = OI.drive.getRawAxis(OI.Axis.LY);
-		// double rightThrottle = OI.drive.getRawAxis(OI.Axis.RY);
-		// double strafe = OI.drive.getRawAxis(OI.Axis.LX);
 		double throttle = OI.drive.getRawAxis(OI.Axis.LY);
 		double turn =  OI.drive.getRawAxis(OI.Axis.RX);
 		double strafe =  OI.drive.getRawAxis(OI.Axis.LX);
@@ -38,16 +33,17 @@ public class Drive extends Command {
 		double lDrive;
 		double rDrive;
 		
+		//if there is no throttle do a zero point turn, or a "quick turn"
 		if (Math.abs(throttle) < 0.05) {
-			// quick turn
 			lDrive = -turn * shifter * 0.60;
 			rDrive = turn * shifter * 0.60;
-			// drive in arcade
 		} else {
 			lDrive = shifter * throttle * (1 + Math.min(0, turn));
 			rDrive = shifter * throttle * (1 - Math.max(0, turn));
+			//if not driving with quick turn then drive with split arcade
 		}
 		
+		//actual drive method
 		Robot.driveTrain.drive(lDrive, rDrive, strafe);
 	}
 

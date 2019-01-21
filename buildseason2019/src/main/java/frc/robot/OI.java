@@ -15,10 +15,10 @@ import edu.wpi.first.wpilibj.Joystick;
  */
 
  //contains controller axis and buttons
+ //Joysticks are normal logitech gamepads
 public class OI {
 
-  //user controllers
-  //access with OI.Controller.CONTROLLERNAME
+  //driver controllers
 	private static class Controller {
 		public static final int DRIVE = 0, OPERATOR = 1;
 	}
@@ -59,6 +59,7 @@ public class OI {
 		
 	public OI() {
 		//create controllers
+		//access with OI.controllername
 		drive = new Joystick(Controller.DRIVE);
 		operator = new Joystick(Controller.OPERATOR);
 	}

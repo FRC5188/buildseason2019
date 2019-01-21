@@ -13,8 +13,9 @@ import frc.robot.RobotMap;
 import frc.robot.commands.Drive;
 
 public class DriveTrain extends Subsystem {
-	// Put methods for controlling this subsystem
-	// here. Call these from Commands.
+	// Put methods for controlling the driveTrain
+	// here. This class does not control the driveTrain 
+	// directly. Call these from Commands.
 
 	// "defines" motors
 	private VictorSP leftDrive1;
@@ -32,11 +33,8 @@ public class DriveTrain extends Subsystem {
 		strafe = new VictorSP(RobotMap.hWheel);
 	}
 
-	/**
-	 * This is used to allow autonomous to get through acceleration and velocity
-	 * controls we may place and instead use PID.
-	 */
-	// may want to look into some sort of scceleration control to limit
+
+	// may want to look into some sort of acceleration control to limit
 	// current draw and brownouts
 	private void driveRaw(double left, double right, double strafe) {
 		leftDrive1.set(-left);
@@ -57,13 +55,17 @@ public class DriveTrain extends Subsystem {
 		driveRaw(left, right, strafe);
 	}
 
+	/**
+	 * stop motors
+	 */
 	public void stop() {
 		driveRaw(0, 0, 0);
 	}
 
 	@Override
 	public void initDefaultCommand() {
-		// Set the default command for a subsystem here.
 		setDefaultCommand(new Drive());
+		//this command runs automatically by the scheduler as soon as the 
+		//DriveTrain subsystem is created
 	}
 }

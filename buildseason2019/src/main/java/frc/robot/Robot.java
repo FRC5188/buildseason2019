@@ -22,7 +22,6 @@ import frc.robot.subsystems.Pneumatics;
  * project.
  */
 
- //garrett's comment
 public class Robot extends TimedRobot {
 
   public static DriveTrain driveTrain;
@@ -36,7 +35,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    CameraServer.getInstance().startAutomaticCapture();
     /*
     Settings during testing: 
         160x120
@@ -44,6 +42,7 @@ public class Robot extends TimedRobot {
         0/HW  
         used 1.2 Mbps min, 1.7 Mbps max 
     */
+    CameraServer.getInstance().startAutomaticCapture();
 
     driveTrain = new DriveTrain();
     pneumatics = new Pneumatics();
