@@ -7,14 +7,24 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Compressor;
+
 //basic motor mappings for h-drrive
 public class RobotMap {
+  
+  //Everything on the CAN bus has an ID
+  //The default ID for only one item on the can bus is 0
+  public static final int COMPRESSOR_CAN_ID = 0;
+
+  public static Compressor compressor = new Compressor(COMPRESSOR_CAN_ID);
+  
   public static final int frontLeft = 0;
   public static final int frontRight = 2;
   public static final int backLeft = 1;
   public static final int backRight = 3;
   public static final int hWheel = 4;
 
+  //Selenoids to raise and lower H-Wheel
   public static final int leftHSelenoid = 1;
   public static final int rightHSelenoid = 2;
 }
