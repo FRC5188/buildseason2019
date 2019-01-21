@@ -21,20 +21,27 @@ import frc.robot.subsystems.Pneumatics;
  * project.
  */
 
- //garrett's comment
 public class Robot extends TimedRobot {
 
   public static DriveTrain driveTrain;
   public static Pneumatics pneumatics;
   public static OI oi;
+
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
    */
   @Override
   public void robotInit() {
+    /*
+    Settings during testing: 
+        160x120
+        30fps 
+        0/HW  
+        used 1.2 Mbps min, 1.7 Mbps max 
+    */
+
     CameraServer.getInstance().startAutomaticCapture();
-    // 160x120 30fps 0/HW  used 1.2 Mbps min, 1.7 Mbps during testing // 
     driveTrain = new DriveTrain();
     pneumatics = new Pneumatics();
     // oi needs to be created last
@@ -102,9 +109,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-   for(int i=0; i<10; i++){
-     System.out.println('x');
-   }
+
     }
   /**
    * This function is called periodically during test mode.
