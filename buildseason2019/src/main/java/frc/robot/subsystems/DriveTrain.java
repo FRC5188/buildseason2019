@@ -42,9 +42,9 @@ public class DriveTrain extends Subsystem {
 		rightDrive1.set(right);
 		rightDrive2.set(right);
 		this.strafe.set(strafe);
-		System.out.println("left value " + -left );
-		System.out.println("right value " + right );
-		System.out.println("strafe value " + strafe);
+		// System.out.println("left value " + -left );
+		// System.out.println("right value " + right );
+		// System.out.println("strafe value " + strafe);
 
 	}
 
