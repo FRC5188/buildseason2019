@@ -13,6 +13,8 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.Drive;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Pneumatics;
 
@@ -117,6 +119,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testPeriodic() {
+    SmartDashboard.putData("Drive",new Drive());
+    Scheduler.getInstance().run();
+
   }
 }
 
