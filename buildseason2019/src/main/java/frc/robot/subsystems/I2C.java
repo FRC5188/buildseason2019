@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
+import frc.robot.commands.ReadArduino;
 
 public class I2C extends Subsystem {
 
@@ -26,10 +27,10 @@ public class I2C extends Subsystem {
 			wire.transaction(writeData, writeData.length, null, 0);//sends each byte to arduino
 		}
 	
-		/**
-		 * Reads data from the Arduino on the I2C bus
-		 * @return String recieed from the I2C bus
-		 */
+	/**
+	 * Reads data from the Arduino on the I2C bus
+	 * @return String recieed from the I2C bus
+	 */
 	public String read(){
 		byte[] data = new byte[MAX_BYTES];//create a byte array to hold the incoming data
 		wire.read(4, MAX_BYTES, data);//use address 4 on i2c and store it in data
@@ -41,7 +42,7 @@ public class I2C extends Subsystem {
 
 	@Override
 	protected void initDefaultCommand() {
-		
+		//this.setDefaultCommand(new ReadArduino());
     }
 
 }
