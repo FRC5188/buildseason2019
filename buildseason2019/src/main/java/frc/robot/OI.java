@@ -8,6 +8,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.ResetGyro;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -56,10 +59,13 @@ public class OI {
 	//controllers
 	public static Joystick drive;
 	public static Joystick operator;
+	public static Button reset;
 		
 	public OI() {
 		//create controllers
 		drive = new Joystick(Controller.DRIVE);
 		operator = new Joystick(Controller.OPERATOR);
+		reset = new JoystickButton(drive, 1);
+		reset.whenPressed(new ResetGyro());
 	}
 }
