@@ -18,6 +18,7 @@ public class PIDTest extends PIDCommand {
     // Use requires() here to declare subsystem dependencies
     super(kp,ki,kd);
     requires(Robot.driveTrain);
+    setSetpoint(0);
 
   }
 

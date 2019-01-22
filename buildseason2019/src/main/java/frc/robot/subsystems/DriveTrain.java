@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 import frc.robot.commands.Drive;
+import frc.robot.commands.PIDTest;
 
 public class DriveTrain extends Subsystem {
 	// Put methods for controlling this subsystem
@@ -60,6 +61,6 @@ public class DriveTrain extends Subsystem {
 	@Override
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
-		setDefaultCommand(new Drive());
+		setDefaultCommand(new PIDTest());
 	}
 }
