@@ -16,14 +16,15 @@ void setup(){
   pinMode (10,OUTPUT);
 }
 void loop(){
-  digitalWrite (10, HIGH);
+  digitalWrite (10, LOW);
   
 }
 
 void requestEvent(){//called when RoboRIO request a message from this device
   Wire.write(output.c_str()); //writes data to the RoboRIO, converts it to string
-   digitalWrite (10, LOW);
- Serial.println ("1");
+   digitalWrite (10, HIGH);
+   delay(10);
+ Serial.println (output);
 }
 
 void receiveEvent(int bytes){//called when RoboRIO "gives" this device a message
