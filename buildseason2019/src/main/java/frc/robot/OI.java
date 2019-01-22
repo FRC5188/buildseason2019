@@ -8,6 +8,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.ReadArduino;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -56,11 +59,14 @@ public class OI {
 	//controllers
 	public static Joystick drive;
 	public static Joystick operator;
+	public static Button readArduinoButton;
 		
 	public OI() {
 		//create controllers
 		//access with OI.controllername
 		drive = new Joystick(Controller.DRIVE);
 		operator = new Joystick(Controller.OPERATOR);
+		readArduinoButton = new JoystickButton(OI.drive, OI.Buttons.X);
+		readArduinoButton.whenPressed(new ReadArduino());
 	}
 }
