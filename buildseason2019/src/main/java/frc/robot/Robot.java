@@ -13,8 +13,10 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.Drive;
+import frc.robot.commands.PIDTest;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Pneumatics;
 
@@ -32,6 +34,7 @@ public class Robot extends TimedRobot {
   public static DriveTrain driveTrain;
   public static Pneumatics pneumatics;
   public static OI oi;
+  public LiveWindow liveWindow;
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
@@ -116,12 +119,18 @@ public class Robot extends TimedRobot {
   /**
    * This function is called periodically during test mode.
    */
+  @Override
+public void testInit(){
+  LiveWindow.add(Robot.driveTrain);
+  LiveWindow.add(Robot.pneumatics);
+  LiveWindow.add(new PIDTest());
+  LiveWindow.add(new Drive());
+  LiveWindow.setEnabled(true);
+
+}
 
   @Override
   public void testPeriodic() {
-    SmartDashboard.putData("Drive",new Drive());
-    Scheduler.getInstance().run();
-
   }
 }
 
