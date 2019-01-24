@@ -12,7 +12,7 @@ import frc.robot.RobotMap;
 
 public class ResetGyro extends Command {
 
-    public ResetGyro() {
+    public ResetGyro(double setPoint) {
         // Use requires() here to declare subsystem dependencies
     }
 

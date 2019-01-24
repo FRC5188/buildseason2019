@@ -7,87 +7,55 @@
 
 package frc.robot;
 
-import com.kauailabs.navx.frc.AHRS;
-
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.Drive;
 import frc.robot.commands.PIDTest;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Pneumatics;
 
-/**
- * The VM is configured to automatically run this class, and to call the
- * functions corresponding to each mode, as described in the TimedRobot
- * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the build.gradle file in the
- * project.
- */
-
- //garrett's comment
 public class Robot extends TimedRobot {
 
   public static DriveTrain driveTrain;
   public static Pneumatics pneumatics;
   public static OI oi;
-  public LiveWindow liveWindow;
-  /**
-   * This function is run when the robot is first started up and should be used
-   * for any initialization code.
-   */
+
+  public final String PIDTESTCOMMAND = "PID Test Command";
+  public final String DRIVECOMMAND = "Drive Command";
+  public final String DRIVETRAIN = "Drive Train";
+  public final String GYROANGLE = "Gyro Angle";
+
   @Override
   public void robotInit() {
+    // 160x120 30fps 0/HW used 1.2 Mbps min, 1.7 Mbps during testing //
     CameraServer.getInstance().startAutomaticCapture();
-    // 160x120 30fps 0/HW  used 1.2 Mbps min, 1.7 Mbps during testing // 
+    RobotMap.gyro.zeroYaw();// reset gyro on robot start
+
     driveTrain = new DriveTrain();
     pneumatics = new Pneumatics();
-    // oi needs to be created last
-    oi = new OI();
-
-    RobotMap.gyro.zeroYaw();
+    oi = new OI();// oi needs to be created last
   }
 
-  /**
-   * This function is called every robot packet, no matter the mode. Use this for
-   * items like diagnostics that you want ran during disabled, autonomous,
-   * teleoperated and test.
-   *
-   * <p>
-   * This runs after the mode specific periodic functions, but before LiveWindow
-   * and SmartDashboard integrated updating.
-   */
-  @Override
-  public void robotPeriodic() {
-  }
-
-  /**
-   * This function is called once each time the robot enters Disabled mode. You
-   * can use it to reset any subsystem information you want to clear when the
-   * robot is disabled.
-   */
   @Override
   public void disabledInit() {
+    Scheduler.getInstance().removeAll();
+    this.log();
+    // commands don't stop running when entering disabled
   }
 
   @Override
   public void disabledPeriodic() {
     Scheduler.getInstance().run();
+    this.log();
   }
 
   @Override
   public void autonomousInit() {
 
-    /**
-     * shows example of running an auto schedule the autonomous command (example) if
-     * (m_autonomousCommand != null) { m_autonomousCommand.start(); }
-     */
   }
 
-  /**
-   * This function is called periodically during autonomous.
-   */
   @Override
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
@@ -95,14 +63,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    // This makes sure that the autonomous stops running when
-    // teleop starts running. If you want the autonomous to
-    // continue until interrupted by another command, remove
-    // this line or comment it out.
-    // if (m_autonomousCommand != null) {
-    // m_autonomousCommand.cancel();
-    // }
-    //RobotMap.gyro.zeroYaw();
+    this.log();
   }
 
   /**
@@ -111,29 +72,30 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    SmartDashboard.putNumber ("GyroAngle", RobotMap.gyro.getAngle());
-    SmartDashboard.putData("PID Test", new PIDTest());
-    SmartDashboard.putData("Scheduler", Scheduler.getInstance());
-    SmartDashboard.putData("DriveTrain", Robot.driveTrain);
-
-
+    this.log();
   }
 
   /**
    * This function is called periodically during test mode.
    */
   @Override
-public void testInit(){
-  LiveWindow.add(Robot.driveTrain);
-  LiveWindow.add(Robot.pneumatics);
-  LiveWindow.add(new PIDTest());
-  LiveWindow.add(new Drive());
-  LiveWindow.setEnabled(true);
-
-}
+  public void testInit() {
+    // LiveWindow.add(Robot.driveTrain);
+    // LiveWindow.add(Robot.pneumatics);
+    // LiveWindow.add(new PIDTest());
+    // LiveWindow.add(new Drive());
+    // LiveWindow.setEnabled(true);
+    // shouldn't need this add statements
+  }
 
   @Override
   public void testPeriodic() {
   }
-}
 
+  private void log() {
+    SmartDashboard.putData(this.DRIVETRAIN, Robot.driveTrain);
+    SmartDashboard.putData(this.DRIVECOMMAND, new Drive());
+    SmartDashboard.putData(this.PIDTESTCOMMAND, new PIDTest());
+    SmartDashboard.putNumber(this.GYROANGLE, RobotMap.gyro.getAngle());
+  }
+}
