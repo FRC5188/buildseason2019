@@ -13,6 +13,8 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.PIDTest;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Pneumatics;
 
@@ -108,9 +110,14 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-   
-    System.out.println(RobotMap.gyro.getAngle());
-    }
+    SmartDashboard.putNumber ("GyroAngle", RobotMap.gyro.getAngle());
+    SmartDashboard.putData("PID Test", new PIDTest());
+    SmartDashboard.putData("Scheduler", Scheduler.getInstance());
+    SmartDashboard.putData("DriveTrain", Robot.driveTrain);
+
+
+  }
+
   /**
    * This function is called periodically during test mode.
    */

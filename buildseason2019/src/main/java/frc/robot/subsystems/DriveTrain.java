@@ -8,14 +8,19 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.VictorSP;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 import frc.robot.commands.Drive;
 import frc.robot.commands.PIDTest;
 
-public class DriveTrain extends Subsystem {
+public class DriveTrain extends PIDSubsystem {
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
+
+	/**
+	 *
+	 */
 
 	// "defines" motors
 	private VictorSP leftDrive1;
@@ -24,8 +29,11 @@ public class DriveTrain extends Subsystem {
 	private VictorSP rightDrive2;
 	private VictorSP strafe;
 
+	private static double kp = 0.01, ki = 0, kd = 0;
+
 	public DriveTrain() {
 		// initializes motors
+		super(kp, ki, kd);
 		leftDrive1 = new VictorSP(RobotMap.frontLeft);
 		leftDrive2 = new VictorSP(RobotMap.backLeft);
 		rightDrive1 = new VictorSP(RobotMap.frontRight);
@@ -58,9 +66,39 @@ public class DriveTrain extends Subsystem {
 		driveRaw(0, 0, 0);
 	}
 
+	private void drivePID(double left, double right) {
+		leftDrive1.pidWrite(-left);
+		leftDrive2.pidWrite(-left);
+		rightDrive1.pidWrite(right);
+		rightDrive2.pidWrite(right);
+		}	
+
+	public void enablePID(){
+		this.getPIDController().enable();
+	}
+
+	public void disablePID(){
+		this.getPIDController().disable();
+	}
+
+	public void setPIDSetPoint(double setPoint){
+		this.getPIDController().setSetpoint(setPoint);
+	}
+	@Override
+	protected double returnPIDInput() {
+		return RobotMap.gyro.getAngle();
+	}
+
+	@Override
+	protected void usePIDOutput(double output) {
+		this.drivePID(output, -output);
+	}
+	
 	@Override
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
-		setDefaultCommand(new PIDTest());
+		setDefaultCommand(new Drive());
 	}
+
+	class gyroInput extends PID
 }

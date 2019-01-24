@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.PIDTest;
 import frc.robot.commands.ResetGyro;
 
 /**
@@ -59,13 +60,13 @@ public class OI {
 	//controllers
 	public static Joystick drive;
 	public static Joystick operator;
-	public static Button reset;
+	public static Button pid;
 		
 	public OI() {
 		//create controllers
 		drive = new Joystick(Controller.DRIVE);
 		operator = new Joystick(Controller.OPERATOR);
-		reset = new JoystickButton(drive, 1);
-		reset.whenPressed(new ResetGyro());
+		pid = new JoystickButton(drive, OI.Buttons.A );
+		pid.whenPressed(new PIDTest());
 	}
 }
