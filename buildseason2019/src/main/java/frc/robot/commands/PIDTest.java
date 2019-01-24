@@ -7,7 +7,6 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.PIDCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
@@ -17,7 +16,7 @@ public class PIDTest extends PIDCommand {
   static final double kp = 0.01, ki = 0, kd = 0, setPoint = 30;
   public PIDTest() {
     // Use requires() here to declare subsystem dependencies
-    super(kp,ki,kd);
+    super(kp,ki,kd, kf);
     requires(Robot.driveTrain);
   }
 
@@ -38,16 +37,18 @@ public class PIDTest extends PIDCommand {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
+
     boolean finished = this.getPIDController().onTarget();
     SmartDashboard.putBoolean("PID End", finished);
     return finished;
+
   }
   // Called once after isFinished returns true
   @Override
   protected void end() {
+
     System.out.println("end");
-    Robot.driveTrain.stop ();
-  }
+    Robot.driveTrain.stop (); }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run

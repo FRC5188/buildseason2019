@@ -100,5 +100,5 @@ public class DriveTrain extends PIDSubsystem {
 		setDefaultCommand(new Drive());
 	}
 
-	class gyroInput extends PID
+	
 }
