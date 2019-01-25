@@ -16,7 +16,10 @@ public class ResetGyro extends Command {
         // Use requires() here to declare subsystem dependencies
     }
 
-    // Called just before this Command runs the first time
+    public ResetGyro() {
+	}
+
+	// Called just before this Command runs the first time
     @Override
     protected void initialize() {
         RobotMap.gyro.reset();

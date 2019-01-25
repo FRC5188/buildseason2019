@@ -10,6 +10,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
+import frc.robot.RobotMap;
 
 /**
  * An example command. You can replace me with your own command.
@@ -49,6 +50,8 @@ public class Drive extends Command {
 		}
 
 		Robot.driveTrain.drive(lDrive, rDrive, strafe);
+		
+		System.out.println("Gyro Angle Drive: " + RobotMap.gyro.getAngle());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

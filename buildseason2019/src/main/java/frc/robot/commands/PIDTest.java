@@ -26,9 +26,12 @@ public class PIDTest extends Command {
     SmartDashboard.putBoolean("PID End", false);// a boolean box on dashboard
     this.setInterruptible(true);
     // ^^hopefully allow for drive command to take back control
+    
     Robot.driveTrain.setSetpoint(60);// set PID setpoint to 60 degrees
+    System.out.println("Gyro Angle : " + RobotMap.gyro.getAngle());
     RobotMap.gyro.zeroYaw();// reset gyro
-    Robot.driveTrain.enablePID();// start PID
+    System.out.println("Gyro Angle : " + RobotMap.gyro.getAngle());
+    Robot.driveTrain.enable();// start PID
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -40,9 +43,9 @@ public class PIDTest extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    SmartDashboard.putBoolean("PID End", Robot.driveTrain.isOnTarget());
+    SmartDashboard.putBoolean("PID End", Robot.driveTrain.onTarget());
     // update the end boolean on dashboard
-    return Robot.driveTrain.isOnTarget();
+    return Robot.driveTrain.onTarget();
     // if on target end
   }
 
@@ -50,16 +53,15 @@ public class PIDTest extends Command {
   @Override
   protected void end() {
     System.out.println("end");// data
-    Robot.driveTrain.disablePID();// disables PID after it is finished
+    Robot.driveTrain.disable();// disables PID after it is finished
     // motors are stopped in disablePID
-  }
+  } 
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
     System.out.println("interupted");
-    Robot.driveTrain.disablePID();
-    // if interrupted than stop PID
+    end();    // if interrupted than stop PID
   }
 }

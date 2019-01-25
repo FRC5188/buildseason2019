@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.Drive;
 import frc.robot.commands.PIDTest;
+import frc.robot.commands.ResetGyro;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Pneumatics;
 
@@ -26,6 +27,7 @@ public class Robot extends TimedRobot {
   public final String DRIVECOMMAND = "Drive Command";
   public final String DRIVETRAIN = "Drive Train";
   public final String GYROANGLE = "Gyro Angle";
+  public final String RESETCOMMAND = "Reset Command";
 
   @Override
   public void robotInit() {
@@ -95,6 +97,8 @@ public class Robot extends TimedRobot {
   private void log() {
     SmartDashboard.putData(this.DRIVETRAIN, Robot.driveTrain);
     SmartDashboard.putData(this.DRIVECOMMAND, new Drive());
+    SmartDashboard.putData(this.RESETCOMMAND, new ResetGyro());
+
     SmartDashboard.putData(this.PIDTESTCOMMAND, new PIDTest());
     SmartDashboard.putNumber(this.GYROANGLE, RobotMap.gyro.getAngle());
   }

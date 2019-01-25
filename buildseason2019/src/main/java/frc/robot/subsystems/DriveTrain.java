@@ -27,7 +27,7 @@ public class DriveTrain extends PIDSubsystem {
 	private VictorSP rightDrive2;
 	private VictorSP strafe;
 
-	private static double kp = 0.01, ki = 0, kd = 0, kf = 0;
+	private static double kp = -0.005, ki = 0, kd = 0, kf = 0;
 
 	public DriveTrain() {
 		// initializes motors
@@ -37,6 +37,10 @@ public class DriveTrain extends PIDSubsystem {
 		rightDrive1 = new VictorSP(RobotMap.frontRight);
 		rightDrive2 = new VictorSP(RobotMap.backRight);
 		strafe = new VictorSP(RobotMap.hWheel);
+
+		this.getPIDController().setContinuous(false);
+		this.getPIDController().setOutputRange(-1, 1);
+		this.getPIDController().setAbsoluteTolerance(2);
 
 	}
 
@@ -61,48 +65,23 @@ public class DriveTrain extends PIDSubsystem {
 		driveRaw(0, 0, 0);
 	}
 
-	// shouldn't need this
-	private void drivePID(double left, double right) {
-		leftDrive1.pidWrite(-left);
-		leftDrive2.pidWrite(-left);
-		rightDrive1.pidWrite(right);
-		rightDrive2.pidWrite(right);
-	}
-
-	public void enablePID() {
-		this.getPIDController().enable();
-	}
-
-	public void disablePID() {
-		this.getPIDController().disable();
-		this.stop();
-	}
-
-	public void setPIDSetPoint(double setPoint) {
-		this.getPIDController().setSetpoint(setPoint);
-	}
-
-	public void setPIDTolorance(double t) {
-		this.getPIDController().setAbsoluteTolerance(t);
-	}
-
-	public boolean isOnTarget() {
-		return this.getPIDController().onTarget();
-	}
-
 	@Override
 	protected double returnPIDInput() {
+		System.out.println("Gyro Angle: " + RobotMap.gyro.getAngle());
 		return RobotMap.gyro.getAngle();
+		//return (60);
+	
 	}
-
 	@Override
 	protected void usePIDOutput(double output) {
-		this.drivePID(output, -output);
+		System.out.println("PID Output: " + output);
+		this.drive(output, -output, 0);
 	}
 
 	@Override
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
+		//setDefaultCommand(new PIDTest());
 	}
 
 }
