@@ -7,9 +7,15 @@
 
 package frc.robot.subsystems;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
+import frc.robot.commands.Drive;
+import edu.wpi.first.wpilibj.SerialPort;
+
 
 public class DriveTrain extends PIDSubsystem {
 	// Put methods for controlling this subsystem
@@ -27,6 +33,9 @@ public class DriveTrain extends PIDSubsystem {
 	private VictorSP rightDrive2;
 	private VictorSP strafe;
 
+  	public AHRS gyro = new AHRS(SerialPort.Port.kMXP); 
+	
+
 	private static double kp = -0.005, ki = 0, kd = 0, kf = 0;
 
 	public DriveTrain() {
@@ -40,7 +49,7 @@ public class DriveTrain extends PIDSubsystem {
 
 		this.getPIDController().setContinuous(false);
 		this.getPIDController().setOutputRange(-1, 1);
-		this.getPIDController().setAbsoluteTolerance(2);
+		this.getPIDController().setAbsoluteTolerance(.5);
 
 	}
 
@@ -67,8 +76,8 @@ public class DriveTrain extends PIDSubsystem {
 
 	@Override
 	protected double returnPIDInput() {
-		System.out.println("Gyro Angle: " + RobotMap.gyro.getAngle());
-		return RobotMap.gyro.getAngle();
+		System.out.println("Gyro Angle: " + Robot.driveTrain.gyro.getAngle());
+		return Robot.driveTrain.gyro.getAngle();
 		//return (60);
 	
 	}
@@ -81,7 +90,7 @@ public class DriveTrain extends PIDSubsystem {
 	@Override
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
-		//setDefaultCommand(new PIDTest());
+		setDefaultCommand(new Drive());
 	}
 
 }

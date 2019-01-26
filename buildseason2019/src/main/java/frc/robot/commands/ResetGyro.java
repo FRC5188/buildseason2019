@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 
 public class ResetGyro extends Command {
@@ -22,7 +23,7 @@ public class ResetGyro extends Command {
 	// Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        RobotMap.gyro.reset();
+        Robot.driveTrain.gyro.reset();
     }
 
     // Called repeatedly when this Command is scheduled to run
