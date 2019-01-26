@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.OI;
 import frc.robot.Robot;
 
 //probably should remove this command and put the H-Wheel 
@@ -16,7 +17,7 @@ public class PneumaticsTester extends Command {
 
     public PneumaticsTester() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.driveTrain);
+        requires(Robot.pneumatics);
     }
 
     // Called just before this Command runs the first time
@@ -27,10 +28,15 @@ public class PneumaticsTester extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
+        if (OI.drive.getRawButton(OI.Buttons.Y)) {
+            Robot.pneumatics.setHWheelSelenoids(true);
+        } else {
+            Robot.pneumatics.setHWheelSelenoids(false);
 
+        }
     }
 
-    // Make this return true when this Command no longer needs to run execute()
+    // Make this return tru\[]e when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
         return false;
