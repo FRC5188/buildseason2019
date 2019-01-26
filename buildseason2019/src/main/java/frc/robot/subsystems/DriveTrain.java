@@ -33,10 +33,13 @@ public class DriveTrain extends PIDSubsystem {
 	private VictorSP rightDrive2;
 	private VictorSP strafe;
 
-  	public AHRS gyro = new AHRS(SerialPort.Port.kMXP); 
+	//include another instance of gyro to send to the screen
+	public static AHRS gyro= RobotMap.gyro;
+
+  	//private double targetleft=0, targetright=0, targetstrafe=0;
 	
 
-	private static double kp = -0.005, ki = 0, kd = 0, kf = 0;
+	private static double kp = 0.016, ki = 0, kd = .26, kf = 0;
 
 	public DriveTrain() {
 		// initializes motors
@@ -68,6 +71,7 @@ public class DriveTrain extends PIDSubsystem {
 	 */
 	public void drive(double left, double right, double strafe) {
 		driveRaw(left, right, strafe);
+
 	}
 
 	public void stop() {
@@ -76,15 +80,15 @@ public class DriveTrain extends PIDSubsystem {
 
 	@Override
 	protected double returnPIDInput() {
-		System.out.println("Gyro Angle: " + Robot.driveTrain.gyro.getAngle());
-		return Robot.driveTrain.gyro.getAngle();
+		System.out.println("Gyro Angle: " + RobotMap.gyro.getAngle());
+		return RobotMap.gyro.getAngle();
 		//return (60);
 	
 	}
 	@Override
 	protected void usePIDOutput(double output) {
 		System.out.println("PID Output: " + output);
-		this.drive(output, -output, 0);
+		this.drive(-output, output, 0);
 	}
 
 	@Override

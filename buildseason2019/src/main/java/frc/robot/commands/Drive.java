@@ -51,7 +51,7 @@ public class Drive extends Command {
 
 		Robot.driveTrain.drive(lDrive, rDrive, strafe);
 		
-		System.out.println("Gyro Angle Drive: " + Robot.driveTrain.gyro.getAngle());
+		System.out.println("Gyro Angle Drive: " + RobotMap.gyro.getAngle());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

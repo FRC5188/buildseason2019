@@ -39,7 +39,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // 160x120 30fps 0/HW used 1.2 Mbps min, 1.7 Mbps during testing //
     CameraServer.getInstance().startAutomaticCapture();
-    Robot.driveTrain.gyro.zeroYaw();// reset gyro on robot start
+    RobotMap.gyro.zeroYaw();// reset gyro on robot start
 
     NetworkTableInstance isnt = NetworkTableInstance.getDefault();
     NetworkTable table = isnt.getTable("dataTable");
@@ -93,31 +93,58 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testInit() {
-    // LiveWindow.add(Robot.driveTrain);
-    // LiveWindow.add(Robot.pneumatics);
-    // LiveWindow.add(new PIDTest());
-     //LiveWindow.add(new ResetGyro());
-     //NetworkTable.putNumber(Robot.driveTrain.gyro.getAngle());
-     double angle = Robot.driveTrain.gyro.getAngle();
+     double angle = RobotMap.gyro.getAngle();
      gyroAngle.setDouble(angle);
-     //LiveWindow.addSensor(Robot.driveTrain, "gyro",driveTrain.gyro.getAngle());
-    // LiveWindow.setEnabled(true);
-    // shouldn't need this add statements
   }
  double angle;
 
+
+ double throttle;
+ double turn;
+ double strafe;
+ double shifter;
+ boolean reset;
+
   @Override
   public void testPeriodic() {
-    angle = Robot.driveTrain.gyro.getAngle();
-    gyroAngle.setDouble(angle);
+    //angle = RobotMap.gyro.getAngle();
+    //gyroAngle.setDouble(angle);
+    
+		throttle = OI.drive.getRawAxis(OI.Axis.LY);
+		turn = OI.drive.getRawAxis(OI.Axis.RX);
+		strafe = OI.drive.getRawAxis(OI.Axis.LX);
+    shifter = OI.drive.getRawButton(OI.Buttons.R) ? .5 : 1;
+    reset = OI.drive.getRawButton(OI.Buttons.A);
+
+    if (reset){
+      RobotMap.gyro.zeroYaw();
+    }
+
+		double lDrive;
+		double rDrive;
+
+		if (Math.abs(throttle) < 0.05) {
+			// quick turn if no throttle
+			lDrive = -turn * shifter * 0.60;
+			rDrive = turn * shifter * 0.60;
+			// else: drive in arcade
+		} else {
+			lDrive = shifter * throttle * (1 + Math.min(0, turn));
+			rDrive = shifter * throttle * (1 - Math.max(0, turn));
+		}
+    if (!Robot.driveTrain.getPIDController().isEnabled()) {
+      Robot.driveTrain.drive(lDrive, rDrive, strafe);
+    }
+    this.log();
   }
 
   private void log() {
     SmartDashboard.putData(this.DRIVETRAIN, Robot.driveTrain);
     SmartDashboard.putData(this.DRIVECOMMAND, new Drive());
     SmartDashboard.putData(this.RESETCOMMAND, new ResetGyro());
-
+    SmartDashboard.putBoolean("GyroConnection", RobotMap.gyro.isConnected());
     SmartDashboard.putData(this.PIDTESTCOMMAND, new PIDTest());
-    SmartDashboard.putNumber(this.GYROANGLE, Robot.driveTrain.gyro.getAngle());
+    SmartDashboard.putNumber(this.GYROANGLE, RobotMap.gyro.getAngle());
   }
+
 }

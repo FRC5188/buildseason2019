@@ -28,8 +28,8 @@ public class PIDTest extends Command {
     // ^^hopefully allow for drive command to take back control
     
     Robot.driveTrain.setSetpoint(60);// set PID setpoint to 60 degrees
-    System.out.println("Gyro Angle : " + Robot.driveTrain.gyro.getAngle());
-    Robot.driveTrain.gyro.zeroYaw();// reset gyro
+    System.out.println("Gyro Angle : " + RobotMap.gyro.getAngle());
+    RobotMap.gyro.zeroYaw();// reset gyro
     Robot.driveTrain.enable();// start PID
   }
 

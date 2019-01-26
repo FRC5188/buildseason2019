@@ -23,7 +23,7 @@ public class ResetGyro extends Command {
 	// Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        Robot.driveTrain.gyro.reset();
+        RobotMap.gyro.reset();
     }
 
     // Called repeatedly when this Command is scheduled to run
