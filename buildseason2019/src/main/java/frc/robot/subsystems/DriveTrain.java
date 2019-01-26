@@ -37,7 +37,7 @@ public class DriveTrain extends PIDSubsystem {
 	//include another instance of gyro to send to the screen
 	public static AHRS gyro= RobotMap.gyro;
 
-  	//private double targetleft=0, targetright=0, targetstrafe=0;
+  	private double targetThrottle=0, targetStrafe=0;
 	
 
 	private static double kp = 0.016, ki = 0, kd = .26, kf = 0;
@@ -72,8 +72,14 @@ public class DriveTrain extends PIDSubsystem {
 	 * Drive in teleop.
 	 */
 	public void drive(double left, double right, double strafe) {
+		
 		driveRaw(left, right, strafe);
 
+	}
+	public void gyroDrive(double throttle, double turn, double strafe) {
+		targetThrottle=throttle;
+		targetStrafe=strafe;
+		getPIDController().setSetpoint(getPIDController().getSetpoint()+turn);
 	}
 
 	/**
@@ -93,7 +99,7 @@ public class DriveTrain extends PIDSubsystem {
 	@Override
 	protected void usePIDOutput(double output) {
 		System.out.println("PID Output: " + output);
-		this.drive(-output, output, 0);
+		this.drive(targetThrottle-output, targetThrottle+output, targetStrafe);
 	}
 
 	@Override

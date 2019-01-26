@@ -40,20 +40,12 @@ public class Drive extends Command {
 
 		if (Math.abs(throttle) < 0.05) {
 			// quick turn if no throttle
-			lDrive = -turn * shifter * 0.60;
-			rDrive = turn * shifter * 0.60;
-			// else: drive in arcade
-
-		} else {
-			lDrive = shifter * throttle * (1 + Math.min(0, turn));
-			rDrive = shifter * throttle * (1 - Math.max(0, turn));
-			//if not driving with quick turn then drive with split arcade
-		}
-
+			turn=turn*shifter*0.6;
+		} 
 		
 		//actual drive method
 
-		Robot.driveTrain.drive(lDrive, rDrive, strafe);
+		Robot.driveTrain.gyroDrive(throttle, turn, strafe);
 		
 		System.out.println("Gyro Angle Drive: " + RobotMap.gyro.getAngle());
 	}
