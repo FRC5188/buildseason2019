@@ -27,6 +27,7 @@ public class Robot extends TimedRobot {
   public static Pneumatics pneumatics;
   public static OI oi;
 
+
   public final String PIDTESTCOMMAND = "PID Test Command";
   public final String DRIVECOMMAND = "Drive Command";
   public final String DRIVETRAIN = "Drive Train";
@@ -45,6 +46,8 @@ public class Robot extends TimedRobot {
     NetworkTable table = isnt.getTable("dataTable");
 
     gyroAngle = table.getEntry("gyroAngle");
+
+
 
     driveTrain = new DriveTrain();
     pneumatics = new Pneumatics();
@@ -85,8 +88,10 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
+
     this.log();
   }
+
 
   /**
    * This function is called periodically during test mode.

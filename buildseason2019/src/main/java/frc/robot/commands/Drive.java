@@ -12,9 +12,7 @@ import frc.robot.OI;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 
-/**
- * An example command. You can replace me with your own command.
- */
+
 public class Drive extends Command {
 	public Drive() {
 		// Use requires() here to declare subsystem dependencies
@@ -39,15 +37,21 @@ public class Drive extends Command {
 		double lDrive;
 		double rDrive;
 
+
 		if (Math.abs(throttle) < 0.05) {
 			// quick turn if no throttle
 			lDrive = -turn * shifter * 0.60;
 			rDrive = turn * shifter * 0.60;
 			// else: drive in arcade
+
 		} else {
 			lDrive = shifter * throttle * (1 + Math.min(0, turn));
 			rDrive = shifter * throttle * (1 - Math.max(0, turn));
+			//if not driving with quick turn then drive with split arcade
 		}
+
+		
+		//actual drive method
 
 		Robot.driveTrain.drive(lDrive, rDrive, strafe);
 		
