@@ -17,6 +17,7 @@ public class Drive extends Command {
 	public Drive() {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.driveTrain);
+	
 	}
 
 	// Called just before this Command runs the first time
@@ -24,6 +25,10 @@ public class Drive extends Command {
 	protected void initialize() {
 		setInterruptible(true);
 		// should allow the PIDTest command to take over
+		Robot.driveTrain.setSetpoint(0);
+		RobotMap.gyro.zeroYaw();
+		Robot.driveTrain.getPIDController().enable();
+		System.out.println("initializing");
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -34,8 +39,7 @@ public class Drive extends Command {
 		double strafe = OI.drive.getRawAxis(OI.Axis.LX);
 		double shifter = OI.drive.getRawButton(OI.Buttons.R) ? .5 : 1;
 
-		double lDrive;
-		double rDrive;
+		
 
 
 		if (Math.abs(throttle) < 0.05) {

@@ -11,6 +11,7 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.commands.Drive;
@@ -55,6 +56,8 @@ public class DriveTrain extends PIDSubsystem {
 		this.getPIDController().setOutputRange(-1, 1);
 		this.getPIDController().setAbsoluteTolerance(.5);
 
+
+
 	}
 
 	// may want to look into some sort of acceleration control to limit
@@ -77,9 +80,15 @@ public class DriveTrain extends PIDSubsystem {
 
 	}
 	public void gyroDrive(double throttle, double turn, double strafe) {
+		
 		targetThrottle=throttle;
 		targetStrafe=strafe;
-		getPIDController().setSetpoint(getPIDController().getSetpoint()+turn);
+		double temp=getPIDController().getSetpoint();
+		System.out.print("Turn:"+turn+"Setpoint:"+temp);
+		SmartDashboard.putNumber("Turn", turn);
+		SmartDashboard.putNumber("setpoint", temp);
+		getPIDController().setSetpoint(temp+turn);
+
 	}
 
 	/**
@@ -91,7 +100,7 @@ public class DriveTrain extends PIDSubsystem {
 
 	@Override
 	protected double returnPIDInput() {
-		System.out.println("Gyro Angle: " + RobotMap.gyro.getAngle());
+		//System.out.println("Gyro Angle: " + RobotMap.gyro.getAngle());
 		return RobotMap.gyro.getAngle();
 		//return (60);
 	
@@ -99,7 +108,8 @@ public class DriveTrain extends PIDSubsystem {
 	@Override
 	protected void usePIDOutput(double output) {
 		System.out.println("PID Output: " + output);
-		this.drive(targetThrottle-output, targetThrottle+output, targetStrafe);
+		SmartDashboard.putNumber("output",output);
+	//	this.drive(targetThrottle-output, targetThrottle+output, targetStrafe);
 	}
 
 	@Override
