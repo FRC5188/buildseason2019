@@ -20,15 +20,22 @@ void setup(){
   pixy.init();
 }
 void loop(){
+  
   digitalWrite (10, LOW);
   pixy.ccc.getBlocks();
   x1 = pixy.ccc.blocks[0].m_x;
   x2 = pixy.ccc.blocks[1].m_x;
   x1 += pixy.ccc.blocks[0].m_width;
   x2 += pixy.ccc.blocks[1].m_width;
-  center = (x1 + x2) / 2;
+  if(pixy.ccc.numBlocks==2){
+    center = (x1 + x2) / 2;
+  }
+  else{
+    center = 160;
+  }
+ 
   output.replace(output, String(center));
-  Serial.println (center);  
+  Serial.println (output);  
   
    
 
