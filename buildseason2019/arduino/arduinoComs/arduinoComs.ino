@@ -19,6 +19,7 @@ void setup(){
   pinMode (10,OUTPUT);
   pixy.init();
 }
+
 void loop(){
   
   digitalWrite (10, LOW);
