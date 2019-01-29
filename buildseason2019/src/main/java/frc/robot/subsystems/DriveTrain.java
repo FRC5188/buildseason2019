@@ -11,17 +11,12 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.commands.Drive;
-import edu.wpi.first.wpilibj.SerialPort;
-
 
 public class DriveTrain extends PIDSubsystem {
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
-
 
 	// as a note, the methods in PIDSubsytems seem to call the
 	// PID controller automattically
@@ -35,11 +30,10 @@ public class DriveTrain extends PIDSubsystem {
 	private VictorSP rightDrive2;
 	private VictorSP strafe;
 
-	//include another instance of gyro to send to the screen
-	public static AHRS gyro= RobotMap.gyro;
+	// include another instance of gyro to send to the screen
+	public static AHRS gyro = RobotMap.gyro;
 
-  	private double targetThrottle=0, targetStrafe=0;
-	
+	private double targetThrottle = 0, targetStrafe = 0;
 
 	private static double kp = 0.016, ki = 0, kd = .26, kf = 0;
 
@@ -55,9 +49,6 @@ public class DriveTrain extends PIDSubsystem {
 		this.getPIDController().setContinuous(false);
 		this.getPIDController().setOutputRange(-1, 1);
 		this.getPIDController().setAbsoluteTolerance(.5);
-
-
-
 	}
 
 	// may want to look into some sort of acceleration control to limit
@@ -75,19 +66,14 @@ public class DriveTrain extends PIDSubsystem {
 	 * Drive in teleop.
 	 */
 	public void drive(double left, double right, double strafe) {
-		
 		driveRaw(left, right, strafe);
-
 	}
+
 	public void gyroDrive(double throttle, double turn, double strafe) {
-		
-		targetThrottle=throttle;
-		targetStrafe=strafe;
-		double temp=getPIDController().getSetpoint();
-		System.out.print("Turn:"+turn+"Setpoint:"+temp);
-		SmartDashboard.putNumber("Turn", turn);
-		SmartDashboard.putNumber("setpoint", temp);
-		getPIDController().setSetpoint(temp+turn);
+		targetThrottle = throttle;
+		targetStrafe = strafe;
+		double temp = getPIDController().getSetpoint();
+		getPIDController().setSetpoint(temp + turn);
 
 	}
 
@@ -100,23 +86,21 @@ public class DriveTrain extends PIDSubsystem {
 
 	@Override
 	protected double returnPIDInput() {
-		//System.out.println("Gyro Angle: " + RobotMap.gyro.getAngle());
+		// System.out.println("Gyro Angle: " + RobotMap.gyro.getAngle());
 		return RobotMap.gyro.getAngle();
-		//return (60);
-	
+		// return (60);
 	}
+
 	@Override
 	protected void usePIDOutput(double output) {
-		System.out.println("PID Output: " + output);
-		SmartDashboard.putNumber("output",output);
-	//	this.drive(targetThrottle-output, targetThrottle+output, targetStrafe);
+		// this.drive(targetThrottle-output, targetThrottle+output, targetStrafe);
 	}
 
 	@Override
 	public void initDefaultCommand() {
 		setDefaultCommand(new Drive());
-		//this command runs automatically by the scheduler as soon as the 
-		//DriveTrain subsystem is created
+		// this command runs automatically by the scheduler as soon as the
+		// DriveTrain subsystem is created
 	}
 
 }
