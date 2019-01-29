@@ -12,12 +12,11 @@ import frc.robot.OI;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 
-
 public class Drive extends Command {
 	public Drive() {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.driveTrain);
-	
+
 	}
 
 	// Called just before this Command runs the first time
@@ -39,19 +38,13 @@ public class Drive extends Command {
 		double strafe = OI.drive.getRawAxis(OI.Axis.LX);
 		double shifter = OI.drive.getRawButton(OI.Buttons.R) ? .5 : 1;
 
-		
-
-
 		if (Math.abs(throttle) < 0.05) {
 			// quick turn if no throttle
-			turn=turn*shifter*0.6;
-		} 
-		
-		//actual drive method
+			turn = turn * shifter * 0.6;
+		}
 
+		// actual drive method
 		Robot.driveTrain.gyroDrive(throttle, turn, strafe);
-		
-		System.out.println("Gyro Angle Drive: " + RobotMap.gyro.getAngle());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

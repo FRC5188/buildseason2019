@@ -8,16 +8,9 @@
 package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.Drive;
-import frc.robot.commands.PIDTest;
-import frc.robot.commands.ResetGyro;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Pneumatics;
 
@@ -34,20 +27,11 @@ public class Robot extends TimedRobot {
   public final String GYROANGLE = "Gyro Angle";
   public final String RESETCOMMAND = "Reset Command";
 
-  NetworkTableEntry gyroAngle;
-
   @Override
   public void robotInit() {
     // 160x120 30fps 0/HW used 1.2 Mbps min, 1.7 Mbps during testing //
     CameraServer.getInstance().startAutomaticCapture();
     RobotMap.gyro.zeroYaw();// reset gyro on robot start
-
-    NetworkTableInstance isnt = NetworkTableInstance.getDefault();
-    NetworkTable table = isnt.getTable("dataTable");
-
-    gyroAngle = table.getEntry("gyroAngle");
-
-
 
     driveTrain = new DriveTrain();
     pneumatics = new Pneumatics();
@@ -57,7 +41,6 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     Scheduler.getInstance().removeAll();
-    this.log();
     // commands don't stop running when entering disabled
   }
 
@@ -69,7 +52,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-
   }
 
   @Override
@@ -79,7 +61,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    this.log();
   }
 
   /**
@@ -98,8 +79,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testInit() {
-     double angle = RobotMap.gyro.getAngle();
-     gyroAngle.setDouble(angle);
   }
  double angle;
 
@@ -144,11 +123,6 @@ public class Robot extends TimedRobot {
   }
 
   private void log() {
-    SmartDashboard.putData(this.DRIVETRAIN, Robot.driveTrain);
-    SmartDashboard.putData(this.DRIVECOMMAND, new Drive());
-    SmartDashboard.putData(this.RESETCOMMAND, new ResetGyro());
-    SmartDashboard.putBoolean("GyroConnection", RobotMap.gyro.isConnected());
-    SmartDashboard.putData(this.PIDTESTCOMMAND, new PIDTest());
     SmartDashboard.putNumber(this.GYROANGLE, RobotMap.gyro.getAngle());
   }
 

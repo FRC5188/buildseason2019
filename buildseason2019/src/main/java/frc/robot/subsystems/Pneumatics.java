@@ -24,7 +24,6 @@ public class Pneumatics extends Subsystem{
      * @param val value passed to selenoids
      */
     public void setHWheelSelenoids(boolean val) {
-        System.out.println("setting H Wheel Selenoids " + val);
         leftHSelenoid.set(val);
         rightHSelenoid.set(val);
     }
