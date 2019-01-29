@@ -22,22 +22,19 @@ void setup(){
 void loop(){
   
   digitalWrite (10, LOW);
-  pixy.ccc.getBlocks();
-  x1 = pixy.ccc.blocks[0].m_x;
+  pixy.ccc.getBlocks(); //Update the information from the pixy to the arduino
+  x1 = pixy.ccc.blocks[0].m_x;  //Read the x position of the first and second 'tape' blocks
   x2 = pixy.ccc.blocks[1].m_x;
-  x1 += pixy.ccc.blocks[0].m_width;
+  x1 += pixy.ccc.blocks[0].m_width; //Add the width of the tape on each block to determine the center coordinate
   x2 += pixy.ccc.blocks[1].m_width;
-  if(pixy.ccc.numBlocks==2){
-    center = (x1 + x2) / 2;
+  if(pixy.ccc.numBlocks==2){  //Confirm that the pixy has detected both pieces of tape
+    center = (x1 + x2) / 2; //Calculate the center of both tapes, simple average
   }
   else{
-    center = 160;
+    center = 160; //Incase we dont see enough tape to calculate good values, just set the output to the middle so nothing bad happens
   }
  
-  output.replace(output, String(center));
-  Serial.println (output);  
-  
-   
+  output.replace(output, String(center)); //Updates the output string
 
 }
 
