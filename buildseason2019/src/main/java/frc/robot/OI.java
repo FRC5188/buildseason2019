@@ -10,7 +10,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.PIDTest;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -67,6 +66,5 @@ public class OI {
 		drive = new Joystick(Controller.DRIVE);
 		operator = new Joystick(Controller.OPERATOR);
 		pid = new JoystickButton(drive, OI.Buttons.A );
-		pid.whenPressed(new PIDTest());
 	}
 }

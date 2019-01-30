@@ -10,11 +10,12 @@ package frc.robot.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.VictorSP;
-import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 import frc.robot.commands.Drive;
+import frc.robot.commands.GyroDrive;
 
-public class DriveTrain extends PIDSubsystem {
+public class DriveTrain extends Subsystem {
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 
@@ -33,22 +34,13 @@ public class DriveTrain extends PIDSubsystem {
 	// include another instance of gyro to send to the screen
 	public static AHRS gyro = RobotMap.gyro;
 
-	private double targetThrottle = 0, targetStrafe = 0;
-
-	private static double kp = 0.016, ki = 0, kd = .26, kf = 0;
-
 	public DriveTrain() {
 		// initializes motors
-		super(kp, ki, kd, kf);
 		leftDrive1 = new VictorSP(RobotMap.frontLeft);
 		leftDrive2 = new VictorSP(RobotMap.backLeft);
 		rightDrive1 = new VictorSP(RobotMap.frontRight);
 		rightDrive2 = new VictorSP(RobotMap.backRight);
 		strafe = new VictorSP(RobotMap.hWheel);
-
-		this.getPIDController().setContinuous(false);
-		this.getPIDController().setOutputRange(-1, 1);
-		this.getPIDController().setAbsoluteTolerance(.5);
 	}
 
 	// may want to look into some sort of acceleration control to limit
@@ -65,16 +57,23 @@ public class DriveTrain extends PIDSubsystem {
 	/**
 	 * Drive in teleop.
 	 */
-	public void drive(double left, double right, double strafe) {
-		driveRaw(left, right, strafe);
-	}
+	public void driveArcade(double throttle, double turn, double strafe, boolean shifter) {
+		
+		double shiftVal = shifter ? .5 : 1;
 
-	public void gyroDrive(double throttle, double turn, double strafe) {
-		targetThrottle = throttle;
-		targetStrafe = strafe;
-		double temp = getPIDController().getSetpoint();
-		getPIDController().setSetpoint(temp + turn);
+		double lDrive;
+		double rDrive;
+		// if there is no throttle do a zero point turn, or a "quick turn"
+		if (Math.abs(throttle) < 0.05) {
+			lDrive = -turn * shiftVal * 0.60;
+			rDrive = turn * shiftVal * 0.60;
+		} else {
+			lDrive = shiftVal * throttle * (1 + Math.min(0, turn));
+			rDrive = shiftVal * throttle * (1 - Math.max(0, turn));
+			// if not driving with quick turn then drive with split arcade
+		}
 
+		driveRaw(lDrive, rDrive, strafe);
 	}
 
 	/**
@@ -82,18 +81,6 @@ public class DriveTrain extends PIDSubsystem {
 	 */
 	public void stop() {
 		driveRaw(0, 0, 0);
-	}
-
-	@Override
-	protected double returnPIDInput() {
-		// System.out.println("Gyro Angle: " + RobotMap.gyro.getAngle());
-		return RobotMap.gyro.getAngle();
-		// return (60);
-	}
-
-	@Override
-	protected void usePIDOutput(double output) {
-		// this.drive(targetThrottle-output, targetThrottle+output, targetStrafe);
 	}
 
 	@Override

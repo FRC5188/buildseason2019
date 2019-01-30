@@ -10,7 +10,6 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
-import frc.robot.RobotMap;
 
 public class Drive extends Command {
 	public Drive() {
@@ -24,9 +23,6 @@ public class Drive extends Command {
 	protected void initialize() {
 		setInterruptible(true);
 		// should allow the PIDTest command to take over
-		Robot.driveTrain.setSetpoint(0);
-		RobotMap.gyro.zeroYaw();
-		Robot.driveTrain.getPIDController().enable();
 		System.out.println("initializing");
 	}
 
@@ -34,17 +30,12 @@ public class Drive extends Command {
 	@Override
 	protected void execute() {
 		double throttle = OI.drive.getRawAxis(OI.Axis.LY);
-		double turn = OI.drive.getRawAxis(OI.Axis.RX);
-		double strafe = OI.drive.getRawAxis(OI.Axis.LX);
-		double shifter = OI.drive.getRawButton(OI.Buttons.R) ? .5 : 1;
+		double turn =  OI.drive.getRawAxis(OI.Axis.RX);
+		double strafe =  OI.drive.getRawAxis(OI.Axis.LX);
+		boolean shifter = OI.drive.getRawButton(OI.Buttons.R);
 
-		if (Math.abs(throttle) < 0.05) {
-			// quick turn if no throttle
-			turn = turn * shifter * 0.6;
-		}
-
-		// actual drive method
-		Robot.driveTrain.gyroDrive(throttle, turn, strafe);
+		//actual drive method
+		Robot.driveTrain.driveArcade(throttle, turn, strafe, shifter);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

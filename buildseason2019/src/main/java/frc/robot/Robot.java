@@ -116,9 +116,9 @@ public class Robot extends TimedRobot {
 			lDrive = shifter * throttle * (1 + Math.min(0, turn));
 			rDrive = shifter * throttle * (1 - Math.max(0, turn));
 		}
-    if (!Robot.driveTrain.getPIDController().isEnabled()) {
-      Robot.driveTrain.drive(lDrive, rDrive, strafe);
-    }
+  
+    Robot.driveTrain.driveArcade(throttle,turn, strafe, true);
+    
     this.log();
   }
 
