@@ -29,9 +29,9 @@ public class HSoleniod extends Command {
     @Override
     protected void execute() {
         if (OI.drive.getRawButton(OI.Buttons.Y)) {
-            Robot.pneumatics.setHWheelSelenoids(true);
+            Robot.pneumatics.setHWheelSolenoids(true);
         } else {
-            Robot.pneumatics.setHWheelSelenoids(false);
+            Robot.pneumatics.setHWheelSolenoids(false);
 
         }
     }
