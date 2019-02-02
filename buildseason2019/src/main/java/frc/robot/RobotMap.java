@@ -30,8 +30,8 @@ public class RobotMap {
   public static final int hWheel = 4;
 
   //Selenoids to raise and lower H-Wheel
-  public static final int leftHSelenoid = 1;
-  public static final int rightHSelenoid = 2;
-  
+
+  public static final int HSolenoid = 0;
+
   public static AHRS gyro = new AHRS(SerialPort.Port.kMXP); 
 }
