@@ -9,7 +9,8 @@
 
 String output = "1";
 Pixy2 pixy;
-int x1, x2, center;
+int x1, x2, center, ox, sx = 316;
+double angle;
 
 void setup(){
   Serial.begin(9600);
@@ -32,10 +33,20 @@ void loop(){
     center = (x1 + x2) / 2; //Calculate the center of both tapes, simple average
   }
   else{
-    center = 160; //Incase we dont see enough tape to calculate good values, just set the output to the middle so nothing bad happens
+    center = 158; //Incase we dont see enough tape to calculate good values, just set the output to the middle so nothing bad happens
   }
- 
-  output.replace(output, String(center)); //Updates the output string
+  
+  ox = 100*sx/2 - 100*center;//in hundredths of degrees
+  angle = ox/sx * 60;
+  
+
+  //(screen width / 2 - center) / screen width
+//multiply by FOV
+
+//output is now angle to turn
+  output.replace(output, String(angle/100)); //Updates the output string
+  //^^this should be the gyro angle at end of writing
+ Serial.println (output);
 
 }
 
@@ -49,3 +60,5 @@ void requestEvent(){//called when RoboRIO request a message from this device
 void receiveEvent(int bytes){//called when RoboRIO "gives" this device a message
 
 }
+
+//distance centerX is away from center of screen, divived by total number of pixels in the scrren
