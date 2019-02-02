@@ -38,6 +38,7 @@ public class GyroDrive extends PIDCommand {
 		// should allow the PIDTest command to take over
         System.out.println("initializing");
         this.getPIDController().enable();
+        RobotMap.gyro.zeroYaw();
         this.getPIDController().setSetpoint(0);
     }
 
@@ -49,6 +50,7 @@ public class GyroDrive extends PIDCommand {
         shifter = OI.drive.getRawButton(OI.Buttons.R);
         
         setpoint += turn*3;
+        System.out.println("Setpoint: " + setpoint);
         this.getPIDController().setSetpoint(setpoint);
 		// actual drive method
 	}
@@ -74,6 +76,7 @@ public class GyroDrive extends PIDCommand {
 
     @Override
     protected double returnPIDInput() {
+        System.out.println("PID Gyro Input: " + RobotMap.gyro.getAngle());
         return RobotMap.gyro.getAngle();
     }
 

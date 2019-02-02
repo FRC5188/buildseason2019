@@ -9,6 +9,7 @@ package frc.robot;
 
 
 import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.SerialPort;
 
 import edu.wpi.first.wpilibj.Compressor;
@@ -33,5 +34,7 @@ public class RobotMap {
 
   public static final int HSolenoid = 0;
 
-  public static AHRS gyro = new AHRS(SerialPort.Port.kMXP); 
+  public static AHRS gyro = new AHRS(I2C.Port.kMXP);
+  //the rioduino might need to use the serial port on the
+  //mxp port. if so then use i2c
 }
