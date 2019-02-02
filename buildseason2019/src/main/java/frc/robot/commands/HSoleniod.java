@@ -13,9 +13,9 @@ import frc.robot.Robot;
 
 //probably should remove this command and put the H-Wheel 
 //code in the Drive command
-public class PneumaticsTester extends Command {
+public class HSoleniod extends Command {
 
-    public PneumaticsTester() {
+    public HSoleniod() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.pneumatics);
     }
