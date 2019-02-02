@@ -13,12 +13,14 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.GyroDrive;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.I2C;
 import frc.robot.subsystems.Pneumatics;
 
 public class Robot extends TimedRobot {
 
   public static DriveTrain driveTrain;
   public static Pneumatics pneumatics;
+  public static I2C i2c;
   public static OI oi;
 
 
@@ -36,6 +38,7 @@ public class Robot extends TimedRobot {
 
     driveTrain = new DriveTrain();
     pneumatics = new Pneumatics();
+    i2c = new I2C();
     oi = new OI();// oi needs to be created last
   }
 
