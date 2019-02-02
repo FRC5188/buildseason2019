@@ -48,7 +48,7 @@ public class GyroDrive extends PIDCommand {
 		strafe = OI.drive.getRawAxis(OI.Axis.LX);
         shifter = OI.drive.getRawButton(OI.Buttons.R);
         
-        setpoint += turn;
+        setpoint += turn*3;
         this.getPIDController().setSetpoint(setpoint);
 		// actual drive method
 	}
