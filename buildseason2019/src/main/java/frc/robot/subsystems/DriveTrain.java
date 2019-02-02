@@ -7,15 +7,22 @@
 
 package frc.robot.subsystems;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 import frc.robot.commands.Drive;
+import frc.robot.commands.GyroDrive;
 
 public class DriveTrain extends Subsystem {
-	// Put methods for controlling the driveTrain
-	// here. This class does not control the driveTrain 
-	// directly. Call these from Commands.
+	// Put methods for controlling this subsystem
+	// here. Call these from Commands.
+
+	// as a note, the methods in PIDSubsytems seem to call the
+	// PID controller automattically
+	// so, this.enable() should be the same as this.getPIDController.enable()
+	// which, would make all of our wrappers kinda useless
 
 	// "defines" motors
 	private VictorSP leftDrive1;
@@ -23,6 +30,9 @@ public class DriveTrain extends Subsystem {
 	private VictorSP leftDrive2;
 	private VictorSP rightDrive2;
 	private VictorSP strafe;
+
+	// include another instance of gyro to send to the screen
+	public static AHRS gyro = RobotMap.gyro;
 
 	public DriveTrain() {
 		// initializes motors
@@ -33,8 +43,8 @@ public class DriveTrain extends Subsystem {
 		strafe = new VictorSP(RobotMap.hWheel);
 	}
 
-
 	// may want to look into some sort of acceleration control to limit
+
 	// current draw and brownouts
 	private void driveRaw(double left, double right, double strafe) {
 		leftDrive1.set(-left);
@@ -42,17 +52,28 @@ public class DriveTrain extends Subsystem {
 		rightDrive1.set(right);
 		rightDrive2.set(right);
 		this.strafe.set(strafe);
-		System.out.println("left value " + -left );
-		System.out.println("right value " + right );
-		System.out.println("strafe value " + strafe);
-
 	}
 
 	/**
 	 * Drive in teleop.
 	 */
-	public void drive(double left, double right, double strafe) {
-		driveRaw(left, right, strafe);
+	public void driveArcade(double throttle, double turn, double strafe, boolean shifter) {
+		
+		double shiftVal = shifter ? .5 : 1;
+
+		double lDrive;
+		double rDrive;
+		// if there is no throttle do a zero point turn, or a "quick turn"
+		if (Math.abs(throttle) < 0.05) {
+			lDrive = -turn * shiftVal * 0.60;
+			rDrive = turn * shiftVal * 0.60;
+		} else {
+			lDrive = shiftVal * throttle * (1 + Math.min(0, turn));
+			rDrive = shiftVal * throttle * (1 - Math.max(0, turn));
+			// if not driving with quick turn then drive with split arcade
+		}
+
+		driveRaw(lDrive, rDrive, strafe);
 	}
 
 	/**
@@ -64,8 +85,9 @@ public class DriveTrain extends Subsystem {
 
 	@Override
 	public void initDefaultCommand() {
-		setDefaultCommand(new Drive());
-		//this command runs automatically by the scheduler as soon as the 
-		//DriveTrain subsystem is created
+		setDefaultCommand(new GyroDrive());
+		// this command runs automatically by the scheduler as soon as the
+		// DriveTrain subsystem is created
 	}
+
 }

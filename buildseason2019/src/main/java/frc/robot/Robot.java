@@ -10,16 +10,10 @@ package frc.robot;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.GyroDrive;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Pneumatics;
-
-/**
- * The VM is configured to automatically run this class, and to call the
- * functions corresponding to each mode, as described in the TimedRobot
- * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the build.gradle file in the
- * project.
- */
 
 public class Robot extends TimedRobot {
 
@@ -27,66 +21,40 @@ public class Robot extends TimedRobot {
   public static Pneumatics pneumatics;
   public static OI oi;
 
-  /**
-   * This function is run when the robot is first started up and should be used
-   * for any initialization code.
-   */
+
+  public final String PIDTESTCOMMAND = "PID Test Command";
+  public final String DRIVECOMMAND = "Drive Command";
+  public final String DRIVETRAIN = "Drive Train";
+  public final String GYROANGLE = "Gyro Angle";
+  public final String RESETCOMMAND = "Reset Command";
+
   @Override
   public void robotInit() {
-    /*
-    Settings during testing: 
-        160x120
-        30fps 
-        0/HW  
-        used 1.2 Mbps min, 1.7 Mbps max 
-    */
-
+    // 160x120 30fps 0/HW used 1.2 Mbps min, 1.7 Mbps during testing //
     CameraServer.getInstance().startAutomaticCapture();
+    RobotMap.gyro.zeroYaw();// reset gyro on robot start
+
     driveTrain = new DriveTrain();
     pneumatics = new Pneumatics();
-    // oi needs to be created last
-    oi = new OI();
+    oi = new OI();// oi needs to be created last
   }
 
-  /**
-   * This function is called every robot packet, no matter the mode. Use this for
-   * items like diagnostics that you want ran during disabled, autonomous,
-   * teleoperated and test.
-   *
-   * <p>
-   * This runs after the mode specific periodic functions, but before LiveWindow
-   * and SmartDashboard integrated updating.
-   */
-  @Override
-  public void robotPeriodic() {
-  }
-
-  /**
-   * This function is called once each time the robot enters Disabled mode. You
-   * can use it to reset any subsystem information you want to clear when the
-   * robot is disabled.
-   */
   @Override
   public void disabledInit() {
+    Scheduler.getInstance().removeAll();
+    // commands don't stop running when entering disabled
   }
 
   @Override
   public void disabledPeriodic() {
     Scheduler.getInstance().run();
+    this.log();
   }
 
   @Override
   public void autonomousInit() {
-
-    /**
-     * shows example of running an auto schedule the autonomous command (example) if
-     * (m_autonomousCommand != null) { m_autonomousCommand.start(); }
-     */
   }
 
-  /**
-   * This function is called periodically during autonomous.
-   */
   @Override
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
@@ -94,13 +62,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    // This makes sure that the autonomous stops running when
-    // teleop starts running. If you want the autonomous to
-    // continue until interrupted by another command, remove
-    // this line or comment it out.
-    // if (m_autonomousCommand != null) {
-    // m_autonomousCommand.cancel();
-    // }
   }
 
   /**
@@ -110,11 +71,61 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
 
-    }
+    this.log();
+  }
+
+
   /**
    * This function is called periodically during test mode.
    */
   @Override
-  public void testPeriodic() {
+  public void testInit() {
+    new GyroDrive();
   }
+ double angle;
+
+
+ double throttle;
+ double turn;
+ double strafe;
+ double shifter;
+ boolean reset;
+
+  @Override
+  public void testPeriodic() {
+    //angle = RobotMap.gyro.getAngle();
+    //gyroAngle.setDouble(angle);
+    
+		throttle = OI.drive.getRawAxis(OI.Axis.LY);
+		turn = OI.drive.getRawAxis(OI.Axis.RX);
+		strafe = OI.drive.getRawAxis(OI.Axis.LX);
+    shifter = OI.drive.getRawButton(OI.Buttons.R) ? .5 : 1;
+    reset = OI.drive.getRawButton(OI.Buttons.A);
+
+    if (reset){
+      RobotMap.gyro.zeroYaw();
+    }
+
+		double lDrive;
+		double rDrive;
+
+		if (Math.abs(throttle) < 0.05) {
+			// quick turn if no throttle
+			lDrive = -turn * shifter * 0.60;
+			rDrive = turn * shifter * 0.60;
+			// else: drive in arcade
+		} else {
+			lDrive = shifter * throttle * (1 + Math.min(0, turn));
+			rDrive = shifter * throttle * (1 - Math.max(0, turn));
+		}
+  
+    //Robot.driveTrain.driveArcade(throttle,turn, strafe, true);
+    
+    this.log();
+  }
+
+  private void log() {
+    SmartDashboard.putNumber(this.GYROANGLE, RobotMap.gyro.getAngle());
+  }
+
 }

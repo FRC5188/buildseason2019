@@ -7,7 +7,12 @@
 
 package frc.robot;
 
+
+import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.SerialPort;
+
 import edu.wpi.first.wpilibj.Compressor;
+
 
 //basic motor mappings for h-drrive
 public class RobotMap {
@@ -25,5 +30,9 @@ public class RobotMap {
   public static final int hWheel = 4;
 
   //Selenoids to raise and lower H-Wheel
-  public static final int hSelenoid = 0;
+
+  public static final int leftHSelenoid = 1;
+  public static final int rightHSelenoid = 2;
+  
+  public static AHRS gyro = new AHRS(SerialPort.Port.kMXP); 
 }
