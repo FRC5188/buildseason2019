@@ -21,10 +21,14 @@ public class GyroDrive extends PIDCommand {
     double turn;
     double strafe;
     boolean shifter;
+    double setpoint = 0;
 
     public GyroDrive() {
         super(kp, ki, kd, kf);
-		requires(Robot.driveTrain);
+        requires(Robot.driveTrain);
+        this.getPIDController().setContinuous(false);
+        this.getPIDController().setOutputRange(-1, 1);
+        this.getPIDController().setAbsoluteTolerance(.5);
     }
     
     
@@ -34,6 +38,7 @@ public class GyroDrive extends PIDCommand {
 		// should allow the PIDTest command to take over
         System.out.println("initializing");
         this.getPIDController().enable();
+        this.getPIDController().setSetpoint(0);
     }
 
 	@Override
@@ -43,6 +48,8 @@ public class GyroDrive extends PIDCommand {
 		strafe = OI.drive.getRawAxis(OI.Axis.LX);
         shifter = OI.drive.getRawButton(OI.Buttons.R);
         
+        setpoint += turn;
+        this.getPIDController().setSetpoint(setpoint);
 		// actual drive method
 	}
 
@@ -72,6 +79,6 @@ public class GyroDrive extends PIDCommand {
 
     @Override
     protected void usePIDOutput(double output) {
-        Robot.driveTrain.driveArcade(throttle, turn, strafe, shifter);
+        Robot.driveTrain.driveArcade(throttle, output, strafe, shifter);
     }
 }

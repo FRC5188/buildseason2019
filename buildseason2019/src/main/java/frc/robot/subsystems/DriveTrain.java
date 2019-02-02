@@ -85,7 +85,7 @@ public class DriveTrain extends Subsystem {
 
 	@Override
 	public void initDefaultCommand() {
-		setDefaultCommand(new Drive());
+		setDefaultCommand(new GyroDrive());
 		// this command runs automatically by the scheduler as soon as the
 		// DriveTrain subsystem is created
 	}

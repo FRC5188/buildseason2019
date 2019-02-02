@@ -11,6 +11,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.GyroDrive;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Pneumatics;
 
@@ -79,6 +80,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testInit() {
+    new GyroDrive();
   }
  double angle;
 
@@ -117,7 +119,7 @@ public class Robot extends TimedRobot {
 			rDrive = shifter * throttle * (1 - Math.max(0, turn));
 		}
   
-    Robot.driveTrain.driveArcade(throttle,turn, strafe, true);
+    //Robot.driveTrain.driveArcade(throttle,turn, strafe, true);
     
     this.log();
   }
