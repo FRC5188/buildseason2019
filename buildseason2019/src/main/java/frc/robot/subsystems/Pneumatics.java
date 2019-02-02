@@ -10,11 +10,11 @@ import edu.wpi.first.wpilibj.Solenoid;
 public class Pneumatics extends Subsystem{
 
     private Compressor compressor;
-    private Solenoid hSelenoid;
+    private Solenoid hSolenoid;
 
     public Pneumatics(){
         compressor = RobotMap.compressor;
-        hSelenoid = new Solenoid(RobotMap.hSelenoid);
+        hSolenoid = new Solenoid(RobotMap.HSolenoid);
         compressor.setClosedLoopControl(true);
         compressor.enabled();
         //^^tells compressor to use pressure switch to automatically
@@ -26,8 +26,7 @@ public class Pneumatics extends Subsystem{
      * retracted, false
      * @param val value passed to selenoids
      */
-    public void setHWheelSelenoids(boolean val) {
-        hSoleniod.set(val);
+    public void setHWheelSolenoids(boolean val) { hSolenoid.set(val);
     }
     
     /**
@@ -36,7 +35,7 @@ public class Pneumatics extends Subsystem{
      * @return state of h-Wheel selenoids
      */
     public boolean getHWeelSelenoid() {
-        return hSelenoid.get();
+        return hSolenoid.get();
         //^^left and right selenoids are the same
     }
 
