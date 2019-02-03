@@ -80,7 +80,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testInit() {
-    new GyroDrive();
+    
   }
  double angle;
 
