@@ -12,7 +12,8 @@ import frc.robot.Robot;
 
 public class ReadArduino extends Command {
 
-    private String arduinoData = "none";
+
+    private Double arduinoData = -1.0;
     private boolean isFinished = false;
 
     public ReadArduino() {
@@ -28,7 +29,7 @@ public class ReadArduino extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        arduinoData = Robot.i2c.read();
+        arduinoData = Robot.i2c.getPixyAngle();
         System.out.println("Data from Arduino: " + arduinoData);
         isFinished = true;
     }
