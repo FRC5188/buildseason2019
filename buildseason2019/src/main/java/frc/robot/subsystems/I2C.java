@@ -31,13 +31,19 @@ public class I2C extends Subsystem {
 	 * Reads data from the Arduino on the I2C bus
 	 * @return String recieed from the I2C bus
 	 */
-	public String read(){
+	private String read(){
 		byte[] data = new byte[MAX_BYTES];//create a byte array to hold the incoming data
 		wire.read(4, MAX_BYTES, data);//use address 4 on i2c and store it in data
 		String output = new String(data);//create a string from the byte array
 		int pt = output.indexOf((char)255);
 		return (String) output.subSequence(0, pt < 0 ? 0 : pt);//im not sure what these last two lines do
-															   //sorry :(
+													//sorry :(
+	}
+
+	public double getPixyAngle(){
+		double angle = Double.parseDouble(this.read());
+		System.out.println("Pixy Angle: " + angle);
+		return angle;
 	}
 
 	@Override
