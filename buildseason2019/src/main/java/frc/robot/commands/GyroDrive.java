@@ -63,6 +63,7 @@ public class GyroDrive extends PIDCommand {
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
+        this.getPIDController().disable();
         this.end();
     }
 
