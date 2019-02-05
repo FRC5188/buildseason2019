@@ -11,7 +11,10 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.Drive;
 import frc.robot.commands.GyroDrive;
+import frc.robot.commands.PixyDrive;
+import frc.robot.commands.ResetGyro;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.I2C;
 import frc.robot.subsystems.Pneumatics;
@@ -23,23 +26,24 @@ public class Robot extends TimedRobot {
   public static I2C i2c;
   public static OI oi;
 
-
-  public final String PIDTESTCOMMAND = "PID Test Command";
-  public final String DRIVECOMMAND = "Drive Command";
-  public final String DRIVETRAIN = "Drive Train";
-  public final String GYROANGLE = "Gyro Angle";
-  public final String RESETCOMMAND = "Reset Command";
-
   @Override
   public void robotInit() {
     // 160x120 30fps 0/HW used 1.2 Mbps min, 1.7 Mbps during testing //
     CameraServer.getInstance().startAutomaticCapture();
     RobotMap.gyro.zeroYaw();// reset gyro on robot start
 
+    //Adds buttons to start commands from the dashboard
+    SmartDashboard.putData("Drive", new Drive());
+    SmartDashboard.putData("Gyro Drive", new GyroDrive());
+    SmartDashboard.putData("Pixy Drive", new PixyDrive());
+    SmartDashboard.putData("Reset Gyro", new ResetGyro());
+
     driveTrain = new DriveTrain();
     pneumatics = new Pneumatics();
     i2c = new I2C();
     oi = new OI();// oi needs to be created last
+
+    this.log();
   }
 
   @Override
@@ -65,6 +69,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+      this.log();
   }
 
   /**
@@ -73,7 +78,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-
     this.log();
   }
 
@@ -85,8 +89,6 @@ public class Robot extends TimedRobot {
   public void testInit() {
     
   }
- double angle;
-
 
  double throttle;
  double turn;
@@ -96,14 +98,11 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testPeriodic() {
-    //angle = RobotMap.gyro.getAngle();
-    //gyroAngle.setDouble(angle);
-    
-		throttle = OI.drive.getRawAxis(OI.Axis.LY);
+  		throttle = OI.drive.getRawAxis(OI.Axis.LY);
 		turn = OI.drive.getRawAxis(OI.Axis.RX);
 		strafe = OI.drive.getRawAxis(OI.Axis.LX);
-    shifter = OI.drive.getRawButton(OI.Buttons.R) ? .5 : 1;
-    reset = OI.drive.getRawButton(OI.Buttons.A);
+        shifter = OI.drive.getRawButton(OI.Buttons.R) ? .5 : 1;
+        reset = OI.drive.getRawButton(OI.Buttons.A);
 
     if (reset){
       RobotMap.gyro.zeroYaw();
@@ -123,12 +122,12 @@ public class Robot extends TimedRobot {
 		}
   
     //Robot.driveTrain.driveArcade(throttle,turn, strafe, true);
-    
     this.log();
   }
 
   private void log() {
-    SmartDashboard.putNumber(this.GYROANGLE, RobotMap.gyro.getAngle());
+      SmartDashboard.putNumber("Gyro Angle", RobotMap.gyro.getAngle());
+      SmartDashboard.putData("Scheduler", Scheduler.getInstance());
+      //The scheduler will show running commands
   }
-
 }
