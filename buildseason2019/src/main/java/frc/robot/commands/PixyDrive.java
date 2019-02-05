@@ -7,11 +7,9 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.PIDCommand;
 import frc.robot.OI;
 import frc.robot.Robot;
-import frc.robot.RobotMap;
 
 public class PixyDrive extends PIDCommand {
 
@@ -63,6 +61,7 @@ public class PixyDrive extends PIDCommand {
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
+        this.getPIDController().disable();
         this.end();
     }
 
