@@ -128,6 +128,6 @@ public class Robot extends TimedRobot {
   private void log() {
       SmartDashboard.putNumber("Gyro Angle", RobotMap.gyro.getAngle());
       SmartDashboard.putData("Scheduler", Scheduler.getInstance());
-      //The scheduler will show running commands
+      //The scheduler will show all running commands
   }
 }
