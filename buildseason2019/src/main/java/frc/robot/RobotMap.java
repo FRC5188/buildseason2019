@@ -35,6 +35,6 @@ public class RobotMap {
 
   public static final int HSolenoid = 0;
 
-  public static AHRS gyro = new AHRS(SerialPort.Port.kMXP);
+  public static AHRS gyro = new AHRS(I2C.Port.kMXP);
   public static I2C wire = new I2C(Port.kMXP, 4); //uses the i2c port on the RoboRIO
 }
