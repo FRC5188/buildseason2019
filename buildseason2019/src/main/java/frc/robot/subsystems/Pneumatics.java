@@ -16,7 +16,7 @@ public class Pneumatics extends Subsystem{
         compressor = RobotMap.compressor;
         hSolenoid = new Solenoid(RobotMap.HSolenoid);
         compressor.setClosedLoopControl(true);
-        compressor.enabled();
+        compressor.start();
         //^^tells compressor to use pressure switch to automatically
         //regulate pressure
     }
