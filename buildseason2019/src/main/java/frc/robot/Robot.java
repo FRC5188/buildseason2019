@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.Drive;
 import frc.robot.commands.PixyDrive;
@@ -25,7 +26,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     // 160x120 30fps 0/HW used 1.2 Mbps min, 1.7 Mbps during testing //
-    CameraServer.getInstance().startAutomaticCapture();
+    //CameraServer.getInstance().startAutomaticCapture();
     RobotMap.gyro.zeroYaw();// reset gyro on robot start
 
     
@@ -36,6 +37,7 @@ public class Robot extends TimedRobot {
     //Adds buttons to start commands from the dashboard
     SmartDashboard.putData("Drive", new Drive());
     SmartDashboard.putData("Pixy Drive", new PixyDrive());
+    LiveWindow.disableAllTelemetry();
     this.log();
   }
 
