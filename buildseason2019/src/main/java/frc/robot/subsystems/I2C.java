@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
-import frc.robot.commands.ReadArduino;
 
 public class I2C extends Subsystem {
 
@@ -42,7 +41,7 @@ public class I2C extends Subsystem {
 
 	public double getPixyAngle(){
 		double angle = Double.parseDouble(this.read());
-		System.out.println("Pixy Angle: " + angle);
+		//System.out.println("Pixy Angle: " + angle);
 		return angle;
 	}
 

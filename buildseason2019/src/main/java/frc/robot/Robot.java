@@ -12,17 +12,13 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.Drive;
-import frc.robot.commands.GyroDrive;
 import frc.robot.commands.PixyDrive;
-import frc.robot.commands.ResetGyro;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.I2C;
-import frc.robot.subsystems.Pneumatics;
 
 public class Robot extends TimedRobot {
 
   public static DriveTrain driveTrain;
-  public static Pneumatics pneumatics;
   public static I2C i2c;
   public static OI oi;
 
@@ -32,17 +28,14 @@ public class Robot extends TimedRobot {
     CameraServer.getInstance().startAutomaticCapture();
     RobotMap.gyro.zeroYaw();// reset gyro on robot start
 
-    //Adds buttons to start commands from the dashboard
-    SmartDashboard.putData("Drive", new Drive());
-    SmartDashboard.putData("Gyro Drive", new GyroDrive());
-    SmartDashboard.putData("Pixy Drive", new PixyDrive());
-    SmartDashboard.putData("Reset Gyro", new ResetGyro());
-
+    
     driveTrain = new DriveTrain();
-    pneumatics = new Pneumatics();
     i2c = new I2C();
     oi = new OI();// oi needs to be created last
-
+    
+    //Adds buttons to start commands from the dashboard
+    SmartDashboard.putData("Drive", new Drive());
+    SmartDashboard.putData("Pixy Drive", new PixyDrive());
     this.log();
   }
 

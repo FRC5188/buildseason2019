@@ -13,7 +13,7 @@ import frc.robot.Robot;
 
 public class PixyDrive extends PIDCommand {
 
-    private static double kp = 0.016, ki = 0, kd = 0.26, kf = 0;
+    private static double kp = 0.03, ki = 0, kd = 0.26, kf = 0;
 
     double throttle;
     double turn;
@@ -73,6 +73,6 @@ public class PixyDrive extends PIDCommand {
 
     @Override
     protected void usePIDOutput(double output) {
-        Robot.driveTrain.driveArcade(throttle, -output, strafe, shifter);
+        Robot.driveTrain.driveArcade(throttle, output, strafe, shifter);
     }
 }
