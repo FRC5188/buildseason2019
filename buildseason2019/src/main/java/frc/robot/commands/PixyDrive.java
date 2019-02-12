@@ -23,7 +23,6 @@ public class PixyDrive extends PIDCommand {
     double turn;
     double strafe;
     boolean shifter;
-    boolean isNull = false;
     double setpoint = 0;
 
     public PixyDrive() {
@@ -81,24 +80,11 @@ public class PixyDrive extends PIDCommand {
     @Override
     protected double returnPIDInput() {
         double angle = Robot.i2c.getPixyAngle();
-        if(angle == 400){
-            angle = 0;
-            this.isNull = true;
-            
-            return angle;
-        }
-        this.isNull = false;
 		return angle;
     }
 
     @Override
     protected void usePIDOutput(double output) {
-        if(this.isNull)
-        {
-            Robot.driveTrain.driveArcade(throttle, turn, strafe, shifter);
-        }
-        else{
         Robot.driveTrain.driveArcade(throttle, output, strafe, shifter);
-        }
     }
 }

@@ -48,7 +48,7 @@ public class I2C extends Subsystem {
 		 angle = Double.parseDouble(this.read());
 		}
 		catch( NumberFormatException e){
-			angle = 400;
+			angle = 0;
 		}
 		//System.out.println("Pixy Angle: " + angle);
         SmartDashboard.putNumber("Pixy Data", angle);
