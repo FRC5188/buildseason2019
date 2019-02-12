@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.elevator;
 
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -20,7 +20,7 @@ public class ManualElevatorRaiseLower extends Command {
 
 //        Robot.elevator.printHalleffects();
 
-      Robot.elevator.move(power);
+      Robot.elevator.moveElevator(power);
     }
 
     public void interrupted() {
