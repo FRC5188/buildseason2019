@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 
 public class I2C extends Subsystem {
@@ -10,6 +11,7 @@ public class I2C extends Subsystem {
 
     public I2C() {
 		this.wire = RobotMap.wire;
+        SmartDashboard.putNumber("Pixy Data", -1);
     }
 
 	/**
@@ -30,7 +32,7 @@ public class I2C extends Subsystem {
 	 * Reads data from the Arduino on the I2C bus
 	 * @return String recieed from the I2C bus
 	 */
-	private String read(){
+	public String read(){
 		byte[] data = new byte[MAX_BYTES];//create a byte array to hold the incoming data
 		wire.read(4, MAX_BYTES, data);//use address 4 on i2c and store it in data
 		String output = new String(data);//create a string from the byte array
@@ -46,9 +48,10 @@ public class I2C extends Subsystem {
 		 angle = Double.parseDouble(this.read());
 		}
 		catch( NumberFormatException e){
-			angle=0;
+			angle = 400;
 		}
 		//System.out.println("Pixy Angle: " + angle);
+        SmartDashboard.putNumber("Pixy Data", angle);
 		return angle;
 	}
 
