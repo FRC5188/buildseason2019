@@ -60,7 +60,7 @@ public class Drive extends Command {
 	@Override
 	protected void interrupted() {
 		// the docs say most times its acceptable to just call end()
-		this.end();
+		// this.end();
 		// ends command when interrupted
 	}
 }

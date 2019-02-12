@@ -12,8 +12,12 @@ import frc.robot.OI;
 import frc.robot.Robot;
 
 public class PixyDrive extends PIDCommand {
+    //TODO increase responsiveness of PID
+    //TODO possible coms issue, check to see if it can be replicated
+    //TODO handle losing arduino and pixy seperately
 
-    private static double kp = 0.03, ki = 0, kd = 0.26, kf = 0;
+
+    private static double kp = 0.03, ki = 0, kd = 0.26;
 
     double throttle;
     double turn;
@@ -22,7 +26,7 @@ public class PixyDrive extends PIDCommand {
     double setpoint = 0;
 
     public PixyDrive() {
-        super(kp, ki, kd, kf);
+        super("PixyDrive",kp, ki, kd, .02);
         this.requires(Robot.driveTrain);
         this.getPIDController().setContinuous(false);
         this.getPIDController().setOutputRange(-1, 1);
@@ -35,6 +39,7 @@ public class PixyDrive extends PIDCommand {
         this.setInterruptible(true);
         // should allow the PIDTest command to take over
         this.getPIDController().setSetpoint(0);
+        
         this.getPIDController().enable();
     }
 
@@ -48,7 +53,7 @@ public class PixyDrive extends PIDCommand {
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        return false;
+        return !OI.drive.getRawButton(OI.Buttons.L);
     }
 
     // Called once after isFinished returns true

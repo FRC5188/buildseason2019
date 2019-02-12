@@ -40,7 +40,14 @@ public class I2C extends Subsystem {
 	}
 
 	public double getPixyAngle(){
-		double angle = Double.parseDouble(this.read());
+		double angle;
+		//TODO fix arduino to return -1 if pixy doesn't find anything
+		try{
+		 angle = Double.parseDouble(this.read());
+		}
+		catch( NumberFormatException e){
+			angle=0;
+		}
 		//System.out.println("Pixy Angle: " + angle);
 		return angle;
 	}
