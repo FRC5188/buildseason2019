@@ -18,8 +18,8 @@ public class ManualElevatorRaiseLower extends Command {
     public void execute() {
         double power = OI.operator.getRawAxis(OI.Axis.LY);
 
+        if(Math.abs(power) < .01) power = 0;
 //        Robot.elevator.printHalleffects();
-
       Robot.elevator.move(power);
     }
 

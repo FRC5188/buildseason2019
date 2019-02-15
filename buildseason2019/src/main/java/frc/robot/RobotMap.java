@@ -29,17 +29,21 @@ public class RobotMap {
   public static final int backLeft = 1;
   public static final int backRight = 3;
   public static final int hWheel = 4;
-    public static final int elevatorLeft = 5;
-    public static final int elevatorRight= 6;
+  public static final int elevatorLeft = 5;
+  public static final int elevatorRight= 6;
+  public static final int intakeWrist= 7;
+  public static final int intakeMotor= 8;
 
   //Selenoids to raise and lower H-Wheel
 
   public static final int HSolenoid = 0;
+  public static final int HatchSolenoid = 1;
 
-    public static final int bottomHalleffect = 0;
-    public static final int topHalleffect = 1;
+  public static final int bottomHalleffect = 0;
+  public static final int topHalleffect = 1;
 
   public static AHRS gyro = new AHRS(I2C.Port.kMXP);
-  //the rioduino might need to use the serial port on the
+
+    //the rioduino might need to use the serial port on the
   //mxp port. if so then use i2c
 }

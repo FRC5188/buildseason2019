@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
-import frc.robot.commands.HSoleniod;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -10,16 +9,21 @@ import edu.wpi.first.wpilibj.Solenoid;
 public class Pneumatics extends Subsystem{
 
     private Compressor compressor;
-    private Solenoid hSolenoid;
+    private Solenoid hSolenoid, hatchSoleniod;
 
     public Pneumatics(){
         compressor = RobotMap.compressor;
-        hSolenoid = new Solenoid(RobotMap.HSolenoid);
+       // hSolenoid = new Solenoid(RobotMap.HSolenoid);
+      //  hatchSoleniod = new Solenoid(RobotMap.HatchSolenoid);
         compressor.setClosedLoopControl(true);
-        compressor.start();
         //^^tells compressor to use pressure switch to automatically
         //regulate pressure
     }
+
+    public void setHatchSelenoids(boolean val) {
+        hatchSoleniod.set(val);
+    }
+
 
     /**
      * Sets the H-Wheel selenoids either extended, true, or 
@@ -42,7 +46,8 @@ public class Pneumatics extends Subsystem{
 
 	@Override
 	protected void initDefaultCommand() {
-		setDefaultCommand(new HSoleniod());
+
+        //setDefaultCommand(new HSoleniodOut());
 	}
 
 }

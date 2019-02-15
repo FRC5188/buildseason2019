@@ -10,8 +10,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.GyroDrive;
-import frc.robot.commands.HSoleniod;
+import frc.robot.commands.FireHatchPanel;
+import frc.robot.commands.RetractHatchPanel;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -60,13 +60,27 @@ public class OI {
 	//controllers
 	public static Joystick drive;
 	public static Joystick operator;
-	public static Button pid;
-		
-	public OI() {
+	public static Button hWheelOut;
+    public static Button hWheelIn;
+    public static Button hatchPanel;
+
+
+
+    public OI() {
 		//create controllers
 		//access with OI.controllername
 		drive = new Joystick(Controller.DRIVE);
 		operator = new Joystick(Controller.OPERATOR);
 
+		hWheelOut = new JoystickButton(OI.drive, Buttons.A);
+        hWheelIn = new JoystickButton(OI.drive, Buttons.B);
+
+        hatchPanel = new JoystickButton(OI.operator, Buttons.A);
+
+//        hWheelOut.whenPressed(new HSoleniodOut());
+//        hWheelIn.whenPressed(new HSoleniodIn());
+
+        hatchPanel.whenPressed(new FireHatchPanel());
+        hatchPanel.whenReleased(new RetractHatchPanel());
 	}
 }

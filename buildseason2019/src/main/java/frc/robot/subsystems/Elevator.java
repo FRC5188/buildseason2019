@@ -54,7 +54,8 @@ public class Elevator extends Subsystem {
     }
 
     public void move(double speed) {
-        if(!this.validMove(speed)) speed = 0;
+       // if(!this.validMove(speed)) speed = 0;
+        //disable checking for testing without halleffect
         leftMotor.set(-speed);
         rightMotor.set(speed);//may need flipped
 
@@ -63,7 +64,6 @@ public class Elevator extends Subsystem {
     public void printHalleffects() {
         System.out.println("Top HallEffect " + topHalleffect.get());
         System.out.println("Bottom HallEffect " + bottomHalleffect.get());
-
     }
 
     @Override
