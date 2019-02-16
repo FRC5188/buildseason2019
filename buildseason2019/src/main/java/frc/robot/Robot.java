@@ -75,8 +75,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     //  this.log();
-      pixyDrive = new PixyDrive();
-      if(pixyDrive.isRunning()) pixyDrive.cancel();
+
   }
 
   /**
