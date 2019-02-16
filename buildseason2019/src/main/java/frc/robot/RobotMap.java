@@ -46,6 +46,7 @@ public class RobotMap {
     public  static final int elevatorEnocderB = 1;
 
     public static AHRS gyro = new AHRS(I2C.Port.kMXP);
+    public static I2C wire = new I2C(I2C.Port.kMXP, 4); //uses the i2c port on the RoboRIO
 
     //the rioduino might need to use the serial port on the
     //mxp port. if so then use i2c

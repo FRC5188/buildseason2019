@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.commands.ManualIntake;
+import frc.robot.commands.OperateIntake;
 
 public class Intake extends Subsystem {
 
@@ -36,6 +37,6 @@ public class Intake extends Subsystem {
 
     @Override
     protected void initDefaultCommand() {
-        setDefaultCommand(new ManualIntake());
+        setDefaultCommand(new OperateIntake());
     }
 }

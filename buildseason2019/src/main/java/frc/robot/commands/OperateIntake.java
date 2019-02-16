@@ -4,14 +4,14 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
-import frc.robot.RobotMap;
 
-public class ManualIntake extends Command {
+public class OperateIntake extends Command {
 
     private PowerDistributionPanel pdp;
     private boolean isValid = true;
 
-    public ManualIntake(){
+    public OperateIntake(){
+        this.requires(Robot.intake);
         pdp = new PowerDistributionPanel();
         this.requires(Robot.intake);
     }
@@ -25,7 +25,9 @@ public class ManualIntake extends Command {
     protected void execute(){
         double intakeWristPower = OI.operator.getRawAxis(OI.Axis.RY);
         double intakeMotorPower = OI.operator.getRawAxis(OI.Axis.RTrigger) - OI.operator.getRawAxis(OI.Axis.LTrigger);
+        if(OI.operator.getRawButton(OI.Buttons.A)){
 
+        }
         boolean shifter = OI.operator.getRawButton(OI.Buttons.R);
         double shiftVal = shifter ? .5 : 1;
 
@@ -47,7 +49,6 @@ public class ManualIntake extends Command {
             Robot.intake.setIntakeWrist(0);
         }
     }
-
     @Override
     protected boolean isFinished() {
         return false;
