@@ -7,7 +7,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -15,25 +14,33 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.Drive;
 import frc.robot.commands.PixyDrive;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Pneumatics;
 import frc.robot.subsystems.I2C;
 
 public class Robot extends TimedRobot {
 
   public static DriveTrain driveTrain;
   public static I2C i2c;
+  public static Pneumatics pneumatics;
+  public static Elevator elevator;
+  public static Intake intake;
   public static OI oi;
 
   @Override
   public void robotInit() {
     // 160x120 30fps 0/HW used 1.2 Mbps min, 1.7 Mbps during testing //
-    //CameraServer.getInstance().startAutomaticCapture();
+    CameraServer.getInstance().startAutomaticCapture();
     RobotMap.gyro.zeroYaw();// reset gyro on robot start
 
-    
     driveTrain = new DriveTrain();
     i2c = new I2C();
+    pneumatics = new Pneumatics();
+    elevator = new Elevator ();
+    intake = new Intake();
     oi = new OI();// oi needs to be created last
-    
+
     //Adds buttons to start commands from the dashboard
     SmartDashboard.putData("Drive", new Drive());
     SmartDashboard.putData("Pixy Drive", new PixyDrive());
@@ -85,19 +92,8 @@ public class Robot extends TimedRobot {
     
   }
 
- double throttle;
- double turn;
- double strafe;
- double shifter;
- boolean reset;
-
   @Override
   public void testPeriodic() {
-  		throttle = OI.drive.getRawAxis(OI.Axis.LY);
-		turn = OI.drive.getRawAxis(OI.Axis.RX);
-		strafe = OI.drive.getRawAxis(OI.Axis.LX);
-        shifter = OI.drive.getRawButton(OI.Buttons.R) ? .5 : 1;
-        reset = OI.drive.getRawButton(OI.Buttons.A);
 
     if (reset){
       RobotMap.gyro.zeroYaw();
@@ -117,6 +113,7 @@ public class Robot extends TimedRobot {
 		}
   
     //Robot.driveTrain.driveArcade(throttle,turn, strafe, true);
+    
     this.log();
   }
 
@@ -125,4 +122,5 @@ public class Robot extends TimedRobot {
       SmartDashboard.putData("Scheduler", Scheduler.getInstance());
       //The scheduler will show running commands
   }
+
 }

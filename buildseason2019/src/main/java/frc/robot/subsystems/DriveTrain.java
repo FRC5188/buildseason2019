@@ -7,16 +7,24 @@
 
 package frc.robot.subsystems;
 
+import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.commands.Drive;
-import frc.robot.commands.PixyDrive;
 
 public class DriveTrain extends Subsystem {
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
+
+	// as a note, the methods in PIDSubsytems seem to call the
+	// PID controller automattically
+	// so, this.enable() should be the same as this.getPIDController.enable()
+	// which, would make all of our wrappers kinda useless
 
 	// "defines" motors
 	private VictorSP leftDrive1;
@@ -25,18 +33,24 @@ public class DriveTrain extends Subsystem {
 	private VictorSP rightDrive2;
 	private VictorSP strafe;
 
+	private Compressor compressor;
+    private Solenoid hSoleniod;
+	// include another instance of gyro to send to the screen
+	public static AHRS gyro = RobotMap.gyro;
+
 	public DriveTrain() {
 		// initializes motors
-		this.leftDrive1 = new VictorSP(RobotMap.frontLeft);
-        this.leftDrive2 = new VictorSP(RobotMap.backLeft);
-        this.rightDrive1 = new VictorSP(RobotMap.frontRight);
-        this.rightDrive2 = new VictorSP(RobotMap.backRight);
-        this.strafe = new VictorSP(RobotMap.hWheel);
-        //log subsystem data
-		this.logSubsystem();
+		leftDrive1 = new VictorSP(RobotMap.frontLeft);
+		leftDrive2 = new VictorSP(RobotMap.backLeft);
+		rightDrive1 = new VictorSP(RobotMap.frontRight);
+		rightDrive2 = new VictorSP(RobotMap.backRight);
+		strafe = new VictorSP(RobotMap.hWheel);
+
+		compressor = RobotMap.compressor;
+		hSoleniod = new Solenoid(RobotMap.HSolenoid);
 	}
 
-	//TODO Check current draw and maybe limit it
+	// may want to look into some sort of acceleration control to limit
 
     /**
      * Underlying drive function. Feeds power directly to the motors
@@ -46,11 +60,11 @@ public class DriveTrain extends Subsystem {
      * @param strafe H-wheel power
      */
 	private void driveRaw(double left, double right, double strafe) {
-        this.leftDrive1.set(-left);
-        this.leftDrive2.set(-left);
-        this.rightDrive1.set(right);
-		this.rightDrive2.set(right);
-		this.strafe.set(strafe);
+		leftDrive1.set(-left);
+		leftDrive2.set(-left);
+		rightDrive1.set(right);
+		rightDrive2.set(right);
+		this.strafe.set(-strafe);
 	}
 
     /**
@@ -77,8 +91,13 @@ public class DriveTrain extends Subsystem {
 			// if not driving with quick turn then drive with split arcade
 		}
 
-		driveRaw(lDrive, rDrive, strafe);
+		driveRaw(lDrive, rDrive, strafe * .85);
 	}
+
+    public void setHWheelSelenoids(boolean val) {
+        hSoleniod.set(val);
+    }
+
 
 	/**
 	 * stop motors
