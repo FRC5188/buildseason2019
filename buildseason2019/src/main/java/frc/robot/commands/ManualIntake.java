@@ -1,12 +1,18 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
+import frc.robot.RobotMap;
 
 public class ManualIntake extends Command {
 
+    private PowerDistributionPanel pdp;
+    private boolean isValid = true;
+
     public ManualIntake(){
+        pdp = RobotMap.pdp;
         this.requires(Robot.intake);
     }
 
@@ -20,12 +26,26 @@ public class ManualIntake extends Command {
         double intakeWristPower = OI.operator.getRawAxis(OI.Axis.RY);
         double intakeMotorPower = OI.operator.getRawAxis(OI.Axis.RTrigger) - OI.operator.getRawAxis(OI.Axis.LTrigger);
 
+        boolean shifter = OI.operator.getRawButton(OI.Buttons.R);
+        double shiftVal = shifter ? .5 : 1;
+
         if(Math.abs(intakeMotorPower) < .01) intakeMotorPower = 0;
         if(Math.abs(intakeWristPower) < .01) intakeWristPower = 0;
 
-        Robot.intake.setIntakeMotor(intakeMotorPower);
-        Robot.intake.setIntakeWrist(intakeWristPower);
+        if(pdp.getCurrent(4) > 10) this.isValid = false;
 
+        Robot.intake.setIntakeMotor(intakeMotorPower);
+
+        if(!this.isValid && intakeWristPower > 0){
+            Robot.intake.setIntakeWrist(intakeWristPower * shiftVal);
+            this.isValid = true;
+        }
+        else if(this.isValid) {
+            Robot.intake.setIntakeWrist(intakeWristPower * shiftVal);
+        }
+        else{
+            Robot.intake.setIntakeWrist(0);
+        }
     }
 
     @Override

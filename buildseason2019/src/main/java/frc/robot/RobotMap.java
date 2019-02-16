@@ -10,6 +10,7 @@ package frc.robot;
 
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SerialPort;
 
 import edu.wpi.first.wpilibj.Compressor;
@@ -23,6 +24,7 @@ public class RobotMap {
   public static final int COMPRESSOR_CAN_ID = 0;
 
   public static Compressor compressor = new Compressor(COMPRESSOR_CAN_ID);
+  public static PowerDistributionPanel pdp = new PowerDistributionPanel();
   
   public static final int frontLeft = 0;
   public static final int frontRight = 2;
@@ -39,8 +41,8 @@ public class RobotMap {
   public static final int HSolenoid = 0;
   public static final int HatchSolenoid = 1;
 
-  public static final int bottomHalleffect = 0;
-  public static final int topHalleffect = 1;
+  public static final int bottomHalleffect = 3;
+  public static final int topHalleffect = 9;
 
   public static AHRS gyro = new AHRS(I2C.Port.kMXP);
 

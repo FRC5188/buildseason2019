@@ -57,7 +57,7 @@ public class DriveTrain extends Subsystem {
 		leftDrive2.set(-left);
 		rightDrive1.set(right);
 		rightDrive2.set(right);
-		this.strafe.set(strafe);
+		this.strafe.set(-strafe);
 	}
 
 	/**

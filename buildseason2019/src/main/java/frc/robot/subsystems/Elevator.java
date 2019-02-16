@@ -32,10 +32,10 @@ public class Elevator extends Subsystem {
 
     private boolean validMove(double power) {
         boolean isValid = false;
-        if(power < 0 && !bottomHalleffect.get()) {
+        if(power > 0 && !bottomHalleffect.get()) {
             isValid = false;
         }
-        else if(power > 0 && !topHalleffect.get()){
+        else if(power < 0 && !topHalleffect.get()){
             isValid = false;
         }
         else {
@@ -54,7 +54,7 @@ public class Elevator extends Subsystem {
     }
 
     public void move(double speed) {
-       // if(!this.validMove(speed)) speed = 0;
+       if(!this.validMove(speed)) speed = 0;
         //disable checking for testing without halleffect
         leftMotor.set(-speed);
         rightMotor.set(speed);//may need flipped
