@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.Robot;
 
@@ -15,7 +16,7 @@ public class Drive extends Command {
 	public Drive() {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.driveTrain);
-
+		SmartDashboard.putBoolean("Drive Running", false);
 	}
 
 	// Called just before this Command runs the first time
@@ -44,6 +45,7 @@ public class Drive extends Command {
 
 		//actual drive method
 		Robot.driveTrain.driveArcade(throttle, turn, strafe, shifter);
+		SmartDashboard.putBoolean("Drive Running", true);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -59,6 +61,7 @@ public class Drive extends Command {
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {
+		SmartDashboard.putBoolean("Drive Running", false);
 		Robot.driveTrain.stop();
 		// stops motors when command is finsihed
 	}
@@ -68,7 +71,7 @@ public class Drive extends Command {
 	@Override
 	protected void interrupted() {
 		// the docs say most times its acceptable to just call end()
-		// this.end();
+		this.end();
 		// ends command when interrupted
 	}
 }

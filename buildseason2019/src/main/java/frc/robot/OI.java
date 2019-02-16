@@ -10,9 +10,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.commands.PixyDrive;
-import frc.robot.commands.FireHatchPanel;
-import frc.robot.commands.RetractHatchPanel;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -27,6 +27,8 @@ public class OI {
 	private static class Controller {
 		public static final int DRIVE = 0, OPERATOR = 1;
 	}
+
+	Command pixyDrive;
 	
   //buttons of controller 
   //access with OI.Buttons.BUTTONNAME
@@ -61,29 +63,43 @@ public class OI {
 	//controllers
 	public static Joystick drive;
 	public static Joystick operator;
-	public static Button hWheelOut;
-    public static Button hWheelIn;
-    public static Button hatchPanel;
-
-
-
-    public OI() {
+	public static Button pid;
+		
+	public OI() {
 		//create controllers
 		//access with OI.controllername
 		drive = new Joystick(Controller.DRIVE);
 		operator = new Joystick(Controller.OPERATOR);
 		pid = new JoystickButton(drive, OI.Buttons.L );
-		pid.whenPressed(new PixyDrive());
+		pixyDrive = new PixyDrive();
+		//may need pixydrive.start
+		pid.whenPressed(pixyDrive);
+		pid.whenReleased(new Command(){
 
-		hWheelOut = new JoystickButton(OI.drive, Buttons.A);
-        hWheelIn = new JoystickButton(OI.drive, Buttons.B);
+			@Override
+			protected void initialize(){
+				if(pixyDrive.isRunning()) pixyDrive.cancel();
+			}
+			@Override
+			protected boolean isFinished() {
+				return true;
+			}
 
-        hatchPanel = new JoystickButton(OI.operator, Buttons.A);
+		});
 
-//        hWheelOut.whenPressed(new HSoleniodOut());
-//        hWheelIn.whenPressed(new HSoleniodIn());
 
-        hatchPanel.whenPressed(new FireHatchPanel());
-        hatchPanel.whenReleased(new RetractHatchPanel());
+		if(Robot.i2c.read().equals("")){
+			new Command(){
+
+				@Override
+				protected void initialize(){
+					if(pixyDrive.isRunning()) pixyDrive.cancel();
+				}
+				@Override
+				protected boolean isFinished() {
+					return true;
+				}
+			};
+		}
 	}
 }

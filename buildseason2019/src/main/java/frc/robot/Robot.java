@@ -7,7 +7,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -34,16 +36,17 @@ public class Robot extends TimedRobot {
     CameraServer.getInstance().startAutomaticCapture();
     RobotMap.gyro.zeroYaw();// reset gyro on robot start
 
+    
     driveTrain = new DriveTrain();
     i2c = new I2C();
     pneumatics = new Pneumatics();
     elevator = new Elevator ();
     intake = new Intake();
     oi = new OI();// oi needs to be created last
-
+    
     //Adds buttons to start commands from the dashboard
-    SmartDashboard.putData("Drive", new Drive());
-    SmartDashboard.putData("Pixy Drive", new PixyDrive());
+    SmartDashboard.putBoolean("L Bumper", false);
+    SmartDashboard.putBoolean("R Bumper", false);
     LiveWindow.disableAllTelemetry();
     this.log();
   }
@@ -71,7 +74,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-      this.log();
+    //  this.log();
+      pixyDrive = new PixyDrive();
+      if(pixyDrive.isRunning()) pixyDrive.cancel();
   }
 
   /**
@@ -80,7 +85,17 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    this.log();
+    SmartDashboard.putBoolean("L Bumper", OI.drive.getRawButton(OI.Buttons.L));
+    SmartDashboard.putBoolean("R Bumper", OI.drive.getRawButton(OI.Buttons.R));
+    // if(OI.drive.getRawButton(OI.Buttons.L))
+    //   if(!pixyDrive.isRunning())
+    //   {
+    //     pixyDrive.start();
+    //   }
+    // else{
+    //   if(pixyDrive.isRunning()) pixyDrive.cancel();
+    // }
+  //  this.log();
   }
 
 
@@ -92,35 +107,20 @@ public class Robot extends TimedRobot {
     
   }
 
+ double throttle;
+ double turn;
+ double strafe;
+ double shifter;
+ boolean reset;
+
   @Override
   public void testPeriodic() {
 
-    if (reset){
-      RobotMap.gyro.zeroYaw();
-    }
-
-		double lDrive;
-		double rDrive;
-
-		if (Math.abs(throttle) < 0.05) {
-			// quick turn if no throttle
-			lDrive = -turn * shifter * 0.60;
-			rDrive = turn * shifter * 0.60;
-			// else: drive in arcade
-		} else {
-			lDrive = shifter * throttle * (1 + Math.min(0, turn));
-			rDrive = shifter * throttle * (1 - Math.max(0, turn));
-		}
-  
-    //Robot.driveTrain.driveArcade(throttle,turn, strafe, true);
-    
-    this.log();
   }
 
   private void log() {
       SmartDashboard.putNumber("Gyro Angle", RobotMap.gyro.getAngle());
       SmartDashboard.putData("Scheduler", Scheduler.getInstance());
-      //The scheduler will show all running commands
+      //The scheduler will show running commands
   }
-
 }
