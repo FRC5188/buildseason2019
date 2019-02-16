@@ -10,6 +10,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.commands.PixyDrive;
 
 /**
@@ -25,6 +27,8 @@ public class OI {
 	private static class Controller {
 		public static final int DRIVE = 0, OPERATOR = 1;
 	}
+
+	Command pixyDrive;
 	
   //buttons of controller 
   //access with OI.Buttons.BUTTONNAME
@@ -67,6 +71,35 @@ public class OI {
 		drive = new Joystick(Controller.DRIVE);
 		operator = new Joystick(Controller.OPERATOR);
 		pid = new JoystickButton(drive, OI.Buttons.L );
-		pid.whenPressed(new PixyDrive());
+		pixyDrive = new PixyDrive();
+		//may need pixydrive.start
+		pid.whenPressed(pixyDrive);
+		pid.whenReleased(new Command(){
+
+			@Override
+			protected void initialize(){
+				if(pixyDrive.isRunning()) pixyDrive.cancel();
+			}
+			@Override
+			protected boolean isFinished() {
+				return true;
+			}
+
+		});
+
+
+		if(Robot.i2c.read().equals("")){
+			new Command(){
+
+				@Override
+				protected void initialize(){
+					if(pixyDrive.isRunning()) pixyDrive.cancel();
+				}
+				@Override
+				protected boolean isFinished() {
+					return true;
+				}
+			};
+		}
 	}
 }
