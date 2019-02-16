@@ -22,6 +22,7 @@ public class Drive extends Command {
 	@Override
 	protected void initialize() {
 		setInterruptible(true);
+        Robot.driveTrain.setHWheelSelenoids(true);
 		// should allow the PIDTest command to take over
 		System.out.println("initializing");
 	}
@@ -33,6 +34,13 @@ public class Drive extends Command {
 		double turn =  OI.drive.getRawAxis(OI.Axis.RX);
 		double strafe =  OI.drive.getRawAxis(OI.Axis.LX);
 		boolean shifter = OI.drive.getRawButton(OI.Buttons.R);
+
+		if(Math.abs(throttle) < .01) throttle = 0;
+        if(Math.abs(turn) < .01) turn= 0;
+        if(Math.abs(strafe) < .01) strafe = 0;
+
+        if(OI.drive.getRawButton(OI.Buttons.A)) Robot.driveTrain.setHWheelSelenoids(true);
+        if(OI.drive.getRawButton(OI.Buttons.B)) Robot.driveTrain.setHWheelSelenoids(false);
 
 		//actual drive method
 		Robot.driveTrain.driveArcade(throttle, turn, strafe, shifter);

@@ -7,13 +7,11 @@
 
 package frc.robot;
 
-import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.GyroDrive;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Pneumatics;
 
 public class Robot extends TimedRobot {
@@ -21,6 +19,7 @@ public class Robot extends TimedRobot {
   public static DriveTrain driveTrain;
   public static Pneumatics pneumatics;
   public static Elevator elevator;
+  public static Intake intake;
   public static OI oi;
 
   @Override
@@ -32,6 +31,7 @@ public class Robot extends TimedRobot {
     driveTrain = new DriveTrain();
     pneumatics = new Pneumatics();
     elevator = new Elevator ();
+    intake = new Intake();
     oi = new OI();// oi needs to be created last
   }
 

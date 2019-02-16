@@ -9,11 +9,12 @@ package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 import frc.robot.commands.Drive;
-import frc.robot.commands.GyroDrive;
 
 public class DriveTrain extends Subsystem {
 	// Put methods for controlling this subsystem
@@ -31,6 +32,8 @@ public class DriveTrain extends Subsystem {
 	private VictorSP rightDrive2;
 	private VictorSP strafe;
 
+	private Compressor compressor;
+    private Solenoid hSoleniod;
 	// include another instance of gyro to send to the screen
 	public static AHRS gyro = RobotMap.gyro;
 
@@ -41,6 +44,9 @@ public class DriveTrain extends Subsystem {
 		rightDrive1 = new VictorSP(RobotMap.frontRight);
 		rightDrive2 = new VictorSP(RobotMap.backRight);
 		strafe = new VictorSP(RobotMap.hWheel);
+
+		compressor = RobotMap.compressor;
+		hSoleniod = new Solenoid(RobotMap.HSolenoid);
 	}
 
 	// may want to look into some sort of acceleration control to limit
@@ -51,7 +57,7 @@ public class DriveTrain extends Subsystem {
 		leftDrive2.set(-left);
 		rightDrive1.set(right);
 		rightDrive2.set(right);
-		this.strafe.set(strafe);
+		this.strafe.set(-strafe);
 	}
 
 	/**
@@ -75,6 +81,11 @@ public class DriveTrain extends Subsystem {
 
 		driveRaw(lDrive, rDrive, strafe);
 	}
+
+    public void setHWheelSelenoids(boolean val) {
+        hSoleniod.set(val);
+    }
+
 
 	/**
 	 * stop motors
