@@ -72,6 +72,7 @@ public class OI {
 		operator = new Joystick(Controller.OPERATOR);
 		pid = new JoystickButton(drive, OI.Buttons.L );
 		pixyDrive = new PixyDrive();
+		//may need pixydrive.start
 		pid.whenPressed(pixyDrive);
 		pid.whenReleased(new Command(){
 
@@ -85,5 +86,20 @@ public class OI {
 			}
 
 		});
+
+
+		if(Robot.i2c.read().equals("")){
+			new Command(){
+
+				@Override
+				protected void initialize(){
+					if(pixyDrive.isRunning()) pixyDrive.cancel();
+				}
+				@Override
+				protected boolean isFinished() {
+					return true;
+				}
+			};
+		}
 	}
 }
