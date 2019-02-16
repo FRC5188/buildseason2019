@@ -19,9 +19,9 @@ public class ElevatorToHatchLevel1 extends Command {
     public void initialize() {
         //set pid setpoint
         //enable pid
-        Robot.elevator.getPIDController().setSetpoint(20);
+       // Robot.elevator.getPIDController().setSetpoint(20);
         //not sure what the setpoint for level one should be
-        Robot.elevator.getPIDController().enable();
+       // Robot.elevator.getPIDController().enable();
 
         //not sure if anything else needs to be done
     }

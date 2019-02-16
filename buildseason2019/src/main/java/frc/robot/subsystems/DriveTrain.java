@@ -79,7 +79,7 @@ public class DriveTrain extends Subsystem {
 			// if not driving with quick turn then drive with split arcade
 		}
 
-		driveRaw(lDrive, rDrive, strafe);
+		driveRaw(lDrive, rDrive, strafe * .6);
 	}
 
     public void setHWheelSelenoids(boolean val) {
