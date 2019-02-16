@@ -42,6 +42,9 @@ public class RobotMap {
     public static final int bottomHalleffect = 0;
     public static final int topHalleffect = 1;
 
+    public  static final int elevatorEnocderA = 0;
+    public  static final int elevatorEnocderB = 1;
+
     public static AHRS gyro = new AHRS(I2C.Port.kMXP);
 
     //the rioduino might need to use the serial port on the

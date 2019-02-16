@@ -27,7 +27,7 @@ public class Elevator extends PIDSubsystem {
         bottomHalleffect =  new DigitalInput(RobotMap.bottomHalleffect);
         topHalleffect =  new DigitalInput(RobotMap.topHalleffect);
 
-        elevatorEncoder = new Encoder(RobotMap.elevatprEncoderrA, RobotMap.elevatprEncoderrB);
+        elevatorEncoder = new Encoder(RobotMap.elevatorEnocderA, RobotMap.elevatorEnocderB);
 
         SmartDashboard.putNumber("Elevator Encoder", this.elevatorEncoder.get());
     }
