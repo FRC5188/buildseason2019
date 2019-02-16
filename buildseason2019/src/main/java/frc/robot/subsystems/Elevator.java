@@ -3,12 +3,12 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.VictorSP;
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.commands.ManualElevatorRaiseLower;
 
-public class Elevator extends Subsystem {
+public class Elevator extends PIDSubsystem {
 
     VictorSP leftMotor;
     VictorSP rightMotor;
@@ -16,8 +16,11 @@ public class Elevator extends Subsystem {
     DigitalInput topHalleffect;
     Encoder elevatorEncoder;
 
+    private static double kp = .2, ki = 0, kd =0, kf = 0, period = 20;
+
 
     public Elevator() {
+        super(kp, ki, kd, kf, period);
         leftMotor = new VictorSP(RobotMap.elevatorLeft);
         rightMotor = new VictorSP(RobotMap.elevatorRight);
 
@@ -94,4 +97,13 @@ public class Elevator extends Subsystem {
         this.setDefaultCommand(new ManualElevatorRaiseLower());
     }
 
+    @Override
+    protected double returnPIDInput() {
+        return 0;
+    }
+
+    @Override
+    protected void usePIDOutput(double output) {
+
+    }
 }
