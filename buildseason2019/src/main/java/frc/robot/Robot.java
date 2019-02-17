@@ -29,7 +29,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     // 160x120 30fps 0/HW used 1.2 Mbps min, 1.7 Mbps during testing //
-    //CameraServer.getInstance().startAutomaticCapture();
+    CameraServer.getInstance().startAutomaticCapture();
     RobotMap.gyro.zeroYaw();// reset gyro on robot start
 
     
