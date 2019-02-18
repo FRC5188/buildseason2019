@@ -11,7 +11,7 @@ public class I2C extends Subsystem {
 
     public I2C() {
 		this.wire = RobotMap.wire;
-        SmartDashboard.putNumber("Pixy Data", -1);
+        SmartDashboard.putNumber("Pixy Data", 400);
     }
 
 	/**

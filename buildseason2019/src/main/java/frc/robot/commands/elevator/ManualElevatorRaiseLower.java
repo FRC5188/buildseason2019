@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.elevator;
 
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -19,7 +19,6 @@ public class ManualElevatorRaiseLower extends Command {
         double power = OI.operator.getRawAxis(OI.Axis.LY);
         boolean shifter = OI.operator.getRawButton(OI.Buttons.R);
         double shiftVal = shifter ? .5 : 1;
-
 
         if(Math.abs(power) < .01) power = 0;
 //        Robot.elevator.printHalleffects();

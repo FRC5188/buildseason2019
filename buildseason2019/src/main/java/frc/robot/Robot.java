@@ -9,12 +9,9 @@ package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.Drive;
-import frc.robot.commands.PixyDrive;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
@@ -32,10 +29,32 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-    // 160x120 30fps 0/HW used 1.2 Mbps min, 1.7 Mbps during testing //
-    CameraServer.getInstance().startAutomaticCapture();
-    RobotMap.gyro.zeroYaw();// reset gyro on robot start
 
+      //i found this code on the screensteps. i takes a camera stream from usb
+      //and then changes the color scale and then sends it to the dashboard.
+      //this can be used to both create a image frame and help display where the pixy is
+      //looking and to rotate our driver camera since it is mounted at 90 degrees
+
+//      new Thread(() -> {
+//          UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+//          camera.setResolution(640, 480);
+//
+//          CvSink cvSink = CameraServer.getInstance().getVideo();
+//          CvSource outputStream = CameraServer.getInstance().putVideo("Blur", 640, 480);
+//
+//          Mat source = new Mat();
+//          Mat output = new Mat();
+//
+//          while(!Thread.interrupted()) {
+//              cvSink.grabFrame(source);
+//              Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
+//              outputStream.putFrame(output);
+//          }
+//      }).start();
+
+      // 160x120 30fps 0/HW used 1.2 Mbps min, 1.7 Mbps during testing //
+    CameraServer.getInstance().startAutomaticCapture();
+    RobotMap.gyro.reset();// reset gyro on robot start
     
     driveTrain = new DriveTrain();
     i2c = new I2C();
@@ -43,11 +62,10 @@ public class Robot extends TimedRobot {
     elevator = new Elevator ();
     intake = new Intake();
     oi = new OI();// oi needs to be created last
-    
-    //Adds buttons to start commands from the dashboard
-    SmartDashboard.putBoolean("L Bumper", false);
-    SmartDashboard.putBoolean("R Bumper", false);
+
+    //prevents CTRE timeout erros
     LiveWindow.disableAllTelemetry();
+
     this.log();
   }
 
@@ -78,39 +96,19 @@ public class Robot extends TimedRobot {
 
   }
 
-  /**
-   * This function is called periodically during operator control.
-   */
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    SmartDashboard.putBoolean("L Bumper", OI.drive.getRawButton(OI.Buttons.L));
-    SmartDashboard.putBoolean("R Bumper", OI.drive.getRawButton(OI.Buttons.R));
-    // if(OI.drive.getRawButton(OI.Buttons.L))
-    //   if(!pixyDrive.isRunning())
-    //   {
-    //     pixyDrive.start();
-    //   }
-    // else{
-    //   if(pixyDrive.isRunning()) pixyDrive.cancel();
-    // }
-  //  this.log();
+
+    this.log();
   }
 
 
-  /**
-   * This function is called periodically during test mode.
-   */
   @Override
   public void testInit() {
     
   }
 
- double throttle;
- double turn;
- double strafe;
- double shifter;
- boolean reset;
 
   @Override
   public void testPeriodic() {
@@ -118,8 +116,9 @@ public class Robot extends TimedRobot {
   }
 
   private void log() {
-      SmartDashboard.putNumber("Gyro Angle", RobotMap.gyro.getAngle());
+      SmartDashboard.putBoolean("L Bumper", OI.drive.getRawButton(OI.Buttons.L));
+      SmartDashboard.putBoolean("R Bumper", OI.drive.getRawButton(OI.Buttons.R));
       SmartDashboard.putData("Scheduler", Scheduler.getInstance());
-      //The scheduler will show running commands
+      //SmartDashboard.putNumber("Gyro Angle", RobotMap.gyro.getAngle());
   }
 }

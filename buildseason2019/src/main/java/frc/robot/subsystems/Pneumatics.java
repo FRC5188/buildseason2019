@@ -13,8 +13,8 @@ public class Pneumatics extends Subsystem{
 
     public Pneumatics(){
         compressor = RobotMap.compressor;
-        hSolenoid = new Solenoid(RobotMap.HSolenoid);
-        hatchSoleniod = new Solenoid(RobotMap.HatchSolenoid);
+        hSolenoid = new Solenoid(RobotMap.H_SOLENOID);
+        hatchSoleniod = new Solenoid(RobotMap.HATCH_SOLENOID);
         compressor.setClosedLoopControl(true);
         compressor.enabled();
         //^^tells compressor to use pressure switch to automatically
@@ -26,11 +26,15 @@ public class Pneumatics extends Subsystem{
      * retracted, false
      * @param val value passed to selenoids
      */
-    public void setHWheelSelenoids(boolean val) {
+    public void setHWheelSolenoids(boolean val) {
         hSolenoid.set(val);
     }
 
-    public void setHatchSoleniods(boolean val) {
+    /***
+     * sets hatch panel seleniods to fire hatch panel
+     * @param val true to fire, false to retract
+     */
+    public void setHatchSolenoids(boolean val) {
         hatchSoleniod.set(val);
     }
 
@@ -42,12 +46,15 @@ public class Pneumatics extends Subsystem{
      */
     public boolean getHWeelSelenoid() {
         return hSolenoid.get();
-        //^^left and right selenoids are the same
+        //^^left and right solenoids are the same
     }
 
 	@Override
 	protected void initDefaultCommand() {
-
+        //this command does have a default command since
+        //operating the pneumatics happens across multiple commands
+        //and having a default command would stop the other commands
+        //from running
 	}
 
 }

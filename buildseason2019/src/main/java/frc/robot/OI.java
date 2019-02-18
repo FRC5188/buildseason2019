@@ -11,8 +11,11 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
-import frc.robot.commands.PixyDrive;
+import frc.robot.commands.driveTrain.PixyDrive;
+import frc.robot.commands.pnueumatics.DropHWheel;
+import frc.robot.commands.pnueumatics.FireHatchPanel;
+import frc.robot.commands.pnueumatics.LiftHWheel;
+import frc.robot.commands.pnueumatics.RetractHatchPanel;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -63,18 +66,35 @@ public class OI {
 	//controllers
 	public static Joystick drive;
 	public static Joystick operator;
-	public static Button pid;
-		
-	public OI() {
+
+	//Buttons
+	public static Button pixyButton;
+	public static Button hatchPanelButton;
+	public static Button hWheelDownButton;
+    public static Button hWheelUpButton;
+
+    public OI() {
 		//create controllers
-		//access with OI.controllername
 		drive = new Joystick(Controller.DRIVE);
 		operator = new Joystick(Controller.OPERATOR);
-		pid = new JoystickButton(drive, OI.Buttons.L );
+
+		//create buttons
+		pixyButton = new JoystickButton(drive, OI.Buttons.L );
+		hatchPanelButton = new JoystickButton(operator, Buttons.A);
+		hWheelDownButton = new JoystickButton(drive, Buttons.A);
+        hWheelUpButton = new JoystickButton(drive, Buttons.B);
+
+		//create button mappings
+		hatchPanelButton.whenPressed(new FireHatchPanel());
+		hatchPanelButton.whenReleased(new RetractHatchPanel());
+
+		hWheelDownButton.whenPressed(new DropHWheel());
+		hWheelUpButton.whenPressed(new LiftHWheel());
+
 		pixyDrive = new PixyDrive();
 		//may need pixydrive.start
-		pid.whenPressed(pixyDrive);
-		pid.whenReleased(new Command(){
+		pixyButton.whenPressed(pixyDrive);
+		pixyButton.whenReleased(new Command(){
 
 			@Override
 			protected void initialize(){

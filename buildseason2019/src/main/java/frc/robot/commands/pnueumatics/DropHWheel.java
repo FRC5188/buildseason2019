@@ -1,24 +1,23 @@
-package frc.robot.commands;
+package frc.robot.commands.pnueumatics;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class RetractHatchPanel extends Command{
+public class DropHWheel extends Command{
 
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
+        //don't require pnuematics so other commands can use it
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-
-        Robot.intake.setHatchSelenoids(false);
-
+        Robot.pneumatics.setHWheelSolenoids(true);
     }
 
-    // Make this return tru\[]e when this Command no longer needs to run execute()
+    // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
         return true;

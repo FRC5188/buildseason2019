@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.driveTrain;
 
 import edu.wpi.first.wpilibj.command.PIDCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -14,16 +14,15 @@ import frc.robot.Robot;
 
 public class PixyDrive extends PIDCommand {
     //TODO increase responsiveness of PID
-    //TODO possible coms issue, check to see if it can be replicated
     //TODO handle losing arduino and pixy seperately
 
     private static double kp = 0.06, ki = 0, kd = 0.49;
 
-    double throttle;
-    double turn;
-    double strafe;
-    boolean shifter;
-    double setpoint = 0;
+    private double throttle;
+    private double turn;
+    private double strafe;
+    private boolean shifter;
+    private double setpoint = 0;
 
     public PixyDrive() {
         super("PixyDrive",kp, ki, kd, .02);
@@ -33,15 +32,14 @@ public class PixyDrive extends PIDCommand {
         this.getPIDController().setAbsoluteTolerance(.5);
 
         SmartDashboard.putData("Pixy Drive", this);
-		SmartDashboard.putBoolean("Pixy Running", false);
-
+        SmartDashboard.putBoolean("Pixy Running", false);
     }
 
 
     @Override
     protected void initialize() {
         // should allow the PIDTest command to take over
-        this.getPIDController().setSetpoint(0);
+        this.getPIDController().setSetpoint(this.setpoint);
         this.getPIDController().enable();
     }
 
@@ -51,18 +49,16 @@ public class PixyDrive extends PIDCommand {
         strafe = OI.drive.getRawAxis(OI.Axis.LX);
         turn = OI.drive.getRawAxis(OI.Axis.RX);
         shifter = OI.drive.getRawButton(OI.Buttons.R);
-		SmartDashboard.putBoolean("Pixy Running", true);
 
+		SmartDashboard.putBoolean("Pixy Running", true);
     }
 
-    // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
         return false;
-        // return !OI.drive.getRawButton(OI.Buttons.L);
+        // return !OI.driveTrain.getRawButton(OI.Buttons.L);
     }
 
-    // Called once after isFinished returns true
     @Override
     protected void end() {
 		SmartDashboard.putBoolean("Pixy Running", false);
