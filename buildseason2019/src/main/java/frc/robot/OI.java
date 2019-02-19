@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.commands.driveTrain.PixyDrive;
+import frc.robot.commands.elevator.PIDElevatorRaiseLower;
 import frc.robot.commands.pnueumatics.DropHWheel;
 import frc.robot.commands.pnueumatics.FireHatchPanel;
 import frc.robot.commands.pnueumatics.LiftHWheel;
@@ -32,6 +33,9 @@ public class OI {
 	}
 
 	Command pixyDrive;
+	Command elevatorPID;
+	//create a pid command for the elevator the same way that
+    //the pixyDrive is a pid command for the driveTrain;
 	
   //buttons of controller 
   //access with OI.Buttons.BUTTONNAME
@@ -72,6 +76,8 @@ public class OI {
 	public static Button hatchPanelButton;
 	public static Button hWheelDownButton;
     public static Button hWheelUpButton;
+    public static Button rocketLevel1Button;
+    //button to move to level one of rocket
 
     public OI() {
 		//create controllers
@@ -83,6 +89,8 @@ public class OI {
 		hatchPanelButton = new JoystickButton(operator, Buttons.A);
 		hWheelDownButton = new JoystickButton(drive, Buttons.A);
         hWheelUpButton = new JoystickButton(drive, Buttons.B);
+        rocketLevel1Button = new JoystickButton(operator, Buttons.B);
+        //map the b button to moving the elevator to rocket level 1
 
 		//create button mappings
 		hatchPanelButton.whenPressed(new FireHatchPanel());
@@ -92,7 +100,11 @@ public class OI {
 		hWheelUpButton.whenPressed(new LiftHWheel());
 
 		pixyDrive = new PixyDrive();
-		//may need pixydrive.start
+		//elevatorPID = new PIDElevatorRaiseLower();
+
+
+
+        //may need pixydrive.start
 		pixyButton.whenPressed(pixyDrive);
 		pixyButton.whenReleased(new Command(){
 
@@ -106,6 +118,7 @@ public class OI {
 			}
 
 		});
+
 
 
 		if(Robot.i2c.read().equals("")){

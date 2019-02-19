@@ -6,14 +6,25 @@ import frc.robot.RobotMap;
 
 public class I2C extends Subsystem {
 
+
+    /*
+        This subsystem's job is to read data from the arduino.
+        It parses the data and makes it available to commands like PixyDrive
+     */
+
+    //has to be defined this way because the class is also named I2C
 	private edu.wpi.first.wpilibj.I2C wire;
 	private static final int MAX_BYTES = 32;
 
     public I2C() {
 		this.wire = RobotMap.wire;
         SmartDashboard.putNumber("Pixy Data", 400);
+        //400 is just a random number. It's higher than any number we would ever see
+        //so if we see 400, then we know the pixy is not giving us any data a the moment
     }
 
+
+    //we don't actually write any date to the arduino, it's just here
 	/**
 	 * Writes data to the Arduino over the I2C bus
 	 * @param input String to be sent to Arduino
@@ -43,7 +54,10 @@ public class I2C extends Subsystem {
 
 	public double getPixyAngle(){
 		double angle;
-		//TODO fix arduino to return -1 if pixy doesn't find anything
+		//the arduino sends the angle to robot needs to turn to face the target.
+        //if the traget is not found by the pixy on the arduino than it sends an empty string, ""
+        //Since it is possible to have an empty string and not a number, than parseDouble may
+        // throw an exception, requiring it to be surrounded in a try catch
 		try{
 		 angle = Double.parseDouble(this.read());
 		}
@@ -57,7 +71,10 @@ public class I2C extends Subsystem {
 
 	@Override
 	protected void initDefaultCommand() {
-		//this.setDefaultCommand(new ReadArduino());
+	    //this subsystem doesn't actaully have a command that uses it.
+        //instead it is just "used" as needed
+        //this doesn't quite fit the flow of command based very well
+        //and it should probably be a static class or somthing like Robot or RobotMap
     }
 
 }

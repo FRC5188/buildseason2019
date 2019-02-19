@@ -18,26 +18,27 @@ public class PIDElevatorRaiseLower extends Command {
     //this command shouldn't set any setpoints. it should just handle when and how
     //the pidloop runs. setpoints should be set with specific commands so the can be mapped to buttons.
 
-    public PIDElevatorRaiseLower() {
+    private double setpoint;
 
+    public PIDElevatorRaiseLower(double setpoint) {
         requires(Robot.elevator);
+//        this.setpoint = setpoint;
     }
 
     public void initialize() {
-        //log elevator encoder
-        SmartDashboard.putNumber("Elevator Encoder", Robot.elevator.getElevatorEncoder());
-        //log the current setpoint
-        SmartDashboard.putNumber("Elevator Setpoint", Robot.elevator.getPIDController().getSetpoint());
-        //log pid enabled status
-        SmartDashboard.putBoolean("Elevator PID", Robot.elevator.getPIDController().isEnabled());
-        //set pid tolerance and max and min output and input
-        Robot.elevator.getPIDController().setAbsoluteTolerance(1.5);
-        //elevator can be off by 1.5 inches
-        Robot.elevator.getPIDController().setInputRange(0, 70);
-        //not sure what max height in inches is
-        Robot.elevator.getPIDController().setOutputRange(-1, 1);
-        //pretty sure it starts disabled, so this may be useless
-        Robot.elevator.getPIDController().disable();
+        //allow command to be interrupted so elevator can be operated manually
+//        this.setInterruptible(true);
+//        //set pid tolerance and max and min output and input
+//        Robot.elevator.getPIDController().setAbsoluteTolerance(1.5);
+//        //elevator can be off by 1.5 inches
+//        Robot.elevator.getPIDController().setInputRange(0, 70);
+//        //not sure what max height in inches is
+//        Robot.elevator.getPIDController().setOutputRange(-1, 1);
+//        //pretty sure it starts disabled, so this may be useless
+//
+//        Robot.elevator.setSetpoint(this.setpoint);
+//
+//        Robot.elevator.getPIDController().enable();
     }
 
 
@@ -50,32 +51,27 @@ public class PIDElevatorRaiseLower extends Command {
         //if a setpoint has been canceled than the elevator should remain in "manual" mode until a new button is pressed
     public void execute() {
         //get joystick value
-        double power = OI.operator.getRawAxis(OI.Axis.LY);
+        //double power = OI.operator.getRawAxis(OI.Axis.LY);
 
         //if joystick is above a deadband
-        if(power > .01){
-            //disable pid and do checks
-            //check if pid is running
-            if(Robot.elevator.getPIDController().isEnabled())
-                Robot.elevator.getPIDController().disable();
-
-            //operator elevator manually
-            Robot.elevator.move(power);
-        }
+//        if(power > .01){
+//            //disable pid and do checks
+//            //check if pid is running
+//            if(Robot.elevator.getPIDController().isEnabled())
+//                Robot.elevator.getPIDController().disable();
+//
+//            //operator elevator manually
+//            Robot.elevator.move(power);
+//        }
 //        if there is no joystick value
 //            should do nothing if a setpoint button isn't pressed
 //            if a setpoint button has been pressed then let pid run to that setpoint
-
-        //log elevator encoder
-        SmartDashboard.putNumber("Elevator Encoder", Robot.elevator.getElevatorEncoder());
-        //log the current setpoint
-        SmartDashboard.putNumber("Elevator Setpoint", Robot.elevator.getPIDController().getSetpoint());
-        //log pid enabled status
-        SmartDashboard.putBoolean("Elevator PID", Robot.elevator.getPIDController().isEnabled());
     }
 
     public void interrupted() {
         //this command shouldn't be interrupted
+//        Robot.elevator.getPIDController().disable();
+//        Robot.elevator.stop();
     }
 
     @Override

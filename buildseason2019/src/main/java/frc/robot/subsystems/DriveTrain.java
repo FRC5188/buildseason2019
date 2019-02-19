@@ -81,9 +81,6 @@ public class DriveTrain extends Subsystem {
 		}
 
 		driveRaw(lDrive, rDrive, strafe * .85);
-
-		//this.logSubsystem();
-        //don't know how often it needs called
 	}
 
 
@@ -107,6 +104,4 @@ public class DriveTrain extends Subsystem {
         SmartDashboard.putData("Right Motors", this.rightDrive1);
         SmartDashboard.putData("H Motor", this.strafe);
     }
-
-
 }

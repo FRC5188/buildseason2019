@@ -14,22 +14,19 @@ import frc.robot.Robot;
 
 public class Drive extends Command {
 	public Drive() {
-		// Use requires() here to declare subsystem dependencies
 		requires(Robot.driveTrain);
 		SmartDashboard.putBoolean("Drive Running", false);
 	}
 
-	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
 		setInterruptible(true);
-		// should allow the PIDTest command to take over
-		System.out.println("initializing");
+		//allows the pixyDrive command to interrupt and take over
 	}
 
-	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
+        //get all of the drivers joystick values
 		double throttle = OI.drive.getRawAxis(OI.Axis.LY);
 		double turn =  OI.drive.getRawAxis(OI.Axis.RX);
 		double strafe =  OI.drive.getRawAxis(OI.Axis.LX);
@@ -37,13 +34,15 @@ public class Drive extends Command {
 
 		//actual driveTrain method
 		Robot.driveTrain.driveArcade(throttle, turn, strafe, shifter);
+
+
 		SmartDashboard.putBoolean("Drive Running", true);
 	}
 
 	@Override
 	protected boolean isFinished() {
 		/*
-		 * driveTrain command should always run but, should be interruptable so other
+		 * driveTrain command should always run but, should be incorruptible so other
 		 * commands can control the drivetrain
 		 */
 		return false;
@@ -56,8 +55,6 @@ public class Drive extends Command {
 		// stops motors when command is finished
 	}
 
-	// Called when another command which requires one or more of the same
-	// subsystems is scheduled to run
 	@Override
 	protected void interrupted() {
 		this.end();

@@ -31,12 +31,14 @@ public class RobotMap {
     public static final int HATCH_SOLENOID = 1;
 
     //elevator halleffect
-    public static final int BOTTOM_HALLEFFECT = 0;
-    public static final int TOP_HALLEFFECT = 1;
+    public static final int BOTTOM_HALLEFFECT = 3;
+    public static final int TOP_HALLEFFECT = 9;
 
     //elevator encoder
-    public static final int ELEVATOR_ENCODER_A = 0;
-    public static final int ELEVATOR_ENCODER_B = 1;
+    public static final int ELEVATOR_ENCODER_A = 5;
+    public static final int ELEVATOR_ENCODER_B = 6;
+
+    public static final int INTAKE_WRIST_POT = 0;
 
     public static final AHRS gyro = new AHRS(I2C.Port.kMXP);
     public static final I2C wire = new I2C(I2C.Port.kMXP, 4); //uses the i2c port on the RoboRIO

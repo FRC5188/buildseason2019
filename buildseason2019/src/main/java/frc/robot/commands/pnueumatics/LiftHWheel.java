@@ -5,32 +5,30 @@ import frc.robot.Robot;
 
 public class LiftHWheel extends Command{
 
-    // Called just before this Command runs the first time
+    /*
+    * this command sets the h-wheel solenoids false to retract the h-wheel
+     */
+
     @Override
     protected void initialize() {
-        //don't require pnuematics so other commands can use it
+        //don't require pneumatics so other commands can use it
     }
 
-    // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
         Robot.pneumatics.setHWheelSolenoids(false);
     }
 
-    // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
         return true;
     }
 
-    // Called once after isFinished returns true
     @Override
     protected void end() {
 
     }
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
     @Override
     protected void interrupted() {
 

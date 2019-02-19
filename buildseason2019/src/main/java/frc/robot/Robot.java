@@ -12,11 +12,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Pneumatics;
-import frc.robot.subsystems.I2C;
+import frc.robot.subsystems.*;
 
 public class Robot extends TimedRobot {
 
@@ -25,6 +21,7 @@ public class Robot extends TimedRobot {
   public static Pneumatics pneumatics;
   public static Elevator elevator;
   public static Intake intake;
+  public static IntakeWrist intakeWrist;
   public static OI oi;
 
   @Override
@@ -61,6 +58,7 @@ public class Robot extends TimedRobot {
     pneumatics = new Pneumatics();
     elevator = new Elevator ();
     intake = new Intake();
+    intakeWrist = new IntakeWrist();
     oi = new OI();// oi needs to be created last
 
     //prevents CTRE timeout erros

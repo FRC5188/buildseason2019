@@ -9,14 +9,13 @@ import edu.wpi.first.wpilibj.Solenoid;
 public class Pneumatics extends Subsystem{
 
     private Compressor compressor;
-    private Solenoid hSolenoid, hatchSoleniod;
+    private Solenoid hSolenoid, hatchSolenoid;
 
     public Pneumatics(){
         compressor = RobotMap.compressor;
         hSolenoid = new Solenoid(RobotMap.H_SOLENOID);
-        hatchSoleniod = new Solenoid(RobotMap.HATCH_SOLENOID);
+        hatchSolenoid = new Solenoid(RobotMap.HATCH_SOLENOID);
         compressor.setClosedLoopControl(true);
-        compressor.enabled();
         //^^tells compressor to use pressure switch to automatically
         //regulate pressure
     }
@@ -35,7 +34,7 @@ public class Pneumatics extends Subsystem{
      * @param val true to fire, false to retract
      */
     public void setHatchSolenoids(boolean val) {
-        hatchSoleniod.set(val);
+        hatchSolenoid.set(val);
     }
 
 
