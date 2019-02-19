@@ -113,6 +113,7 @@ public class PixyDrive extends PIDCommand {
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
+        this.getPIDController().disable();
         this.end();
         //When the driver switches back to normal driving this command is canceled.
         //Canceling any command will run it's interrupted method if the command has
