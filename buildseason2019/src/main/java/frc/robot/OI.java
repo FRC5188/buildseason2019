@@ -121,18 +121,18 @@ public class OI {
 
 
 
-		if(Robot.i2c.read().equals("")){
-			new Command(){
-
-				@Override
-				protected void initialize(){
-					if(pixyDrive.isRunning()) pixyDrive.cancel();
-				}
-				@Override
-				protected boolean isFinished() {
-					return true;
-				}
-			};
-		}
+//		if(Robot.i2c.read().equals("")){
+//			new Command(){
+//
+//				@Override
+//				protected void initialize(){
+//					if(pixyDrive.isRunning()) pixyDrive.cancel();
+//				}
+//				@Override
+//				protected boolean isFinished() {
+//					return true;
+//				}
+//			};
+//		}
 	}
 }

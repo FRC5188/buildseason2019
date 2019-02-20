@@ -12,8 +12,8 @@ public class IntakeWrist extends Subsystem {
     private VictorSP intakeWrist;
     AnalogInput pot;
 
-    private int MAX_WRIST_POT = 2750;
-    private int MIN_WRIST_POT = 620;
+    private int MAX_WRIST_POT = 550;
+    private int MIN_WRIST_POT = 200;
 
     public IntakeWrist(){
         this.intakeWrist = new VictorSP(RobotMap.INTAKE_WRIST);
@@ -50,7 +50,7 @@ public class IntakeWrist extends Subsystem {
         if(!this.isValid(power))
             power = 0;
 
-        this.intakeWrist.set(power * shiftVal);
+        this.intakeWrist.set(power * shiftVal * .4);
     }
 
     /***
