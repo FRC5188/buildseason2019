@@ -34,7 +34,7 @@ public class Elevator extends PIDSubsystem {
     //3 trails of moving 6 inches each trail
 
     //needs tuned
-    private static double kp = .2, ki = 0, kd =0, kf = 0, period = 20;
+    private static double kp = .2, ki = 0, kd =0, kf = 0, period = .02;
 
 
     public Elevator() {

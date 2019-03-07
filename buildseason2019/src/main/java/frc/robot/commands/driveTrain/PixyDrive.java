@@ -53,6 +53,7 @@ public class PixyDrive extends PIDCommand {
         //pwm motor controls can only update at 5ms anyway, and the main teleop loop runs every 20ms
         super("PixyDrive",kp, ki, kd, .02);
         this.requires(Robot.driveTrain);
+        this.requires(Robot.i2c);
         this.setInterruptible(true);
         //it shouldn't make or break this PID loop to have an output range since the motors don't
         //allow for output past -1 or 1 anyway
@@ -103,6 +104,7 @@ public class PixyDrive extends PIDCommand {
         this.getPIDController().disable();
         SmartDashboard.putBoolean("Pixy Running", false);
         Robot.driveTrain.stop();
+        //might be worth deleting ^^^
         //disable PID before exiting
         //tell us on the dashboard that this command is no longer running
         //Stop the driveTrain to avoid motors becoming "stuck" with power
@@ -113,7 +115,6 @@ public class PixyDrive extends PIDCommand {
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
-        this.getPIDController().disable();
         this.end();
         //When the driver switches back to normal driving this command is canceled.
         //Canceling any command will run it's interrupted method if the command has
