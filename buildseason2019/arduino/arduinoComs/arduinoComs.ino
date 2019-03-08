@@ -31,13 +31,19 @@ void loop(){
   x2 += pixy.ccc.blocks[1].m_width;
   if(pixy.ccc.numBlocks==2){  //Confirm that the pixy has detected both pieces of tape
     center = (x1 + x2) / 2; //Calculate the center of both tapes, simple average
+    
+    
+    ox = 100*sx/2 - 100*center;//in hundredths of degrees
+    angle = ox/sx * 60;
   }
   else{
-    center = 158; //Incase we dont see enough tape to calculate good values, just set the output to the middle so nothing bad happens
+   // center = 158; //Incase we dont see enough tape to calculate good values, just set the output to the middle so nothing bad happens
+    angle = 40000;
+    //impractical error number
   }
   
-  ox = 100*sx/2 - 100*center;//in hundredths of degrees
-  angle = ox/sx * 60;
+  // ox = 100*sx/2 - 100*center;//in hundredths of degrees
+  // angle = ox/sx * 60;
   
 
   //(screen width / 2 - center) / screen width
@@ -52,8 +58,6 @@ void loop(){
 
 void requestEvent(){//called when RoboRIO request a message from this device
   Wire.write(output.c_str()); //writes data to the RoboRIO, converts it to string
-   digitalWrite (10, HIGH);
-   delay(10);
  Serial.println (output);
 }
 

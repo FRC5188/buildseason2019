@@ -39,12 +39,12 @@ public class PixyDrive extends PIDCommand {
      */
 
     //need some refining on the comp bot
-    private static double kp = 0.1, ki = 0, kd = 0.49;
+    private static double kp = 0.06, ki = 0, kd = 0.49;
     private double throttle;
     private double turn;//currently not using
     private double strafe;
     private boolean shifter;
-    private double setpoint = 04;
+    private double setpoint = 0;
 
     public PixyDrive() {
         //init PID loop

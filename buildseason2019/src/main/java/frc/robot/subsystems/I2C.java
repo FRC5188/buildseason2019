@@ -64,6 +64,17 @@ public class I2C extends Subsystem {
 		return angle;
 	}
 
+
+	public boolean isTape(){
+		boolean tape = true;
+		int angle = (int)this.getPixyAngle();
+		if(angle == 400){
+			tape = false;
+		}
+
+		SmartDashboard.putBoolean("Tape", tape);
+		return tape;
+	}
 	@Override
 	protected void initDefaultCommand() {
 	    //this subsystem doesn't actaully have a command that uses it.

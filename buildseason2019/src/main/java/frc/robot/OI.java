@@ -72,7 +72,7 @@ public class OI {
 	public static Joystick operator;
 
 	//Buttons
-	public static Button pixyButton;
+	public static PixyButton pixyButton;
 	public static Button hatchPanelButton;
 	public static Button hWheelDownButton;
     public static Button hWheelUpButton;
@@ -85,7 +85,7 @@ public class OI {
 		operator = new Joystick(Controller.OPERATOR);
 
 		//create buttons
-		pixyButton = new JoystickButton(drive, OI.Buttons.L );
+		pixyButton = new PixyButton(drive, OI.Buttons.L );
 		hatchPanelButton = new JoystickButton(operator, Buttons.A);
 		hWheelDownButton = new JoystickButton(drive, Buttons.A);
         hWheelUpButton = new JoystickButton(drive, Buttons.B);

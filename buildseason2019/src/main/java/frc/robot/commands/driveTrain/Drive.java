@@ -11,8 +11,12 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.Robot;
+import frc.robot.subsystems.I2C;
 
 public class Drive extends Command {
+
+	I2C wire = Robot.i2c;
+
 	public Drive() {
 		requires(Robot.driveTrain);
 		SmartDashboard.putBoolean("Drive Running", false);
@@ -35,7 +39,7 @@ public class Drive extends Command {
 		//actual driveTrain method
 		Robot.driveTrain.driveArcade(throttle, turn, strafe, shifter);
 
-
+		wire.isTape();
 		SmartDashboard.putBoolean("Drive Running", true);
 	}
 
