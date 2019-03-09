@@ -5,11 +5,13 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.OI;
 import frc.robot.RobotMap;
 import frc.robot.commands.elevator.ManualElevatorRaiseLower;
-import frc.robot.commands.elevator.PIDElevatorRaiseLower;
 
 public class Elevator extends PIDSubsystem {
+
+//19, 49, 75
 
     /*
         The Elevator is comprised of:
@@ -39,15 +41,23 @@ public class Elevator extends PIDSubsystem {
 
     public Elevator() {
         super(kp, ki, kd, kf, period);
+        //pass p i d vals 
+        //should use kf val of some sort
 
+        //init motors
         leftMotor = new VictorSP(RobotMap.ELEVATOR_LEFT);
         rightMotor = new VictorSP(RobotMap.ELEVATOR_RIGHT);
 
+        //init hall effects
         bottomHalleffect =  new DigitalInput(RobotMap.BOTTOM_HALLEFFECT);
         topHalleffect =  new DigitalInput(RobotMap.TOP_HALLEFFECT);
 
+        //init encoders
         elevatorEncoder = new Encoder(RobotMap.ELEVATOR_ENCODER_A, RobotMap.ELEVATOR_ENCODER_B);
-        elevatorEncoder.setDistancePerPulse(TICKS_PER_INCH);
+        elevatorEncoder.setDistancePerPulse(1/TICKS_PER_INCH);
+
+        //set room for error for ontarget
+        this.getPIDController().setAbsoluteTolerance(1);
     }
 
     /***
@@ -57,6 +67,8 @@ public class Elevator extends PIDSubsystem {
     public void move(double speed) {
         //create small deadband
         if(Math.abs(speed) < .01) speed= 0;
+
+        this.encoderResetOnBottom();
 
         //if move is not valid than set the motors to 0
         if(!this.validMove(speed)) speed = 0;
@@ -125,6 +137,19 @@ public class Elevator extends PIDSubsystem {
         return elevatorEncoder.getDistance();
     }
 
+    public int getEncoderTicks(){
+        return this.elevatorEncoder.get();
+    }
+
+    public boolean operatorRequested(){
+        boolean controlRequested = false;
+
+        if(Math.abs(OI.operator.getRawAxis(OI.Axis.LY)) > .01){
+            controlRequested = true;
+        }
+
+        return controlRequested;
+    }
 
     /***
      * resets the elevator encoder to zero if the elevator has
@@ -132,13 +157,18 @@ public class Elevator extends PIDSubsystem {
      */
     private void encoderResetOnBottom(){
         //this method is currently not used but will be later
-        if(this.bottomHalleffect.get())
+        if(this.getBottomHalleffect())
             this.elevatorEncoder.reset();
 }
 
     public void printEncoder(){
         //used for debugging
-        System.out.println("Encoder: " + this.elevatorEncoder.get());
+        System.out.println("Encoder: " + this.getElevatorEncoderDistance());
+    }
+
+    public void printEncoderTicks(){
+        System.out.println("Encoder Ticks: " + this.getEncoderTicks());
+
     }
 
     public void printHalleffects() {
@@ -168,8 +198,8 @@ public class Elevator extends PIDSubsystem {
 
     @Override
     protected double returnPIDInput() {
-        return 0;
-        //return this.getElevatorEncoderDistance();
+        //return 0;
+        return this.getElevatorEncoderDistance();
 
         //we aren't using PID right now so...
     }
@@ -181,6 +211,14 @@ public class Elevator extends PIDSubsystem {
         //using PID right now so...
     }
 
+    public void setSetpoint(double val){
+        this.getPIDController().setSetpoint(val);
+    } 
+
+    public boolean onTarget(){
+        return this.getPIDController().onTarget();
+    }
+
     private void log(){
         SmartDashboard.putNumber("Elevator Encoder", this.getElevatorEncoderDistance());
         SmartDashboard.putData("Elevator", this);
@@ -188,6 +226,7 @@ public class Elevator extends PIDSubsystem {
         SmartDashboard.putData("Right Elevator", this.rightMotor);
         SmartDashboard.putData("Elevator PID", this.getPIDController());
         SmartDashboard.putBoolean("Elevator PID", this.getPIDController().isEnabled());
-        // this.printEncoder();
+        //this.printEncoder();
+        //this.printHalleffects();
     }
 }

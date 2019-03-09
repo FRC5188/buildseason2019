@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
 
-public class ElevatorToHatchLevel1 extends Command {
+public class ElevatorToHatchLevel2 extends Command {
     //the idea of this command is to interface between the elevator's
     //pid loop and the operator controller.
     //when a button is pressed it should call this command to change the setpoint
@@ -13,13 +13,13 @@ public class ElevatorToHatchLevel1 extends Command {
 
     //level = 25
 
-    public ElevatorToHatchLevel1() {
+    public ElevatorToHatchLevel2() {
         requires(Robot.elevator);
     }
 
     public void initialize() {
         //set pid setpoint
-        Robot.elevator.setSetpoint(19);
+        Robot.elevator.setSetpoint(45);
         Robot.elevator.enable();
 
         this.setInterruptible(true);

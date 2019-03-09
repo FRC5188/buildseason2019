@@ -58,7 +58,7 @@ public class PixyDrive extends PIDCommand {
         //it shouldn't make or break this PID loop to have an output range since the motors don't
         //allow for output past -1 or 1 anyway
         this.getPIDController().setOutputRange(-1, 1);
-        this.getPIDController().setAbsoluteTolerance(.5);
+        this.getPIDController().setAbsoluteTolerance(1);
 
         SmartDashboard.putData("Pixy Drive", this);
         //puts the PID controller on the dashboard, should be able to tune PID from dashboard
@@ -96,7 +96,7 @@ public class PixyDrive extends PIDCommand {
         //it's sole job is to stay running to keep the robot looking at the tape.
         //the command is instead canceled when it is "finished", I.E. the driver
         //stops using the PixyDrive command and switches back to normal Drive.
-        return false;
+        return this.getPIDController().onTarget();
     }
 
     @Override

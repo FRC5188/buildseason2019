@@ -50,7 +50,6 @@ public class Robot extends TimedRobot {
 //      }).start();
 
       // 160x120 30fps 0/HW used 1.2 Mbps min, 1.7 Mbps during testing //
-    CameraServer.getInstance().startAutomaticCapture();
     RobotMap.gyro.reset();// reset gyro on robot start
     
     driveTrain = new DriveTrain();
