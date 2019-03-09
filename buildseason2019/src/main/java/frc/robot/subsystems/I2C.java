@@ -59,7 +59,7 @@ public class I2C extends Subsystem {
         //Since it is possible to have an empty string and not a number, than parseDouble may
         // throw an exception, requiring it to be surrounded in a try catch
 		 angle = Double.parseDouble(this.read());
-		System.out.println("Pixy Angle: " + angle);
+		// System.out.println("Pixy Angle: " + angle);
         SmartDashboard.putNumber("Pixy Data", angle);
 		return angle;
 	}

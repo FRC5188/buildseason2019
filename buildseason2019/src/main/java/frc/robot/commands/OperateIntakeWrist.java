@@ -41,6 +41,6 @@ public class OperateIntakeWrist extends Command {
     public void log(){
         //data to log
         SmartDashboard.putNumber("POT Value", Robot.intakeWrist.getPotValue());
-        Robot.intakeWrist.printPotValue();
+        //Robot.intakeWrist.printPotValue();
     }
 }

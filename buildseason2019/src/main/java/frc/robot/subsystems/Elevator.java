@@ -188,6 +188,6 @@ public class Elevator extends PIDSubsystem {
         SmartDashboard.putData("Right Elevator", this.rightMotor);
         SmartDashboard.putData("Elevator PID", this.getPIDController());
         SmartDashboard.putBoolean("Elevator PID", this.getPIDController().isEnabled());
-        this.printEncoder();
+        // this.printEncoder();
     }
 }
