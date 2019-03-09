@@ -10,31 +10,39 @@ package frc.robot;
 
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.SerialPort;
-
 import edu.wpi.first.wpilibj.Compressor;
 
-
-//basic motor mappings for h-drrive
 public class RobotMap {
-  
-  //Everything on the CAN bus has an ID
-  //The default ID for only one item on the can bus is 0
-  public static final int COMPRESSOR_CAN_ID = 0;
 
-  public static Compressor compressor = new Compressor(COMPRESSOR_CAN_ID);
-  
-  public static final int frontLeft = 0;
-  public static final int frontRight = 2;
-  public static final int backLeft = 1;
-  public static final int backRight = 3;
-  public static final int hWheel = 4;
+    //motor mappings
+    //all but INTAKE_WRIST and INTAKE_MOTOR are cims
+    public static final int FRONT_LEFT = 0;
+    public static final int FRONT_RIGHT = 2;
+    public static final int BACK_LEFT = 1;
+    public static final int BACK_RIGHT = 3;
+    public static final int H_WHEEL = 4;
+    public static final int ELEVATOR_LEFT = 5;
+    public static final int ELEVATOR_RIGHT = 6;
+    public static final int INTAKE_WRIST = 7;
+    public static final int INTAKE_MOTOR = 8;
 
-  //Selenoids to raise and lower H-Wheel
+    //Solenoids to raise and lower H-Wheel
+    public static final int H_SOLENOID = 0;
+    public static final int HATCH_SOLENOID = 1;
 
-  public static final int HSolenoid = 0;
+    //elevator halleffect
+    public static final int BOTTOM_HALLEFFECT = 3;
+    public static final int TOP_HALLEFFECT = 9;
 
-  public static AHRS gyro = new AHRS(I2C.Port.kMXP);
-  //the rioduino might need to use the serial port on the
-  //mxp port. if so then use i2c
+    //elevator encoder
+    public static final int ELEVATOR_ENCODER_A = 5;
+    public static final int ELEVATOR_ENCODER_B = 6;
+
+    public static final int INTAKE_WRIST_POT = 0;
+
+    public static final AHRS gyro = new AHRS(I2C.Port.kMXP);
+    public static final I2C wire = new I2C(I2C.Port.kMXP, 4); //uses the i2c port on the RoboRIO
+
+    public static final int COMPRESSOR_CAN_ID = 0;
+    public static final Compressor compressor = new Compressor(COMPRESSOR_CAN_ID);
 }

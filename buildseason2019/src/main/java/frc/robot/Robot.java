@@ -10,33 +10,61 @@ package frc.robot;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.GyroDrive;
-import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Pneumatics;
+import frc.robot.subsystems.*;
 
 public class Robot extends TimedRobot {
 
   public static DriveTrain driveTrain;
+  public static I2C i2c;
   public static Pneumatics pneumatics;
+  public static Elevator elevator;
+  public static Intake intake;
+  public static IntakeWrist intakeWrist;
   public static OI oi;
-
-
-  public final String PIDTESTCOMMAND = "PID Test Command";
-  public final String DRIVECOMMAND = "Drive Command";
-  public final String DRIVETRAIN = "Drive Train";
-  public final String GYROANGLE = "Gyro Angle";
-  public final String RESETCOMMAND = "Reset Command";
 
   @Override
   public void robotInit() {
-    // 160x120 30fps 0/HW used 1.2 Mbps min, 1.7 Mbps during testing //
-    CameraServer.getInstance().startAutomaticCapture();
-    RobotMap.gyro.zeroYaw();// reset gyro on robot start
 
+      //i found this code on the screensteps. i takes a camera stream from usb
+      //and then changes the color scale and then sends it to the dashboard.
+      //this can be used to both create a image frame and help display where the pixy is
+      //looking and to rotate our driver camera since it is mounted at 90 degrees
+
+//      new Thread(() -> {
+//          UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+//          camera.setResolution(640, 480);
+//
+//          CvSink cvSink = CameraServer.getInstance().getVideo();
+//          CvSource outputStream = CameraServer.getInstance().putVideo("Blur", 640, 480);
+//
+//          Mat source = new Mat();
+//          Mat output = new Mat();
+//
+//          while(!Thread.interrupted()) {
+//              cvSink.grabFrame(source);
+//              Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
+//              outputStream.putFrame(output);
+//          }
+//      }).start();
+
+      // 160x120 30fps 0/HW used 1.2 Mbps min, 1.7 Mbps during testing //
+    CameraServer.getInstance().startAutomaticCapture();
+    RobotMap.gyro.reset();// reset gyro on robot start
+    
     driveTrain = new DriveTrain();
+    i2c = new I2C();
     pneumatics = new Pneumatics();
+    elevator = new Elevator ();
+    intake = new Intake();
+    intakeWrist = new IntakeWrist();
     oi = new OI();// oi needs to be created last
+
+    //prevents CTRE timeout erros
+    LiveWindow.disableAllTelemetry();
+
+    this.log();
   }
 
   @Override
@@ -62,11 +90,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    //  this.log();
+
   }
 
-  /**
-   * This function is called periodically during operator control.
-   */
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
@@ -75,57 +102,21 @@ public class Robot extends TimedRobot {
   }
 
 
-  /**
-   * This function is called periodically during test mode.
-   */
   @Override
   public void testInit() {
     
   }
- double angle;
 
-
- double throttle;
- double turn;
- double strafe;
- double shifter;
- boolean reset;
 
   @Override
   public void testPeriodic() {
-    //angle = RobotMap.gyro.getAngle();
-    //gyroAngle.setDouble(angle);
-    
-		throttle = OI.drive.getRawAxis(OI.Axis.LY);
-		turn = OI.drive.getRawAxis(OI.Axis.RX);
-		strafe = OI.drive.getRawAxis(OI.Axis.LX);
-    shifter = OI.drive.getRawButton(OI.Buttons.R) ? .5 : 1;
-    reset = OI.drive.getRawButton(OI.Buttons.A);
 
-    if (reset){
-      RobotMap.gyro.zeroYaw();
-    }
-
-		double lDrive;
-		double rDrive;
-
-		if (Math.abs(throttle) < 0.05) {
-			// quick turn if no throttle
-			lDrive = -turn * shifter * 0.60;
-			rDrive = turn * shifter * 0.60;
-			// else: drive in arcade
-		} else {
-			lDrive = shifter * throttle * (1 + Math.min(0, turn));
-			rDrive = shifter * throttle * (1 - Math.max(0, turn));
-		}
-  
-    //Robot.driveTrain.driveArcade(throttle,turn, strafe, true);
-    
-    this.log();
   }
 
   private void log() {
-    SmartDashboard.putNumber(this.GYROANGLE, RobotMap.gyro.getAngle());
+      SmartDashboard.putBoolean("L Bumper", OI.drive.getRawButton(OI.Buttons.L));
+      SmartDashboard.putBoolean("R Bumper", OI.drive.getRawButton(OI.Buttons.R));
+      SmartDashboard.putData("Scheduler", Scheduler.getInstance());
+      //SmartDashboard.putNumber("Gyro Angle", RobotMap.gyro.getAngle());
   }
-
 }

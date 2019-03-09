@@ -5,61 +5,62 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.driveTrain;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.Robot;
+import frc.robot.subsystems.I2C;
 
 public class Drive extends Command {
-	public Drive() {
-		// Use requires() here to declare subsystem dependencies
-		requires(Robot.driveTrain);
 
+	I2C wire = Robot.i2c;
+
+	public Drive() {
+		requires(Robot.driveTrain);
+		SmartDashboard.putBoolean("Drive Running", false);
 	}
 
-	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
 		setInterruptible(true);
-		// should allow the PIDTest command to take over
-		System.out.println("initializing");
+		//allows the pixyDrive command to interrupt and take over
 	}
 
-	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
+        //get all of the drivers joystick values
 		double throttle = OI.drive.getRawAxis(OI.Axis.LY);
 		double turn =  OI.drive.getRawAxis(OI.Axis.RX);
 		double strafe =  OI.drive.getRawAxis(OI.Axis.LX);
 		boolean shifter = OI.drive.getRawButton(OI.Buttons.R);
 
-		//actual drive method
+		//actual driveTrain method
 		Robot.driveTrain.driveArcade(throttle, turn, strafe, shifter);
+
+		wire.isTape();
+		SmartDashboard.putBoolean("Drive Running", true);
 	}
 
-	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
 		/*
-		 * drive command should always run but, should be interruptable so other
+		 * driveTrain command should always run but, should be incorruptible so other
 		 * commands can control the drivetrain
 		 */
 		return false;
 	}
 
-	// Called once after isFinished returns true
 	@Override
 	protected void end() {
+		SmartDashboard.putBoolean("Drive Running", false);
 		Robot.driveTrain.stop();
-		// stops motors when command is finsihed
+		// stops motors when command is finished
 	}
 
-	// Called when another command which requires one or more of the same
-	// subsystems is scheduled to run
 	@Override
 	protected void interrupted() {
-		// the docs say most times its acceptable to just call end()
 		this.end();
 		// ends command when interrupted
 	}
