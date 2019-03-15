@@ -58,7 +58,11 @@ public class I2C extends Subsystem {
         //if the traget is not found by the pixy on the arduino than it sends an empty string, ""
         //Since it is possible to have an empty string and not a number, than parseDouble may
         // throw an exception, requiring it to be surrounded in a try catch
-		 angle = Double.parseDouble(this.read());
+		try{
+			angle = Double.parseDouble(this.read());
+		} catch(NumberFormatException e) {
+			angle = 400;
+		}
 		// System.out.println("Pixy Angle: " + angle);
         SmartDashboard.putNumber("Pixy Data", angle);
 		return angle;

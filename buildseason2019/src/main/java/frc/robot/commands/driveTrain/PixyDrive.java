@@ -96,7 +96,8 @@ public class PixyDrive extends PIDCommand {
         //it's sole job is to stay running to keep the robot looking at the tape.
         //the command is instead canceled when it is "finished", I.E. the driver
         //stops using the PixyDrive command and switches back to normal Drive.
-        return this.getPIDController().onTarget();
+        //return this.getPIDController().onTarget();
+        return false;
     }
 
     @Override
@@ -140,6 +141,11 @@ public class PixyDrive extends PIDCommand {
           and the tape on the field.
         */
 
-        Robot.driveTrain.driveArcade(throttle, output, strafe, shifter);
+        if(this.getPIDController().onTarget()){
+            Robot.driveTrain.driveArcade(throttle, 0, strafe, shifter);
+        }
+        else{
+           Robot.driveTrain.driveArcade(throttle, output, strafe, shifter);
+        }
     }
 }
