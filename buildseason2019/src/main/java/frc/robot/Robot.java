@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -23,6 +24,7 @@ public class Robot extends TimedRobot {
   public static Intake intake;
   public static IntakeWrist intakeWrist;
   public static OI oi;
+  public CameraServer server;
 
   @Override
   public void robotInit() {
@@ -31,6 +33,8 @@ public class Robot extends TimedRobot {
       //and then changes the color scale and then sends it to the dashboard.
       //this can be used to both create a image frame and help display where the pixy is
       //looking and to rotate our driver camera since it is mounted at 90 degrees
+
+      CameraServer.getInstance().startAutomaticCapture();
 
 //      new Thread(() -> {
 //          UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
@@ -51,6 +55,7 @@ public class Robot extends TimedRobot {
 
       // 160x120 30fps 0/HW used 1.2 Mbps min, 1.7 Mbps during testing //
     RobotMap.gyro.reset();// reset gyro on robot start
+    
     
     driveTrain = new DriveTrain();
     i2c = new I2C();

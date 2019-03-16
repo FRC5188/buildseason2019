@@ -9,12 +9,14 @@ import edu.wpi.first.wpilibj.Solenoid;
 public class Pneumatics extends Subsystem{
 
     private Compressor compressor;
-    private Solenoid hSolenoid, hatchSolenoid;
+    private Solenoid hSolenoid, hatchSolenoid, slideSolenoid;
 
     public Pneumatics(){
         compressor = RobotMap.compressor;
         hSolenoid = new Solenoid(RobotMap.H_SOLENOID);
         hatchSolenoid = new Solenoid(RobotMap.HATCH_SOLENOID);
+        slideSolenoid = new Solenoid(RobotMap.SLIDE_SOLENOID);
+
         compressor.setClosedLoopControl(true);
         //^^tells compressor to use pressure switch to automatically
         //regulate pressure
@@ -27,6 +29,10 @@ public class Pneumatics extends Subsystem{
      */
     public void setHWheelSolenoids(boolean val) {
         hSolenoid.set(val);
+    }
+
+    public void setSlideSolenoid(boolean val){
+        slideSolenoid.set(val);
     }
 
     /***

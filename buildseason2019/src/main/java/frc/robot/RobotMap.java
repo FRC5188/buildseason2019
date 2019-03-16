@@ -29,6 +29,8 @@ public class RobotMap {
     //Solenoids to raise and lower H-Wheel
     public static final int H_SOLENOID = 0;
     public static final int HATCH_SOLENOID = 1;
+    public static final int SLIDE_SOLENOID = 2;
+
 
     //elevator halleffect
     public static final int BOTTOM_HALLEFFECT = 3;

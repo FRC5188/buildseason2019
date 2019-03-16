@@ -16,8 +16,10 @@ import frc.robot.commands.elevator.PIDSetpoints.ElevatorToHatchLevel1;
 import frc.robot.commands.elevator.PIDSetpoints.ElevatorToHatchLevel2;
 import frc.robot.commands.elevator.PIDSetpoints.ElevatorToHatchLevel3;
 import frc.robot.commands.pnueumatics.DropHWheel;
+import frc.robot.commands.pnueumatics.ExtendHatch;
 import frc.robot.commands.pnueumatics.FireHatchPanel;
 import frc.robot.commands.pnueumatics.LiftHWheel;
+import frc.robot.commands.pnueumatics.RetractHatch;
 import frc.robot.commands.pnueumatics.RetractHatchPanel;
 
 /**
@@ -83,6 +85,10 @@ public class OI {
 	public static Button rocketLevel3Button;
 	public static FreeElevator freeElevator;
 	
+
+	public static Button extendHatch;
+	public static Button retractHatch;
+
     //button to move to level one of rocket
 
     public OI() {
@@ -95,9 +101,13 @@ public class OI {
 		hatchPanelButton = new JoystickButton(operator, Buttons.A);
 		hWheelDownButton = new JoystickButton(drive, Buttons.A);
         hWheelUpButton = new JoystickButton(drive, Buttons.B);
-		rocketLevel1Button = new JoystickButton(operator, Buttons.X);
-        rocketLevel2Button = new JoystickButton(operator, Buttons.Y);
-        rocketLevel3Button = new JoystickButton(operator, Buttons.B);
+		//rocketLevel1Button = new JoystickButton(operator, Buttons.X);
+        //rocketLevel2Button = new JoystickButton(operator, Buttons.Y);
+		//rocketLevel3Button = new JoystickButton(operator, Buttons.B);
+		
+        extendHatch = new JoystickButton(operator, Buttons.X);
+        retractHatch = new JoystickButton(operator, Buttons.B);
+
 		
 		freeElevator = new FreeElevator(operator, Buttons.L);
 
@@ -110,9 +120,13 @@ public class OI {
 		hWheelDownButton.whenPressed(new DropHWheel());
 		hWheelUpButton.whenPressed(new LiftHWheel());
 
-		rocketLevel1Button.whenPressed(new ElevatorToHatchLevel1());
-		rocketLevel2Button.whenPressed(new ElevatorToHatchLevel2());
-		rocketLevel3Button.whenPressed(new ElevatorToHatchLevel3());
+		retractHatch.whenPressed(new RetractHatch());
+		extendHatch.whenPressed(new ExtendHatch());
+
+
+		//rocketLevel1Button.whenPressed(new ElevatorToHatchLevel1());
+		//rocketLevel2Button.whenPressed(new ElevatorToHatchLevel2());
+		//rocketLevel3Button.whenPressed(new ElevatorToHatchLevel3());
 
 		pixyDrive = new PixyDrive();
 		//elevatorPID = new PIDElevatorRaiseLower();
