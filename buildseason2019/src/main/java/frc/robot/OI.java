@@ -77,66 +77,56 @@ public class OI {
 
 	//Buttons
 	public static PixyButton pixyButton;
+
 	public static Button hatchPanelButton;
 	public static Button hWheelDownButton;
     public static Button hWheelUpButton;
-	public static Button rocketLevel1Button;
-    public static Button rocketLevel2Button;
-	public static Button rocketLevel3Button;
-	public static FreeElevator freeElevator;
-	
+    public static Button extendHatch;
+    public static Button retractHatch;
 
-	public static Button extendHatch;
-	public static Button retractHatch;
-
-    //button to move to level one of rocket
+	public static DPadButton rocketLevel1Button;
+    public static DPadButton rocketLevel2Button;
+	public static DPadButton rocketLevel3Button;
+    public static DPadButton loadingStationButton;
 
     public OI() {
 		//create controllers
 		drive = new Joystick(Controller.DRIVE);
 		operator = new Joystick(Controller.OPERATOR);
 
-		//create buttons
+		/*create buttons*/
 		pixyButton = new PixyButton(drive, OI.Buttons.L );
 		hatchPanelButton = new JoystickButton(operator, Buttons.A);
 		hWheelDownButton = new JoystickButton(drive, Buttons.A);
         hWheelUpButton = new JoystickButton(drive, Buttons.B);
-		//rocketLevel1Button = new JoystickButton(operator, Buttons.X);
-        //rocketLevel2Button = new JoystickButton(operator, Buttons.Y);
-		//rocketLevel3Button = new JoystickButton(operator, Buttons.B);
-		
+
+        rocketLevel1Button = new DPadButton(operator, DPadButton.LEFT);
+        rocketLevel2Button = new DPadButton(operator, DPadButton.UP);
+		rocketLevel3Button = new DPadButton(operator, DPadButton.RIGHT);
+        loadingStationButton = new DPadButton(operator, DPadButton.RIGHT);
+
         extendHatch = new JoystickButton(operator, Buttons.X);
         retractHatch = new JoystickButton(operator, Buttons.B);
 
-		
-		freeElevator = new FreeElevator(operator, Buttons.L);
+        /*pixy drive command to be reused*/
+        pixyDrive = new PixyDrive();
 
-        //map the b button to moving the elevator to rocket level 1
-
-		//create button mappings
+		/*create button mappings*/
 		hatchPanelButton.whenPressed(new FireHatchPanel());
 		hatchPanelButton.whenReleased(new RetractHatchPanel());
+        retractHatch.whenPressed(new RetractHatch());
+        extendHatch.whenPressed(new ExtendHatch());
 
 		hWheelDownButton.whenPressed(new DropHWheel());
 		hWheelUpButton.whenPressed(new LiftHWheel());
 
-		retractHatch.whenPressed(new RetractHatch());
-		extendHatch.whenPressed(new ExtendHatch());
+		rocketLevel1Button.whenPressed(new ElevatorToHatchLevel1());
+		rocketLevel2Button.whenPressed(new ElevatorToHatchLevel2());
+		rocketLevel3Button.whenPressed(new ElevatorToHatchLevel3());
+        loadingStationButton.whenPressed(new ElevatorToHatchLevel3());
 
-
-		//rocketLevel1Button.whenPressed(new ElevatorToHatchLevel1());
-		//rocketLevel2Button.whenPressed(new ElevatorToHatchLevel2());
-		//rocketLevel3Button.whenPressed(new ElevatorToHatchLevel3());
-
-		pixyDrive = new PixyDrive();
-		//elevatorPID = new PIDElevatorRaiseLower();
-
-
-
-        //may need pixydrive.start
 		pixyButton.whenPressed(pixyDrive);
 		pixyButton.whenReleased(new Command(){
-
 			@Override
 			protected void initialize(){
 				if(pixyDrive.isRunning()) pixyDrive.cancel();
@@ -145,8 +135,6 @@ public class OI {
 			protected boolean isFinished() {
 				return true;
 			}
-
 		});
-
 	}
 }
