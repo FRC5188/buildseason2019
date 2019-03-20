@@ -100,10 +100,10 @@ public class OI {
 		hWheelDownButton = new JoystickButton(drive, Buttons.A);
         hWheelUpButton = new JoystickButton(drive, Buttons.B);
 
-        rocketLevel1Button = new DPadButton(operator, DPadButton.LEFT);
-        rocketLevel2Button = new DPadButton(operator, DPadButton.UP);
-		rocketLevel3Button = new DPadButton(operator, DPadButton.RIGHT);
-        loadingStationButton = new DPadButton(operator, DPadButton.RIGHT);
+        rocketLevel1Button = new DPadButton(operator, DPadButton.Direction.LEFT);
+        rocketLevel2Button = new DPadButton(operator, DPadButton.Direction.UP);
+		rocketLevel3Button = new DPadButton(operator, DPadButton.Direction.RIGHT);
+        loadingStationButton = new DPadButton(operator, DPadButton.Direction.RIGHT);
 
         extendHatch = new JoystickButton(operator, Buttons.X);
         retractHatch = new JoystickButton(operator, Buttons.B);

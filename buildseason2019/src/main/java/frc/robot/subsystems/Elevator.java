@@ -206,7 +206,7 @@ public class Elevator extends PIDSubsystem {
 
     @Override
     protected void usePIDOutput(double output) {
-        this.move(output);
+        this.move(-output);
         //this probably isn't right but we aren't
         //using PID right now so...
     }
@@ -225,6 +225,7 @@ public class Elevator extends PIDSubsystem {
         SmartDashboard.putData("Left Elevator", this.leftMotor);
         SmartDashboard.putData("Right Elevator", this.rightMotor);
         SmartDashboard.putData("Elevator PID", this.getPIDController());
+        SmartDashboard.putData("Elevator Encoder", this.elevatorEncoder);
         SmartDashboard.putBoolean("Elevator PID", this.getPIDController().isEnabled());
         //this.printEncoder();
         //this.printHalleffects();

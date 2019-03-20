@@ -25,6 +25,7 @@ public class Robot extends TimedRobot {
   public static IntakeWrist intakeWrist;
   public static OI oi;
   public CameraServer server;
+  public UsbCamera camera;
 
   @Override
   public void robotInit() {
@@ -34,7 +35,7 @@ public class Robot extends TimedRobot {
       //this can be used to both create a image frame and help display where the pixy is
       //looking and to rotate our driver camera since it is mounted at 90 degrees
 
-      CameraServer.getInstance().startAutomaticCapture();
+      //CameraServer.getInstance().startAutomaticCapture();
 
 //      new Thread(() -> {
 //          UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
@@ -56,7 +57,15 @@ public class Robot extends TimedRobot {
       // 160x120 30fps 0/HW used 1.2 Mbps min, 1.7 Mbps during testing //
     RobotMap.gyro.reset();// reset gyro on robot start
     
-    
+    // camera = new UsbCamera("camera", 0);
+
+    camera = CameraServer.getInstance().startAutomaticCapture(0);
+    camera.setBrightness(50);
+    camera.setFPS(60);
+    camera.setResolution(160, 120);
+    // CameraServer.getInstance().startAutomaticCapture(camera);
+
+
     driveTrain = new DriveTrain();
     i2c = new I2C();
     pneumatics = new Pneumatics();

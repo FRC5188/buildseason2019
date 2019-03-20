@@ -102,6 +102,9 @@ public class DriveTrain extends Subsystem {
 	private void logSubsystem(){
         SmartDashboard.putData("Left Motors", this.leftDrive1);
         SmartDashboard.putData("Right Motors", this.rightDrive1);
-        SmartDashboard.putData("H Motor", this.strafe);
-    }
+		SmartDashboard.putData("H Motor", this.strafe);
+		SmartDashboard.putNumber("Gyro Val", RobotMap.gyro.getAngle());
+		SmartDashboard.putData("Gyro", RobotMap.gyro);
+		
+	}
 }
