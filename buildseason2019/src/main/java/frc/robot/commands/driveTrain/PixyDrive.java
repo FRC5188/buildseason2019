@@ -51,7 +51,8 @@ public class PixyDrive extends PIDCommand {
         //passing a period helps reduce RoboRIO CPU usage by
         //not allowing the PID loop to continuously run in the background without stopping.
         //pwm motor controls can only update at 5ms anyway, and the main teleop loop runs every 20ms
-        super("PixyDrive",kp, ki, kd, .02);
+        // super("PixyDrive",kp, ki, kd, .02);
+        super("PixyDrive",kp, ki, kd);
         this.requires(Robot.driveTrain);
         this.requires(Robot.i2c);
         this.setInterruptible(true);

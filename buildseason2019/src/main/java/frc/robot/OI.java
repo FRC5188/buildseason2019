@@ -100,16 +100,16 @@ public class OI {
 		hWheelDownButton = new JoystickButton(drive, Buttons.A);
         hWheelUpButton = new JoystickButton(drive, Buttons.B);
 
-        rocketLevel1Button = new DPadButton(operator, DPadButton.Direction.LEFT);
-        rocketLevel2Button = new DPadButton(operator, DPadButton.Direction.UP);
-		rocketLevel3Button = new DPadButton(operator, DPadButton.Direction.RIGHT);
-        loadingStationButton = new DPadButton(operator, DPadButton.Direction.RIGHT);
+        // rocketLevel1Button = new DPadButton(operator, DPadButton.Direction.LEFT);
+        // rocketLevel2Button = new DPadButton(operator, DPadButton.Direction.UP);
+		// rocketLevel3Button = new DPadButton(operator, DPadButton.Direction.RIGHT);
+        // loadingStationButton = new DPadButton(operator, DPadButton.Direction.RIGHT);
 
         extendHatch = new JoystickButton(operator, Buttons.X);
         retractHatch = new JoystickButton(operator, Buttons.B);
 
         /*pixy drive command to be reused*/
-        pixyDrive = new PixyDrive();
+        // pixyDrive = new PixyDrive();
 
 		/*create button mappings*/
 		hatchPanelButton.whenPressed(new FireHatchPanel());
@@ -120,21 +120,21 @@ public class OI {
 		hWheelDownButton.whenPressed(new DropHWheel());
 		hWheelUpButton.whenPressed(new LiftHWheel());
 
-		rocketLevel1Button.whenPressed(new ElevatorToHatchLevel1());
-		rocketLevel2Button.whenPressed(new ElevatorToHatchLevel2());
-		rocketLevel3Button.whenPressed(new ElevatorToHatchLevel3());
-        loadingStationButton.whenPressed(new ElevatorToHatchLevel3());
+		// rocketLevel1Button.whenPressed(new ElevatorToHatchLevel1());
+		// rocketLevel2Button.whenPressed(new ElevatorToHatchLevel2());
+		// rocketLevel3Button.whenPressed(new ElevatorToHatchLevel3());
+        // loadingStationButton.whenPressed(new ElevatorToHatchLevel3());
 
-		pixyButton.whenPressed(pixyDrive);
-		pixyButton.whenReleased(new Command(){
-			@Override
-			protected void initialize(){
-				if(pixyDrive.isRunning()) pixyDrive.cancel();
-			}
-			@Override
-			protected boolean isFinished() {
-				return true;
-			}
-		});
+		// pixyButton.whenPressed(pixyDrive);
+		// pixyButton.whenReleased(new Command(){
+		// 	@Override
+		// 	protected void initialize(){
+		// 		if(pixyDrive.isRunning()) pixyDrive.cancel();
+		// 	}
+		// 	@Override
+		// 	protected boolean isFinished() {
+		// 		return true;
+		// 	}
+		// });
 	}
 }

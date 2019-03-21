@@ -43,7 +43,7 @@ public class RobotMap {
     public static final int INTAKE_WRIST_POT = 0;
 
     public static final AHRS gyro = new AHRS(I2C.Port.kMXP);
-    public static final I2C wire = new I2C(I2C.Port.kOnboard, 4); //uses the i2c port on the RoboRIO
+    public static final I2C wire = new I2C(I2C.Port.kMXP, 4); //uses the i2c port on the RoboRIO
     //public static final I2C wire = new I2C(I2C.Port.kMXP, 4); //uses the i2c port on the RoboRIO
     //changed for testing on practice bot and a different arduino not on mxp port
 

@@ -33,7 +33,7 @@ void loop(){
     //ox = 100*sx/2 - 100*center + 100*(239 - (sx/2));//in hundredths of degrees
     ox = 100*sx/2 - 100*center;//in hundredths of degrees
     angle = ox/sx * 60;
-    angle += 1800;
+    angle -= 800;
   }
   else{
    // center = 158; //Incase we dont see enough tape to calculate good values, just set the output to the middle so nothing bad happens
