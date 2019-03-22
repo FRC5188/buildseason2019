@@ -65,6 +65,10 @@ public class DriveTrain extends Subsystem {
 		double lDrive;
         double rDrive;
 
+		if(-throttle < 0){
+			turn = turn * -1;
+		}
+
         //creates a dead band
         if(Math.abs(throttle) < .01) throttle = 0;
         if(Math.abs(turn) < .01) turn = 0;
@@ -80,6 +84,7 @@ public class DriveTrain extends Subsystem {
 			// if not driving with quick turn then driveTrain with split arcade
 		}
 
+	
 		driveRaw(lDrive, rDrive, strafe * .85);
 	}
 
