@@ -51,13 +51,13 @@ void loop(){
 //output is now angle to turn
   output.replace(output, String(angle/100)); //Updates the output string
   //^^this should be the gyro angle at end of writing
- Serial.println (output);
+ //Serial.println (output);
 
 }
 
 void requestEvent(){//called when RoboRIO request a message from this device
   Wire.write(output.c_str()); //writes data to the RoboRIO, converts it to string
- Serial.println (output);
+ //Serial.println (output);
 }
 
 void receiveEvent(int bytes){//called when RoboRIO "gives" this device a message

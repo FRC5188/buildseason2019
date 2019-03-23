@@ -54,7 +54,7 @@ public class Elevator extends PIDSubsystem {
 
         //init encoders
         elevatorEncoder = new Encoder(RobotMap.ELEVATOR_ENCODER_A, RobotMap.ELEVATOR_ENCODER_B);
-        elevatorEncoder.setDistancePerPulse(1/TICKS_PER_INCH);
+        elevatorEncoder.setDistancePerPulse(1/TICKS_PER_INCH * 2);
 
         //set room for error for ontarget
         this.getPIDController().setAbsoluteTolerance(1);
