@@ -15,6 +15,7 @@ import frc.robot.commands.driveTrain.PixyDrive;
 import frc.robot.commands.elevator.PIDSetpoints.ElevatorToHatchLevel1;
 import frc.robot.commands.elevator.PIDSetpoints.ElevatorToHatchLevel2;
 import frc.robot.commands.elevator.PIDSetpoints.ElevatorToHatchLevel3;
+import frc.robot.commands.elevator.PIDSetpoints.ElevatorToLoadingStation;
 import frc.robot.commands.pnueumatics.DropHWheel;
 import frc.robot.commands.pnueumatics.ExtendHatch;
 import frc.robot.commands.pnueumatics.FireHatchPanel;
@@ -95,15 +96,15 @@ public class OI {
 		operator = new Joystick(Controller.OPERATOR);
 
 		/*create buttons*/
-		pixyButton = new PixyButton(drive, OI.Buttons.L );
+		// pixyButton = new PixyButton(drive, OI.Buttons.L );
 		hatchPanelButton = new JoystickButton(operator, Buttons.A);
 		hWheelDownButton = new JoystickButton(drive, Buttons.A);
         hWheelUpButton = new JoystickButton(drive, Buttons.B);
 
-        // rocketLevel1Button = new DPadButton(operator, DPadButton.Direction.LEFT);
-        // rocketLevel2Button = new DPadButton(operator, DPadButton.Direction.UP);
-		// rocketLevel3Button = new DPadButton(operator, DPadButton.Direction.RIGHT);
-        // loadingStationButton = new DPadButton(operator, DPadButton.Direction.RIGHT);
+        rocketLevel1Button = new DPadButton(operator, DPadButton.Direction.LEFT);
+        rocketLevel2Button = new DPadButton(operator, DPadButton.Direction.UP);
+		rocketLevel3Button = new DPadButton(operator, DPadButton.Direction.RIGHT);
+        loadingStationButton = new DPadButton(operator, DPadButton.Direction.DOWN);
 
         extendHatch = new JoystickButton(operator, Buttons.X);
         retractHatch = new JoystickButton(operator, Buttons.B);
@@ -120,10 +121,10 @@ public class OI {
 		hWheelDownButton.whenPressed(new DropHWheel());
 		hWheelUpButton.whenPressed(new LiftHWheel());
 
-		// rocketLevel1Button.whenPressed(new ElevatorToHatchLevel1());
-		// rocketLevel2Button.whenPressed(new ElevatorToHatchLevel2());
-		// rocketLevel3Button.whenPressed(new ElevatorToHatchLevel3());
-        // loadingStationButton.whenPressed(new ElevatorToHatchLevel3());
+		rocketLevel1Button.whenPressed(new ElevatorToHatchLevel1());
+		rocketLevel2Button.whenPressed(new ElevatorToHatchLevel2());
+		rocketLevel3Button.whenPressed(new ElevatorToHatchLevel3());
+        loadingStationButton.whenPressed(new ElevatorToLoadingStation());
 
 		// pixyButton.whenPressed(pixyDrive);
 		// pixyButton.whenReleased(new Command(){

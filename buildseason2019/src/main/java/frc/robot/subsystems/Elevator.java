@@ -31,12 +31,18 @@ public class Elevator extends PIDSubsystem {
     private DigitalInput topHalleffect;
     private Encoder elevatorEncoder;
 
+	// private double outputMax = 1;
+    // private double outputMin = 1;
+    // private double prevOutput = 0;
+    
+    // private double accel = .1;
+
     private double TICKS_PER_INCH = 28.944444444;
     //28.9444444 ticks per inch
     //3 trails of moving 6 inches each trail
 
     //needs tuned
-    private static double kp = .2, ki = 0, kd =0, kf = 0, period = .02;
+    private static double kp = 0.3, ki = 0, kd = 0.2, kf = 0, period = 0.02;
 
 
     public Elevator() {
@@ -57,7 +63,10 @@ public class Elevator extends PIDSubsystem {
         elevatorEncoder.setDistancePerPulse(1/TICKS_PER_INCH * 2);
 
         //set room for error for ontarget
-        this.getPIDController().setAbsoluteTolerance(1);
+        this.getPIDController().setAbsoluteTolerance(.5);
+
+        // outputMin = prevOutput - accel;
+        // outputMax = prevOutput + accel;
     }
 
     /***
@@ -70,10 +79,23 @@ public class Elevator extends PIDSubsystem {
 
         this.encoderResetOnBottom();
 
+        // outputMin = prevOutput - accel;
+        // outputMax = prevOutput + accel;
+
         //if move is not valid than set the motors to 0
         if(!this.validMove(speed)) speed = 0;
+
+        // if(speed > outputMax){
+        //     speed = outputMax;
+        // }
+        // else if(speed < outputMin){
+        //     speed = outputMin;
+        // }
+
         leftMotor.set(-speed);
         rightMotor.set(speed);
+
+        // prevOutput = speed;
 
         this.log();
     }
@@ -85,7 +107,7 @@ public class Elevator extends PIDSubsystem {
      */
     public void move(double speed, boolean shifter) {
         //move at half speed if shifter is enabled
-        double shiftVal = shifter ? .5 : 1;
+        double shiftVal = shifter ? .6 : 1;
         this.move(speed * shiftVal);
     }
 

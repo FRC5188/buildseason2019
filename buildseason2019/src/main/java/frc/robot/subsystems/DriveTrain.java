@@ -24,6 +24,7 @@ public class DriveTrain extends Subsystem {
 	private VictorSP rightDrive2;
 	private VictorSP strafe;
 
+
 	public DriveTrain() {
 		// initializes motors
 		leftDrive1 = new VictorSP(RobotMap.FRONT_LEFT);
@@ -60,7 +61,7 @@ public class DriveTrain extends Subsystem {
 	public void driveArcade(double throttle, double turn, double strafe, boolean shifter) {
 
 	    //creates shifter multiplier
-		double shiftVal = shifter ? .5 : 1;
+		double shiftVal = shifter ? .75 : 1;
 
 		double lDrive;
         double rDrive;

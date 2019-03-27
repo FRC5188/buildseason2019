@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.ResetGyro;
 import frc.robot.subsystems.*;
 
 public class Robot extends TimedRobot {
@@ -26,6 +27,8 @@ public class Robot extends TimedRobot {
   public static OI oi;
   public CameraServer server;
   public UsbCamera camera;
+  public UsbCamera camera1;
+
 
   @Override
   public void robotInit() {
@@ -61,9 +64,16 @@ public class Robot extends TimedRobot {
 
     camera = CameraServer.getInstance().startAutomaticCapture(0);
     camera.setBrightness(50);
-    camera.setFPS(60);
+    camera.setFPS(30);
     camera.setResolution(160, 120);
-    // CameraServer.getInstance().startAutomaticCapture(camera);
+
+    camera1 = CameraServer.getInstance().startAutomaticCapture(1);
+    camera1.setBrightness(50);
+    camera1.setFPS(25);
+    camera1.setResolution(160, 120);
+
+
+
 
 
     driveTrain = new DriveTrain();
@@ -129,6 +139,7 @@ public class Robot extends TimedRobot {
   private void log() {
       SmartDashboard.putBoolean("L Bumper", OI.drive.getRawButton(OI.Buttons.L));
       SmartDashboard.putBoolean("R Bumper", OI.drive.getRawButton(OI.Buttons.R));
+      SmartDashboard.putData("reset gyro", new ResetGyro());
       SmartDashboard.putData("Scheduler", Scheduler.getInstance());
       //SmartDashboard.putNumber("Gyro Angle", RobotMap.gyro.getAngle());
   }

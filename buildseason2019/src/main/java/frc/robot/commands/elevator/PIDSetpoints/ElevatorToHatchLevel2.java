@@ -19,7 +19,7 @@ public class ElevatorToHatchLevel2 extends Command {
 
     public void initialize() {
         //set pid setpoint
-        Robot.elevator.setSetpoint(45);
+        Robot.elevator.setSetpoint(30);
         Robot.elevator.enable();
 
         this.setInterruptible(true);
