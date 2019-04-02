@@ -23,7 +23,7 @@ public class Robot extends TimedRobot {
   public static Pneumatics pneumatics;
   public static Elevator elevator;
   public static Intake intake;
-  public static IntakeWrist intakeWrist;
+  // public static IntakeWrist intakeWrist;
   public static OI oi;
   public CameraServer server;
   public UsbCamera camera;
@@ -81,13 +81,13 @@ public class Robot extends TimedRobot {
     pneumatics = new Pneumatics();
     elevator = new Elevator ();
     intake = new Intake();
-    intakeWrist = new IntakeWrist();
+    // intakeWrist = new IntakeWrist();
     oi = new OI();// oi needs to be created last
 
     //prevents CTRE timeout erros
     LiveWindow.disableAllTelemetry();
 
-    this.log();
+    // this.log();
   }
 
   @Override
@@ -99,7 +99,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() {
     Scheduler.getInstance().run();
-    this.log();
+    //this.log();
   }
 
   @Override
@@ -121,7 +121,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
 
-    this.log();
+    //this.log();
   }
 
 
