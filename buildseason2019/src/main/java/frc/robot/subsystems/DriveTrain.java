@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -18,19 +20,19 @@ public class DriveTrain extends Subsystem {
 	// here. Call these from Commands.
 
 	// "defines" motors
-	private VictorSP leftDrive1;
-	private VictorSP rightDrive1;
-	private VictorSP leftDrive2;
-	private VictorSP rightDrive2;
+	private TalonSRX leftDrive1;
+	private TalonSRX rightDrive1;
+	private TalonSRX leftDrive2;
+	private TalonSRX rightDrive2;
 	private VictorSP strafe;
 
 
 	public DriveTrain() {
 		// initializes motors
-		leftDrive1 = new VictorSP(RobotMap.FRONT_LEFT);
-		leftDrive2 = new VictorSP(RobotMap.BACK_LEFT);
-		rightDrive1 = new VictorSP(RobotMap.FRONT_RIGHT);
-		rightDrive2 = new VictorSP(RobotMap.BACK_RIGHT);
+		leftDrive1 = new TalonSRX(RobotMap.FRONT_LEFT);
+		leftDrive2 = new TalonSRX(RobotMap.BACK_LEFT);
+		rightDrive1 = new TalonSRX(RobotMap.FRONT_RIGHT);
+		rightDrive2 = new TalonSRX(RobotMap.BACK_RIGHT);
 		strafe = new VictorSP(RobotMap.H_WHEEL);
 	}
 
