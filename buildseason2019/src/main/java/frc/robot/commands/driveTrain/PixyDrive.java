@@ -34,14 +34,14 @@ public class PixyDrive extends PIDCommand {
         After placing, or grabbing, the driver releases the PixyDrive button and seamlessly transitions back to
         normal driving.
 
-        One strength of PixyDrive is the driver is never committed to a "auto" loop. They may release the PixyDrive
+        One strength of PixyDrive is the driver is never committed to an "auto" loop. They may release the PixyDrive
         at any moment on the field and immediately go back to arcade drive. I.E if strategy changes mid placing
      */
 
     //need some refining on the comp bot
     private static double kp = 0.07, ki = 0, kd = 0.49;
     private double throttle;
-    private double turn;//currently not using
+    public double turn;
     private double strafe;
     private boolean shifter;
     private double setpoint = 0;
@@ -51,15 +51,14 @@ public class PixyDrive extends PIDCommand {
         //passing a period helps reduce RoboRIO CPU usage by
         //not allowing the PID loop to continuously run in the background without stopping.
         //pwm motor controls can only update at 5ms anyway, and the main teleop loop runs every 20ms
-        // super("PixyDrive",kp, ki, kd, .02);
-        super("PixyDrive",kp, ki, kd);
+        super("PixyDrive",kp, ki, kd, .02);
         this.requires(Robot.driveTrain);
-        this.requires(Robot.i2c);
+        this.requires(Robot.i2c);//uses the i2c subsytem for arduino
         this.setInterruptible(true);
         //it shouldn't make or break this PID loop to have an output range since the motors don't
         //allow for output past -1 or 1 anyway
         this.getPIDController().setOutputRange(-1, 1);
-        this.getPIDController().setAbsoluteTolerance(1);
+        this.getPIDController().setAbsoluteTolerance(1);//allow +- a degree of error
 
         SmartDashboard.putData("Pixy Drive", this);
         //puts the PID controller on the dashboard, should be able to tune PID from dashboard
@@ -142,6 +141,12 @@ public class PixyDrive extends PIDCommand {
           and the tape on the field.
         */
 
+        //if we dont check for onTarget the PID controller will try to 
+        //be "more" on target even if its within our range of error 
+        //by continuing to give the motors power.
+
+        //When we are on target we still want PID to run so we will quickly snap 
+        //back on target if knocked off, but we don't want the motors to move
         if(this.getPIDController().onTarget()){
             Robot.driveTrain.driveArcade(throttle, 0, strafe, shifter);
         }

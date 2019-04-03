@@ -136,6 +136,14 @@ public class Robot extends TimedRobot {
 
   }
 
+  /**
+   * 
+   * Used to log data to the shuffleboard. When used it is 
+   * called at the end of the basic robot modes, like telop. 
+   * 
+   * It was taken out due to possible making us lose comms during matches by
+   * over populationg the dashboard
+   */
   private void log() {
       SmartDashboard.putBoolean("L Bumper", OI.drive.getRawButton(OI.Buttons.L));
       SmartDashboard.putBoolean("R Bumper", OI.drive.getRawButton(OI.Buttons.R));

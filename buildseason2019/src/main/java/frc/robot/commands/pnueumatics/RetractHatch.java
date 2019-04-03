@@ -5,6 +5,9 @@ import frc.robot.Robot;
 
 public class RetractHatch extends Command{
 
+    //command to rectract our hatch and cargo mech in placing placing on the rocket
+
+
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {

@@ -5,6 +5,8 @@ import frc.robot.Robot;
 
 public class DropHWheel extends Command{
 
+    //H-WHEEL IS NO LONGER USED
+
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {

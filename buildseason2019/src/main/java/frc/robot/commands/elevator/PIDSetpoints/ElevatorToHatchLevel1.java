@@ -2,16 +2,16 @@ package frc.robot.commands.elevator.PIDSetpoints;
 
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.OI;
 import frc.robot.Robot;
 
 public class ElevatorToHatchLevel1 extends Command {
+    
+    //SEE THIS DOCUMENTATION FOR THE REST OF THE SETPOINTS
+    
     //the idea of this command is to interface between the elevator's
     //pid loop and the operator controller.
     //when a button is pressed it should call this command to change the setpoint
     //of the elevator pid loop
-
-    //level = 25
 
     public ElevatorToHatchLevel1() {
         requires(Robot.elevator);
@@ -23,11 +23,12 @@ public class ElevatorToHatchLevel1 extends Command {
         Robot.elevator.enable();
 
         this.setInterruptible(true);
-        //not sure if anything else needs to be done
+        //allow to be interrupted by manual elevator movement
     }
 
     public void execute() {
-
+        //nothing needs to be done during this command since it only 
+        //sets the subsystem setpoint
     }
 
     public void interrupted() {
@@ -36,12 +37,14 @@ public class ElevatorToHatchLevel1 extends Command {
 
     @Override
     protected boolean isFinished() {
-
+        //end the command when PID has done its job or 
+        //the operator no longer wants to use PID
         return Robot.elevator.onTarget() || Robot.elevator.operatorRequested();
     }
 
     @Override
     protected void end(){
+        //disable the PID loop on end
         Robot.elevator.disable();
     }
 

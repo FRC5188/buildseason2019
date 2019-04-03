@@ -2,7 +2,6 @@ package frc.robot.commands.elevator.PIDSetpoints;
 
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.OI;
 import frc.robot.Robot;
 
 public class ElevatorToLoadingStation extends Command {
@@ -10,8 +9,6 @@ public class ElevatorToLoadingStation extends Command {
     //pid loop and the operator controller.
     //when a button is pressed it should call this command to change the setpoint
     //of the elevator pid loop
-
-    //level = 25
 
     public ElevatorToLoadingStation() {
         requires(Robot.elevator);

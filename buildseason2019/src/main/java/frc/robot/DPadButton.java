@@ -5,6 +5,8 @@ import edu.wpi.first.wpilibj.buttons.Button;
 
 public class DPadButton extends Button {
 
+    //custom button class to use the dpad buttons on a logitech or xbox controller
+    
     Joystick joystick;
     Direction direction;
 

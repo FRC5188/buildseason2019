@@ -5,6 +5,8 @@ import frc.robot.Robot;
 
 public class LiftHWheel extends Command{
 
+    //H-WHEEL IS NO LONGER USED
+
     /*
     * this command sets the h-wheel solenoids false to retract the h-wheel
      */

@@ -9,6 +9,12 @@ import frc.robot.subsystems.I2C;
 
 public class PixyButton extends Trigger{
 
+  //implementation of the trigger class to make a "pixy button"
+  //the button acts exactly like a normal button excpet the robot has to see
+  //the tape and have the button be pressed to return true. This makes it so if 
+  //the tape is lost the pixydrive command will stop running even if the driver
+  // hasn't released the button yet. Saving vailuable time
+
     private final GenericHID m_joystick;
     private final int m_buttonNumber;
 

@@ -5,6 +5,8 @@ import frc.robot.Robot;
 
 public class ExtendHatch extends Command{
 
+    //command to extend our hatch and cargo mech out when placing on the rocket
+
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {

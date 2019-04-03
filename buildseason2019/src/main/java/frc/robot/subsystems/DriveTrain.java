@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.VictorSP;
@@ -34,6 +35,12 @@ public class DriveTrain extends Subsystem {
 		rightDrive1 = new TalonSRX(RobotMap.FRONT_RIGHT);
 		rightDrive2 = new TalonSRX(RobotMap.BACK_RIGHT);
 		strafe = new VictorSP(RobotMap.H_WHEEL);
+
+		//config current limiting
+		// leftDrive1.configPeakCurrentLimit(35, 10); /* 35 A */
+		// leftDrive1.configPeakCurrentDuration(200, 10); /* 200ms */
+		// leftDrive1.configContinuousCurrentLimit(30, 10); /* 30 */
+
 	}
 
     /**
@@ -44,10 +51,10 @@ public class DriveTrain extends Subsystem {
      * @param strafe H-wheel power
      */
 	private void driveRaw(double left, double right, double strafe) {
-		leftDrive1.set(-left);
-		leftDrive2.set(-left);
-		rightDrive1.set(right);
-		rightDrive2.set(right);
+		leftDrive1.set(ControlMode.PercentOutput, -left);
+		leftDrive2.follow(leftDrive1);
+		rightDrive1.set(ControlMode.PercentOutput, right);
+		rightDrive2.follow(rightDrive1);
 		this.strafe.set(-strafe);
 
 		this.logSubsystem();
@@ -108,8 +115,8 @@ public class DriveTrain extends Subsystem {
 	}
 
 	private void logSubsystem(){
-        SmartDashboard.putData("Left Motors", this.leftDrive1);
-        SmartDashboard.putData("Right Motors", this.rightDrive1);
+        //SmartDashboard.putData("Left Motors", this.leftDrive1);
+        //SmartDashboard.putData("Right Motors", this.rightDrive1);
 		SmartDashboard.putData("H Motor", this.strafe);
 		SmartDashboard.putNumber("Gyro Val", RobotMap.gyro.getAngle());
 		SmartDashboard.putData("Gyro", RobotMap.gyro);

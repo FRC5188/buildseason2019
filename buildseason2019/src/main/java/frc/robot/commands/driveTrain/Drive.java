@@ -15,11 +15,14 @@ import frc.robot.subsystems.I2C;
 
 public class Drive extends Command {
 
+	//we orgianally had h-drive but now have 6 wheel tank...
+
 	I2C wire = Robot.i2c;
 
 	public Drive() {
 		requires(Robot.driveTrain);
 		SmartDashboard.putBoolean("Drive Running", false);
+		//bool to let us see if drive or pixydrive is running
 	}
 
 	@Override
@@ -39,6 +42,10 @@ public class Drive extends Command {
 		//actual driveTrain method
 		Robot.driveTrain.driveArcade(throttle, turn, strafe, shifter);
 
+		//is called during normal drive, as well as pixy, so that we 
+		//can see if the robot can see the tape without having to enable the pixydrive
+
+		//this makes the overall driving experience for the driver easier and more efficent 
 		wire.isTape();
 		SmartDashboard.putBoolean("Drive Running", true);
 	}

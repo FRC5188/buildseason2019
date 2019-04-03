@@ -12,13 +12,15 @@ import frc.robot.RobotMap;
 
 public class ResetGyro extends Command {
 
+    //this command currently doesnt work
+
     public ResetGyro() {
 	}
 
 	// Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        RobotMap.gyro.reset();
+        RobotMap.gyro.zeroYaw();
     }
 
     // Called repeatedly when this Command is scheduled to run
