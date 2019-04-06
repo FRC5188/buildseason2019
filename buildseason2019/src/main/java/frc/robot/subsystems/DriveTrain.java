@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -23,17 +24,17 @@ public class DriveTrain extends Subsystem {
 	// "defines" motors
 	private TalonSRX leftDrive1;
 	private TalonSRX rightDrive1;
-	private TalonSRX leftDrive2;
-	private TalonSRX rightDrive2;
+	private VictorSPX leftDrive2;
+	private VictorSPX rightDrive2;
 	private VictorSP strafe;
 
 
 	public DriveTrain() {
 		// initializes motors
 		leftDrive1 = new TalonSRX(RobotMap.FRONT_LEFT);
-		leftDrive2 = new TalonSRX(RobotMap.BACK_LEFT);
+		leftDrive2 = new VictorSPX(RobotMap.BACK_LEFT);
 		rightDrive1 = new TalonSRX(RobotMap.FRONT_RIGHT);
-		rightDrive2 = new TalonSRX(RobotMap.BACK_RIGHT);
+		rightDrive2 = new VictorSPX(RobotMap.BACK_RIGHT);
 		strafe = new VictorSP(RobotMap.H_WHEEL);
 
 		//config current limiting
@@ -49,6 +50,7 @@ public class DriveTrain extends Subsystem {
      * @param left left side of driveTrain power
      * @param right right side of driveTrain power
      * @param strafe H-wheel power
+	 * 
      */
 	private void driveRaw(double left, double right, double strafe) {
 		leftDrive1.set(ControlMode.PercentOutput, -left);

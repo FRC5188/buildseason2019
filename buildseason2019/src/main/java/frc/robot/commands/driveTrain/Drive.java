@@ -33,7 +33,7 @@ public class Drive extends Command {
 
 	@Override
 	protected void execute() {
-        //get all of the drivers joystick values
+        //get all of the driver's joystick values
 		double throttle = OI.drive.getRawAxis(OI.Axis.LY);
 		double turn =  OI.drive.getRawAxis(OI.Axis.RX);
 		double strafe =  OI.drive.getRawAxis(OI.Axis.LX);

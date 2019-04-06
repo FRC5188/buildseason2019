@@ -16,6 +16,9 @@ public class RobotMap {
 
     //motor mappings
     //all but INTAKE_WRIST and INTAKE_MOTOR are cims
+
+    //the drive motors use can and their ID's are defined
+
     public static final int FRONT_LEFT = 0;
     public static final int FRONT_RIGHT = 2;
     public static final int BACK_LEFT = 1;

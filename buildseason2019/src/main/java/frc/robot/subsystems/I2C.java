@@ -6,7 +6,6 @@ import frc.robot.RobotMap;
 
 public class I2C extends Subsystem {
 
-
     /*
         This subsystem's job is to read data from the arduino.
         It parses the data and makes it available to commands like PixyDrive
