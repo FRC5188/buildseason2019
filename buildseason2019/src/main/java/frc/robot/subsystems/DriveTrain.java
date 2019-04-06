@@ -38,10 +38,15 @@ public class DriveTrain extends Subsystem {
 		strafe = new VictorSP(RobotMap.H_WHEEL);
 
 		//config current limiting
-		// leftDrive1.configPeakCurrentLimit(35, 10); /* 35 A */
-		// leftDrive1.configPeakCurrentDuration(200, 10); /* 200ms */
-		// leftDrive1.configContinuousCurrentLimit(30, 10); /* 30 */
+		leftDrive1.configPeakCurrentLimit(35, 10); /* 35 A */
+		leftDrive1.configPeakCurrentDuration(200, 10); /* 200ms */
+		leftDrive1.configContinuousCurrentLimit(30, 10); /* 30 */
+		leftDrive1.enableCurrentLimit(true); /* turn it on */
 
+		rightDrive1.configPeakCurrentLimit(35, 10); /* 35 A */
+		rightDrive1.configPeakCurrentDuration(200, 10); /* 200ms */
+		rightDrive1.configContinuousCurrentLimit(30, 10); /* 30 */
+		rightDrive1.enableCurrentLimit(true); /* turn it on */
 	}
 
     /**
