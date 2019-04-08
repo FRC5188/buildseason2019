@@ -16,7 +16,7 @@ public class ElevatorToLoadingStation extends Command {
 
     public void initialize() {
         //set pid setpoint
-        Robot.elevator.setSetpoint(15.4);
+        Robot.elevator.setSetpoint(2.8);
         Robot.elevator.enable();
 
         this.setInterruptible(true);
