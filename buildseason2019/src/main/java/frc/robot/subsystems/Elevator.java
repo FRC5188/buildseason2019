@@ -166,7 +166,7 @@ public class Elevator extends PIDSubsystem {
     public boolean operatorRequested(){
         boolean controlRequested = false;
 
-        if(Math.abs(OI.operator.getRawAxis(OI.Axis.LY)) > .01){
+        if(Math.abs(OI.operator.getRawAxis(OI.Axis.LY)) > .07){
             controlRequested = true;
         }
 
