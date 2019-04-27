@@ -28,6 +28,12 @@ public class DriveTrain extends Subsystem {
 	private VictorSPX rightDrive2;
 	private VictorSP strafe;
 
+    private double wheelNonLinearity = .6;
+    private double negInertia, oldWheel;
+    private double sensitivity;
+    private double angularPower;
+    private double linearPower;
+
 
 	public DriveTrain() {
 		// initializes motors
@@ -67,6 +73,45 @@ public class DriveTrain extends Subsystem {
 		this.logSubsystem();
 	}
 
+
+
+
+
+    public void cheesyDrive(double throttle, double wheel, double quickTurn, boolean shifter) {
+
+        negInertia = wheel - oldWheel;
+        oldWheel = wheel;
+
+        wheelNonLinearity = 0.5;
+        //wheelNonLinearity = shifter ? 0.6:0.5;
+
+        // Apply a sin function that's scaled to make it feel better.
+        wheel = Math.sin(Math.PI / 2.0 * wheelNonLinearity * wheel)
+                / Math.sin(Math.PI / 2.0 * wheelNonLinearity);
+        wheel = Math.sin(Math.PI / 2.0 * wheelNonLinearity * wheel)
+                / Math.sin(Math.PI / 2.0 * wheelNonLinearity);
+        wheel = Math.sin(Math.PI / 2.0 * wheelNonLinearity * wheel)
+                / Math.sin(Math.PI / 2.0 * wheelNonLinearity);
+
+        if(shifter){
+            sensitivity = .5;
+        } else {
+            sensitivity = 1;
+        }
+
+        wheel += negInertia;
+        linearPower = throttle;
+
+        if (quickTurn > 0.5){
+            angularPower = wheel;
+        } else {
+            angularPower = Math.abs(throttle) * wheel;
+        }
+
+        double left = -((linearPower + angularPower) * sensitivity);
+        double right = (linearPower - angularPower) * sensitivity;
+        driveRaw(left, right, 0);
+    }
     /**
      * Used to driveTrain with arcade controls
      * @param throttle forward motor speed
