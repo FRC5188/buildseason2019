@@ -77,7 +77,7 @@ public class DriveTrain extends Subsystem {
 	public void driveArcade(double throttle, double turn, double strafe, boolean shifter) {
 
 	    //creates shifter multiplier
-		double shiftVal = shifter ? .75 : 1;
+		double shiftVal = shifter ? 1 : .5;
 
 		double lDrive;
         double rDrive;
