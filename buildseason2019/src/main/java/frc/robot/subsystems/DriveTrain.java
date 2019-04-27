@@ -109,8 +109,14 @@ public class DriveTrain extends Subsystem {
         }
 
         double left = -((linearPower + angularPower) * sensitivity);
-        double right = (linearPower - angularPower) * sensitivity;
-        driveRaw(left, right, 0);
+		
+		//double left = (linearPower - angularPower) * sensitivity;
+		double right = ((linearPower - angularPower) * sensitivity);
+		
+		leftDrive1.set(ControlMode.PercentOutput, left);
+		leftDrive2.follow(leftDrive1);
+		rightDrive1.set(ControlMode.PercentOutput, right);
+		rightDrive2.follow(rightDrive1);
     }
     /**
      * Used to driveTrain with arcade controls

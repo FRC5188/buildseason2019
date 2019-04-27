@@ -41,7 +41,7 @@ public class Drive extends Command {
 
 		//actual driveTrain method
 		//Robot.driveTrain.driveArcade(throttle, turn, 0, shifter);
-        Robot.driveTrain.cheesyDrive(throttle, turn,quickTurn, shifter);//is called during normal drive, as well as pixy, so that we
+        Robot.driveTrain.cheesyDrive(throttle, -turn, quickTurn, shifter);//is called during normal drive, as well as pixy, so that we
 		//can see if the robot can see the tape without having to enable the pixydrive
 
 		//this makes the overall driving experience for the driver easier and more efficent 
