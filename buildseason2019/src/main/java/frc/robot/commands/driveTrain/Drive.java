@@ -36,11 +36,11 @@ public class Drive extends Command {
         //get all of the driver's joystick values
 		double throttle = OI.drive.getRawAxis(OI.Axis.LY);
 		double turn =  OI.drive.getRawAxis(OI.Axis.RX);
-		double strafe =  OI.drive.getRawAxis(OI.Axis.LX);
+		//double turn =  OI.drive.getRawAxis(OI.Axis.LX);//turn for homeshow
 		boolean shifter = OI.drive.getRawButton(OI.Buttons.R);
 
 		//actual driveTrain method
-		Robot.driveTrain.driveArcade(throttle, turn, strafe, shifter);
+		Robot.driveTrain.driveArcade(throttle, turn, 0, shifter);
 
 		//is called during normal drive, as well as pixy, so that we 
 		//can see if the robot can see the tape without having to enable the pixydrive
