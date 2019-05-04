@@ -13,13 +13,12 @@ public class Elevator extends PIDSubsystem {
     /*
         The Elevator is comprised of:
             Two cims on a raw box
-            Two Halleffect senors: placed at the very top and bottom of the elevator
-                these are used to detect if the elevator has traveled to the bottom or top
+            Two Halleffect senors: placed at the very top and bottom of the elevator.
+                These are used to detect if the elevator has traveled to the bottom or top.
             An encoder of the raw box shaft: measures the distance the elevator has traveled
 
         The elevator is meant to be a PIDSubsystem so that the operator may push buttons for
-        the PID loop to move to preset heights. However, the logic for the PID commands is not finished
-        and the elevator is only being used manually.
+        the PID loop to move to preset heights.
      */
 
     private VictorSP leftMotor;
