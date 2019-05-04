@@ -10,9 +10,6 @@ import frc.robot.RobotMap;
 import frc.robot.commands.elevator.ManualElevatorRaiseLower;
 
 public class Elevator extends PIDSubsystem {
-
-//19, 49, 75
-
     /*
         The Elevator is comprised of:
             Two cims on a raw box
@@ -27,46 +24,35 @@ public class Elevator extends PIDSubsystem {
 
     private VictorSP leftMotor;
     private VictorSP rightMotor;
-    private DigitalInput bottomHalleffect;
-    private DigitalInput topHalleffect;
+    private DigitalInput bottomHallEffect;
+    private DigitalInput topHallEffect;
     private Encoder elevatorEncoder;
 
-	// private double outputMax = 1;
-    // private double outputMin = 1;
-    // private double prevOutput = 0;
-    
-    // private double accel = .1;
-
+    /*Determined using 3 trails of moving 6 inches each trail*/
     private double TICKS_PER_INCH = 28.944444444;
-    //28.9444444 ticks per inch
-    //3 trails of moving 6 inches each trail
 
-    //needs tuned
+    /*PID values, PID loop will run every 20ms*/
     private static double kp = 0.365, ki = 0, kd = 0.2, kf = 0, period = 0.02;
 
-
+    /*Constructor*/
     public Elevator() {
+        /*pass P, I, D, and period values to the PID loop/controller*/
         super(kp, ki, kd, kf, period);
-        //pass p i d vals 
-        //should use kf val of some sort
 
-        //init motors
+        /*Initialize motors&*/
         leftMotor = new VictorSP(RobotMap.ELEVATOR_LEFT);
         rightMotor = new VictorSP(RobotMap.ELEVATOR_RIGHT);
 
-        //init hall effects
-        bottomHalleffect =  new DigitalInput(RobotMap.BOTTOM_HALLEFFECT);
-        topHalleffect =  new DigitalInput(RobotMap.TOP_HALLEFFECT);
+        /*Initialize hall effects*/
+        bottomHallEffect =  new DigitalInput(RobotMap.BOTTOM_HALLEFFECT);
+        topHallEffect =  new DigitalInput(RobotMap.TOP_HALLEFFECT);
 
-        //init encoders
+        /*Initialize encoders*/
         elevatorEncoder = new Encoder(RobotMap.ELEVATOR_ENCODER_A, RobotMap.ELEVATOR_ENCODER_B);
         elevatorEncoder.setDistancePerPulse(1/TICKS_PER_INCH * 2);
 
-        //set room for error for ontarget
+        /*Give the PID loop a range for error*/
         this.getPIDController().setAbsoluteTolerance(.5);
-
-        // outputMin = prevOutput - accel;
-        // outputMax = prevOutput + accel;
     }
 
     /***
@@ -129,11 +115,11 @@ public class Elevator extends PIDSubsystem {
     private boolean validMove(double power) {
         boolean isValid;
         //if the elevator is moving up but is at the top already
-        if(power < 0 && this.getTopHalleffect()) {
+        if(power < 0 && this.getTopHallEffect()) {
             isValid = false;
         }
         //if the elevator is moving down but at the bottom already
-        else if(power > 0 && this.getBottomHalleffect()){
+        else if(power > 0 && this.getBottomHallEffect()){
             isValid = false;
         }
         else {
@@ -179,7 +165,7 @@ public class Elevator extends PIDSubsystem {
      */
     private void encoderResetOnBottom(){
         //this method is currently not used but will be later
-        if(this.getBottomHalleffect())
+        if(this.getBottomHallEffect())
             this.elevatorEncoder.reset();
 }
 
@@ -195,20 +181,20 @@ public class Elevator extends PIDSubsystem {
 
     public void printHalleffects() {
         //used for debugging
-        System.out.println("Top HallEffect " + this.getTopHalleffect());
-        System.out.println("Bottom HallEffect " + this.getBottomHalleffect());
+        System.out.println("Top HallEffect " + this.getTopHallEffect());
+        System.out.println("Bottom HallEffect " + this.getBottomHallEffect());
     }
 
-    public boolean getTopHalleffect(){
+    public boolean getTopHallEffect(){
         //I inverted this because I thought the Halleffects were normally
         //true and then became false when triggered. But, I think I was wrong and thats
         //why the isValid logic looks weird. It works right now though...
-        return !this.topHalleffect.get();
+        return !this.topHallEffect.get();
     }
 
-    public boolean getBottomHalleffect(){
+    public boolean getBottomHallEffect(){
         //same as top halleffect
-        return !this.bottomHalleffect.get();
+        return !this.bottomHallEffect.get();
     }
 
     @Override

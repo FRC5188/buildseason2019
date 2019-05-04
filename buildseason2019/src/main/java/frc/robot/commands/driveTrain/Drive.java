@@ -38,7 +38,6 @@ public class Drive extends Command {
 		double turn =  OI.drive.getRawAxis(OI.Axis.RX);
 		double quickTurn = OI.drive.getRawAxis(OI.Axis.LTrigger);
 		boolean shifter = OI.drive.getRawButton(OI.Buttons.R);
-
 		//actual driveTrain method
 		//Robot.driveTrain.driveArcade(throttle, turn, 0, shifter);
         Robot.driveTrain.cheesyDrive(throttle, turn,quickTurn, shifter);//is called during normal drive, as well as pixy, so that we
