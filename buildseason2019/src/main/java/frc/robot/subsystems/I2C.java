@@ -11,38 +11,45 @@ public class I2C extends Subsystem {
         It parses the data and makes it available to commands like PixyDrive
      */
 
-    //has to be defined this way because the class is also named I2C
+    /*has to be defined this way because the class is also named I2C*/
 	private edu.wpi.first.wpilibj.I2C wire;
 	private static final int MAX_BYTES = 32;
 
     public I2C() {
 		this.wire = RobotMap.wire;
         SmartDashboard.putNumber("Pixy Data", 400);
-        //400 is just a random number. It's higher than any number we would ever see
-        //so if we see 400, then we know the pixy is not giving us any data a the moment
+        /*
+            400 is just a random number. It's higher than any number we would ever see
+            so if we see 400, then we know the pixy is not giving us any data a the moment.
+         */
     }
 
 
-    //we don't actually write any date to the arduino, it's just here
+    /*we don't actually write any date to the arduino, it's just here*/
 	/**
 	 * Writes data to the Arduino over the I2C bus
+     *
 	 * @param input String to be sent to Arduino
-	 * 
 	 */
 	public void write(String input){
+	        /*This code was copied from CD a couple years ago*/
+
 			char[] charArray = input.toCharArray();//creates a char array from the input string
 			byte[] writeData = new byte[charArray.length];//creates a byte array from the char array
-			for (int i = 0; i < charArray.length; i++) {//writes each byte to the arduino
+			for (int i = 0; i < charArray.length; i++)
 				writeData[i] = (byte) charArray[i];//adds the char elements to the byte array 
-			}
+
 			wire.transaction(writeData, writeData.length, null, 0);//sends each byte to arduino
 		}
 	
 	/**
 	 * Reads data from the Arduino on the I2C bus
+     *
 	 * @return String recieed from the I2C bus
 	 */
 	private String read(){
+	    /*Also copied from CD a couple years ago*/
+
 		byte[] data = new byte[MAX_BYTES];//create a byte array to hold the incoming data
 		wire.read(4, MAX_BYTES, data);//use address 4 on i2c and store it in data
 		String output = new String(data);//create a string from the byte array
@@ -51,40 +58,62 @@ public class I2C extends Subsystem {
 													//sorry :(
 	}
 
+
+    // TODO: 5/4/2019 return seperate error codes for easier debugging
+    /***
+     * Returns the angle received from the Arduino. An angle of 400 is returned
+     * as an error code if the Pixy does not see any targets or the Arduino returns bad
+     * or NULL data.
+     *
+     * @return Angle from the robot to the nearest set of vision targets
+     */
 	public double getPixyAngle(){
-		double angle;
-		//the arduino sends the angle to robot needs to turn to face the target.
-        //if the traget is not found by the pixy on the arduino than it sends an empty string, ""
-        //Since it is possible to have an empty string and not a number, than parseDouble may
-        // throw an exception, requiring it to be surrounded in a try catch
-		try{
-			angle = Double.parseDouble(this.read());
-		} catch(NumberFormatException e) {
+        /*
+           The arduino sends the angle to the robot as a string. If something goes wrong somewhere
+           it is possible to get a value which is not a number, which would break the robot code
+           during a match. The try catch will "throw an error" of 400 if no angle could be found
+           from the Arduino.
+
+         */
+        double angle;
+
+        try{
+            angle = Double.parseDouble(this.read());
+        } catch(NumberFormatException e) {
 			angle = 400;
 		}
-		// System.out.println("Pixy Angle: " + angle);
+
         SmartDashboard.putNumber("Pixy Data", angle);
 		return angle;
 	}
 
 
+    /***
+     * Returns if the vision tape can currently be seen. This can be used
+     * for driver feedback on the dashboard or to help determine when
+     * certain commands should run.
+     *
+     * @return  True if the Pixy successfully sees a set of targets
+     */
 	public boolean isTape(){
 		boolean tape = true;
 		int angle = (int)this.getPixyAngle();
-		if(angle == 400){
+		if(angle == 400)
 			tape = false;
-		}
 
+		/*Display the tape to the driver*/
 		SmartDashboard.putBoolean("Tape", tape);
 		return tape;
 	}
 	
 	@Override
 	protected void initDefaultCommand() {
-	    //this subsystem doesn't actaully have a command that uses it.
-        //instead it is just "used" as needed
-        //this doesn't quite fit the flow of command based very well
-        //and it should probably be a static class or somthing like Robot or RobotMap
+        /*
+	      This subsystem doesn't actaully have a command that uses it.
+          Instead, it is just "used" as needed.
+          This doesn't quite fit the flow of command based very well
+          and it should probably be a static class or something like Robot or RobotMap.
+        */
     }
 
 }
