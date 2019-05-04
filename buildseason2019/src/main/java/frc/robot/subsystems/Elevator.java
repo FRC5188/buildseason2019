@@ -39,7 +39,7 @@ public class Elevator extends PIDSubsystem {
         /*pass P, I, D, and period values to the PID loop/controller*/
         super(kp, ki, kd, kf, period);
 
-        /*Initialize motors&*/
+        /*Initialize motors*/
         leftMotor = new VictorSP(RobotMap.ELEVATOR_LEFT);
         rightMotor = new VictorSP(RobotMap.ELEVATOR_RIGHT);
 
@@ -56,45 +56,37 @@ public class Elevator extends PIDSubsystem {
     }
 
     /***
-     * main method for moving the elevator
-     * @param speed speed at which to move the elevator
+     * Moves the elevator with a given motor power
+     * 
+     * @param power power at which to move the elevator
      */
-    public void move(double speed) {
-        //create small deadband
-        if(Math.abs(speed) < .01) speed= 0;
+    public void move(double power) {
+        /*create small deadband*/
+        if(Math.abs(power) < .01) power = 0;
 
+        /*Help eliminate error by resetting the encoder*/
         this.encoderResetOnBottom();
 
-        // outputMin = prevOutput - accel;
-        // outputMax = prevOutput + accel;
+        /*if move is not valid than set the motors to 0*/
+        if(!this.validMove(power)) power = 0;
 
-        //if move is not valid than set the motors to 0
-        if(!this.validMove(speed)) speed = 0;
-
-        // if(speed > outputMax){
-        //     speed = outputMax;
-        // }
-        // else if(speed < outputMin){
-        //     speed = outputMin;
-        // }
-
-        leftMotor.set(-speed);
-        rightMotor.set(speed);
-
-        // prevOutput = speed;
+        leftMotor.set(-power);
+        rightMotor.set(power);
 
         this.log();
     }
 
     /***
-     * main method for moving the elevator
-     * @param speed speed at which to move the elevator
+     * Moves the elevator with a given motor power and optionally
+     * at a shifted power.
+     *
+     * @param power power at which to move the elevator
      * @param shifter true to enable shifting, false to disable
      */
-    public void move(double speed, boolean shifter) {
-        //move at half speed if shifter is enabled
+    public void move(double power, boolean shifter) {
+        /*move at half power if shifter is enabled*/
         double shiftVal = shifter ? .6 : 1;
-        this.move(speed * shiftVal);
+        this.move(power * shiftVal);
     }
 
 
@@ -104,27 +96,26 @@ public class Elevator extends PIDSubsystem {
      */
 
     /***
-     * determines if it is safe for the elevator to move
-     * up or down from its current position. The halleffects should be
-     * mounted at the very top and bottom of the elevator to ensure
-     * max elevator movement.
+     * Determines if it is safe for the elevator to move
+     * up or down from its current position by checking the direction of 
+     * the elevator's movement and if it is already at the top or bottom.
      *
-     * @param power
+     * @param power Power the elevator wants to move at
      * @return returns if it is safe for the elevator to move
      */
     private boolean validMove(double power) {
         boolean isValid;
-        //if the elevator is moving up but is at the top already
-        if(power < 0 && this.getTopHallEffect()) {
+        
+        /*if the elevator is moving up but is at the top already*/
+        if(power < 0 && this.getTopHallEffect())
             isValid = false;
-        }
-        //if the elevator is moving down but at the bottom already
-        else if(power > 0 && this.getBottomHallEffect()){
+
+        /*if the elevator is moving down but at the bottom already*/
+        else if(power > 0 && this.getBottomHallEffect())
             isValid = false;
-        }
-        else {
+
+        else
             isValid = true;
-        }
 
         return isValid;
     }
@@ -138,104 +129,125 @@ public class Elevator extends PIDSubsystem {
 
 
     /***
-     * returns the current distance from the elevator encoder
+     * Returns the current distance from the elevator encoder
+     * 
      * @return current elevator distance
      */
-    public double getElevatorEncoderDistance() {
+    public double getEncoderDistance() {
         return elevatorEncoder.getDistance();
     }
 
+
+    /***
+     * Returns the current tick count from the Encoder
+     *
+     * @return current elevator ticks
+     */
     public int getEncoderTicks(){
         return this.elevatorEncoder.get();
     }
 
+
+    /***
+     * Checks to see if the operator has requested to use the elevator.
+     * This is determined by checking the value of the elevator joystick
+     * on the operator controller.
+     *
+     * @return True if the operator has tried to move the elevator
+     */
     public boolean operatorRequested(){
-        boolean controlRequested = false;
 
-        if(Math.abs(OI.operator.getRawAxis(OI.Axis.LY)) > .07){
-            controlRequested = true;
-        }
+        /*LY is the joystick the operator uses, .07 is a small deadband*/
+        if(Math.abs(OI.operator.getRawAxis(OI.Axis.LY)) > .07)
+            return  true;
 
-        return controlRequested;
+        return false;
     }
 
     /***
-     * resets the elevator encoder to zero if the elevator has
-     * traveled back to the bottom
+     * Resets the elevator encoder to zero if the elevator has
+     * traveled back to the bottom. Helps eliminate drift in encoder distances.
      */
     private void encoderResetOnBottom(){
-        //this method is currently not used but will be later
         if(this.getBottomHallEffect())
             this.elevatorEncoder.reset();
-}
+    }
+
 
     public void printEncoder(){
-        //used for debugging
-        System.out.println("Encoder: " + this.getElevatorEncoderDistance());
+        /*used for debugging*/
+        System.out.println("Encoder: " + this.getEncoderDistance());
     }
 
     public void printEncoderTicks(){
+        /*used for debugging*/
         System.out.println("Encoder Ticks: " + this.getEncoderTicks());
 
     }
 
     public void printHalleffects() {
-        //used for debugging
+        /*used for debugging*/
         System.out.println("Top HallEffect " + this.getTopHallEffect());
         System.out.println("Bottom HallEffect " + this.getBottomHallEffect());
     }
 
-    public boolean getTopHallEffect(){
-        //I inverted this because I thought the Halleffects were normally
-        //true and then became false when triggered. But, I think I was wrong and thats
-        //why the isValid logic looks weird. It works right now though...
+    private boolean getTopHallEffect(){
+        /*
+          I inverted this because I thought the Halleffects were normally
+          true and then became false when triggered. But, I think I was wrong and that's
+          why the isValid logic looks weird. It works right now though...
+         */
         return !this.topHallEffect.get();
     }
 
-    public boolean getBottomHallEffect(){
-        //same as top halleffect
+    private boolean getBottomHallEffect(){
+        /*same as top halleffect*/
         return !this.bottomHallEffect.get();
     }
 
     @Override
     protected void initDefaultCommand() {
-        //this.setDefaultCommand(new PIDElevatorRaiseLower());
+        /*
+          Makes the elevator start in operator controller mode.
+          This also insures that whenever the PID loop ends control
+          is automatically passed back the operator.
+         */
         this.setDefaultCommand(new ManualElevatorRaiseLower());
-        //run the elevator in manual mode right now
     }
 
     @Override
     protected double returnPIDInput() {
-        //return 0;
-        return this.getElevatorEncoderDistance();
-
-        //we aren't using PID right now so...
+        /* Use the encoder distance as the input for our PID*/
+        return this.getEncoderDistance();
     }
 
     @Override
     protected void usePIDOutput(double output) {
+        /*Apply the output of the PID loop to the elevator motors*/
         this.move(-output);
-        //this probably isn't right but we aren't
-        //using PID right now so...
     }
 
+    /***
+     * Sets the PID controller setpoint
+     *
+     * @param val Setpoint for PID controller
+     */
     public void setSetpoint(double val){
         this.getPIDController().setSetpoint(val);
-    } 
+    }
 
     public boolean onTarget(){
         return this.getPIDController().onTarget();
     }
 
+    // TODO: 5/4/2019 log better data. watch for shuffle board causing comms issues
     private void log(){
-        SmartDashboard.putNumber("Elevator Encoder", this.getElevatorEncoderDistance());
+        SmartDashboard.putNumber("Elevator Encoder", this.getEncoderDistance());
         SmartDashboard.putData("Elevator", this);
         SmartDashboard.putData("Left Elevator", this.leftMotor);
         SmartDashboard.putData("Right Elevator", this.rightMotor);
         SmartDashboard.putData("Elevator PID", this.getPIDController());
         SmartDashboard.putData("Elevator Encoder", this.elevatorEncoder);
         SmartDashboard.putBoolean("Elevator PID", this.getPIDController().isEnabled());
-        //this.printEncoder();
-        //this.printHalleffects();
     }
 }

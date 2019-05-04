@@ -35,7 +35,7 @@ public class ManualElevatorRaiseLower extends Command {
 
         //put data to the dashboard for viewing
          SmartDashboard.putBoolean("Man Elevator Running", true);
-         SmartDashboard.putNumber("Elevator Encoder", Robot.elevator.getElevatorEncoderDistance());
+         SmartDashboard.putNumber("Elevator Encoder", Robot.elevator.getEncoderDistance());
     }
 
     public void end(){
