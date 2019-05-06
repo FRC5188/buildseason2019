@@ -8,58 +8,59 @@ import edu.wpi.first.wpilibj.Solenoid;
 
 public class Pneumatics extends Subsystem{
 
-    private Compressor compressor;
-    private Solenoid hSolenoid, hatchSolenoid, slideSolenoid;
+    /**
+     * The pneumatics subsystem contains all of the methods required
+     * to use any of the pneumatics on the robot. Our pneumatics system
+     * consist of: three pistons on our hatch manipulator to push off and
+     * place a hatch, and one piston to extend our manipulator outside of
+     * our frame perimeter to place a hatch on the rocket, since there are no
+     * cut outs for bumpers.
+     *
+     * The three hatch pistons are tied to the same solenoid.
+     */
 
+    private Compressor compressor;
+    private Solenoid hatchSolenoid, slideSolenoid;
+
+    /*constructor*/
     public Pneumatics(){
         compressor = RobotMap.compressor;
-        hSolenoid = new Solenoid(RobotMap.H_SOLENOID);
         hatchSolenoid = new Solenoid(RobotMap.HATCH_SOLENOID);
         slideSolenoid = new Solenoid(RobotMap.SLIDE_SOLENOID);
 
         compressor.setClosedLoopControl(true);
-        //^^tells compressor to use pressure switch to automatically
-        //regulate pressure
-    }
-
-    /**
-     * Sets the H-Wheel selenoids either extended, true, or 
-     * retracted, false
-     * @param val value passed to selenoids
-     */
-    public void setHWheelSolenoids(boolean val) {
-        hSolenoid.set(val);
-    }
-
-    public void setSlideSolenoid(boolean val){
-        slideSolenoid.set(val);
+        /**
+         * tells compressor to use pressure switch to automatically
+         * regulate pressure
+         */
     }
 
     /***
-     * sets hatch panel seleniods to fire hatch panel
+     * Sets the state of the linear slide piston
+     *
+     * @param state The state to set the piston
+     */
+    public void setSlideSolenoid(boolean state){
+        slideSolenoid.set(state);
+    }
+
+    /***
+     * Sets the state of the hatch panel pistons
+     *
      * @param val true to fire, false to retract
      */
     public void setHatchSolenoids(boolean val) {
         hatchSolenoid.set(val);
     }
 
-
-    /**
-     * Returns true if selenoids are active and false 
-     * if inactive
-     * @return state of h-Wheel selenoids
-     */
-    public boolean getHWeelSelenoid() {
-        return hSolenoid.get();
-        //^^left and right solenoids are the same
-    }
-
 	@Override
 	protected void initDefaultCommand() {
-        //this command does have a default command since
-        //operating the pneumatics happens across multiple commands
-        //and having a default command would stop the other commands
-        //from running
-	}
+        /**
+         * This command does have a default command since
+         * operating the pneumatics happens across multiple subsystems
+         * and having a default command would stop the other commands
+         * from running.
+        */
+    }
 
 }
