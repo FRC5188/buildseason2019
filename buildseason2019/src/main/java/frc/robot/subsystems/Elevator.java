@@ -10,7 +10,7 @@ import frc.robot.RobotMap;
 import frc.robot.commands.elevator.ManualElevatorRaiseLower;
 
 public class Elevator extends PIDSubsystem {
-    /*
+    /**
         The Elevator is comprised of:
             Two cims on a raw box
             Two Halleffect senors: placed at the very top and bottom of the elevator.

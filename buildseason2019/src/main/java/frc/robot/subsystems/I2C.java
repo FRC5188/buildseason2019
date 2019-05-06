@@ -6,9 +6,14 @@ import frc.robot.RobotMap;
 
 public class I2C extends Subsystem {
 
-    /*
+    /**
         This subsystem's job is to read data from the arduino.
-        It parses the data and makes it available to commands like PixyDrive
+        It parses the data and makes it available to commands like PixyDrive.
+
+        Ideally we use a RIODuino, which is a Arduino clone with a MXP header
+        on it, plugged right into the RoboRIO. However, we had some issues at
+        our last comp and just used a regular Arduino plugged into the onboard
+        I2C port, not the MXP port.
      */
 
     /*has to be defined this way because the class is also named I2C*/
@@ -18,7 +23,7 @@ public class I2C extends Subsystem {
     public I2C() {
 		this.wire = RobotMap.wire;
         SmartDashboard.putNumber("Pixy Data", 400);
-        /*
+        /**
             400 is just a random number. It's higher than any number we would ever see
             so if we see 400, then we know the pixy is not giving us any data a the moment.
          */
@@ -26,6 +31,7 @@ public class I2C extends Subsystem {
 
 
     /*we don't actually write any date to the arduino, it's just here*/
+
 	/**
 	 * Writes data to the Arduino over the I2C bus
      *
@@ -68,7 +74,7 @@ public class I2C extends Subsystem {
      * @return Angle from the robot to the nearest set of vision targets
      */
 	public double getPixyAngle(){
-        /*
+        /**
            The arduino sends the angle to the robot as a string. If something goes wrong somewhere
            it is possible to get a value which is not a number, which would break the robot code
            during a match. The try catch will "throw an error" of 400 if no angle could be found
@@ -108,7 +114,7 @@ public class I2C extends Subsystem {
 	
 	@Override
 	protected void initDefaultCommand() {
-        /*
+        /**
 	      This subsystem doesn't actaully have a command that uses it.
           Instead, it is just "used" as needed.
           This doesn't quite fit the flow of command based very well
