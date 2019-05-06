@@ -7,6 +7,14 @@ import frc.robot.commands.OperateCargoIntake;
 
 public class Intake extends Subsystem {
 
+    /**
+     * This intake consist of a single 775 pro and a versa-planetary
+     * gear box. It simply moves a set of rollers to suck in or spit
+     * out cargo. We only get cargo from the loading station and
+     * the intake is a part of the carriage that moves with the
+     * elevator.
+     */
+
     private VictorSP intakeMotor;
 
     public Intake(){
@@ -14,7 +22,8 @@ public class Intake extends Subsystem {
     }
 
     /**
-     * sets the power to the intake motor
+     * Sets the power to the intake motor
+     *
      * @param power power to give motor
      */
     public void setIntakeMotor(double power){
