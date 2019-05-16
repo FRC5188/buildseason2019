@@ -41,7 +41,7 @@ public class OI {
 	public static class Buttons {
 
       public static int
-		A = 1,
+      A = 1,
       B = 2,
       X = 3,
       Y = 4,
