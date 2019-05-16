@@ -20,7 +20,6 @@ public class ElevatorToLoadingStation extends Command {
         Robot.elevator.enable();
 
         this.setInterruptible(true);
-        //not sure if anything else needs to be done
     }
 
     public void execute() {
