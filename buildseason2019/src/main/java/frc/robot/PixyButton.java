@@ -8,12 +8,17 @@ import frc.robot.subsystems.I2C;
 
 
 public class PixyButton extends Trigger{
+    /**
+     * Implementation of the trigger class to make a 'pixy button."
+     * The button functions the same as a normal button but has to
+     * both be pressed AND see the tape to return true. If the tape is not
+     * seen, but the button is pressed, then it'll return false as if it wasn't
+     * even pressed. This means if the tape is lost the pixydrive command will
+     * stop running, just as if the driver had let go of the pixydrive button.
+     * This helps save time on the field.
+     */
 
-  //implementation of the trigger class to make a "pixy button"
-  //the button acts exactly like a normal button excpet the robot has to see
-  //the tape and have the button be pressed to return true. This makes it so if 
-  //the tape is lost the pixydrive command will stop running even if the driver
-  // hasn't released the button yet. Saving vailuable time
+    /*Most of this code is copied from the button class*/
 
     private final GenericHID m_joystick;
     private final int m_buttonNumber;
@@ -57,7 +62,7 @@ public class PixyButton extends Trigger{
    */
   @Override
   public boolean get() {
+      /*Return true only when the button is pressed and the robot see the tape*/
     return m_joystick.getRawButton(m_buttonNumber) && wire.isTape();
-    //return false;
   }
 }
