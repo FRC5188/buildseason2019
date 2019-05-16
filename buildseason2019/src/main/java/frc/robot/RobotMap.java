@@ -14,41 +14,36 @@ import edu.wpi.first.wpilibj.Compressor;
 
 public class RobotMap {
 
-    //motor mappings
-    //all but INTAKE_WRIST and INTAKE_MOTOR are cims
+    /*motor mappings*/
 
-    //the drive motors use can and their ID's are defined
-
+    /*Drive motors are talonsSRX's or VictorSPX's and use CAN*/
+    /*The rest are PWM*/
     public static final int FRONT_LEFT = 0;
     public static final int FRONT_RIGHT = 1;
     public static final int BACK_LEFT = 0;
     public static final int BACK_RIGHT = 1;
-    public static final int H_WHEEL = 4;
     public static final int ELEVATOR_LEFT = 5;
     public static final int ELEVATOR_RIGHT = 6;
-    public static final int INTAKE_WRIST = 7;
     public static final int INTAKE_MOTOR = 8;
 
-    //Solenoids to raise and lower H-Wheel
-    public static final int H_SOLENOID = 0;
+    /*Solenoid block mappings*/
     public static final int HATCH_SOLENOID = 1;
     public static final int SLIDE_SOLENOID = 2;
 
-
-    //elevator halleffect
+    /*elevator halleffect*/
     public static final int BOTTOM_HALLEFFECT = 3;
     public static final int TOP_HALLEFFECT = 9;
 
-    //elevator encoder
+    /*elevator encoder*/
     public static final int ELEVATOR_ENCODER_A = 5;
     public static final int ELEVATOR_ENCODER_B = 6;
 
-    public static final int INTAKE_WRIST_POT = 0;
-
+    /*Gyro*/
     public static final AHRS gyro = new AHRS(I2C.Port.kMXP);
-    public static final I2C wire = new I2C(I2C.Port.kOnboard, 4); //uses the i2c port on the RoboRIO
-    //public static final I2C wire = new I2C(I2C.Port.kMXP, 4); //uses the i2c port on the RoboRIO
-    //changed for testing on practice bot and a different arduino not on mxp port
+
+    /*I2C bus, uses address 4*/
+    public static final I2C wire = new I2C(I2C.Port.kOnboard, 4);
+    //public static final I2C wire = new I2C(I2C.Port.kMXP, 4);
 
     public static final int COMPRESSOR_CAN_ID = 0;
     public static final Compressor compressor = new Compressor(COMPRESSOR_CAN_ID);
