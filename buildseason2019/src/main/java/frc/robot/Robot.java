@@ -18,13 +18,14 @@ import frc.robot.subsystems.*;
 
 public class Robot extends TimedRobot {
 
+  /*Init subsystems*/
   public static DriveTrain driveTrain;
   public static I2C i2c;
   public static Pneumatics pneumatics;
   public static Elevator elevator;
   public static Intake intake;
-  // public static IntakeWrist intakeWrist;
   public static OI oi;
+
   public CameraServer server;
   public UsbCamera camera;
   public UsbCamera camera1;
@@ -33,34 +34,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
 
-      //i found this code on the screensteps. i takes a camera stream from usb
-      //and then changes the color scale and then sends it to the dashboard.
-      //this can be used to both create a image frame and help display where the pixy is
-      //looking and to rotate our driver camera since it is mounted at 90 degrees
-
-      //CameraServer.getInstance().startAutomaticCapture();
-
-//      new Thread(() -> {
-//          UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-//          camera.setResolution(640, 480);
-//
-//          CvSink cvSink = CameraServer.getInstance().getVideo();
-//          CvSource outputStream = CameraServer.getInstance().putVideo("Blur", 640, 480);
-//
-//          Mat source = new Mat();
-//          Mat output = new Mat();
-//
-//          while(!Thread.interrupted()) {
-//              cvSink.grabFrame(source);
-//              Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
-//              outputStream.putFrame(output);
-//          }
-//      }).start();
-
-      // 160x120 30fps 0/HW used 1.2 Mbps min, 1.7 Mbps during testing //
     RobotMap.gyro.reset();// reset gyro on robot start
-    
-    // camera = new UsbCamera("camera", 0);
 
     camera = CameraServer.getInstance().startAutomaticCapture(0);
     camera.setBrightness(50);
@@ -72,34 +46,27 @@ public class Robot extends TimedRobot {
     camera1.setFPS(25);
     camera1.setResolution(160, 120);
 
-
-
-
-
     driveTrain = new DriveTrain();
     i2c = new I2C();
     pneumatics = new Pneumatics();
     elevator = new Elevator ();
     intake = new Intake();
-    // intakeWrist = new IntakeWrist();
     oi = new OI();// oi needs to be created last
 
     //prevents CTRE timeout erros
     LiveWindow.disableAllTelemetry();
 
-    // this.log();
   }
 
   @Override
   public void disabledInit() {
-    Scheduler.getInstance().removeAll();
-    // commands don't stop running when entering disabled
+      // commands don't stop running when entering disabled
+      Scheduler.getInstance().removeAll();
   }
 
   @Override
   public void disabledPeriodic() {
     Scheduler.getInstance().run();
-    //this.log();
   }
 
   @Override
@@ -113,15 +80,11 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    //  this.log();
-
   }
 
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-
-    //this.log();
   }
 
 
@@ -137,8 +100,7 @@ public class Robot extends TimedRobot {
   }
 
   /**
-   * 
-   * Used to log data to the shuffleboard. When used it is 
+   * Used to log data to the shuffleboard. When used it is
    * called at the end of the basic robot modes, like telop. 
    * 
    * It was taken out due to possible making us lose comms during matches by
