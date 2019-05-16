@@ -60,7 +60,7 @@ public class OI {
     public static class Axis {
 
         public static int
-      LX = 0,
+        LX = 0,
         LY = 1,
         LTrigger = 2,
         RTrigger = 3,
