@@ -11,15 +11,12 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.commands.driveTrain.PixyDrive;
 import frc.robot.commands.elevator.PIDSetpoints.ElevatorToHatchLevel1;
 import frc.robot.commands.elevator.PIDSetpoints.ElevatorToHatchLevel2;
 import frc.robot.commands.elevator.PIDSetpoints.ElevatorToHatchLevel3;
 import frc.robot.commands.elevator.PIDSetpoints.ElevatorToLoadingStation;
-import frc.robot.commands.pnueumatics.DropHWheel;
 import frc.robot.commands.pnueumatics.ExtendHatch;
 import frc.robot.commands.pnueumatics.FireHatchPanel;
-import frc.robot.commands.pnueumatics.LiftHWheel;
 import frc.robot.commands.pnueumatics.RetractHatch;
 import frc.robot.commands.pnueumatics.RetractHatchPanel;
 
@@ -118,9 +115,6 @@ public class OI {
 		hatchPanelButton.whenReleased(new RetractHatchPanel());
         retractHatch.whenPressed(new RetractHatch());
         extendHatch.whenPressed(new ExtendHatch());
-
-		hWheelDownButton.whenPressed(new DropHWheel());
-		hWheelUpButton.whenPressed(new LiftHWheel());
 
 		rocketLevel1Button.whenPressed(new ElevatorToHatchLevel1());
 		rocketLevel2Button.whenPressed(new ElevatorToHatchLevel2());
