@@ -25,79 +25,77 @@ import frc.robot.commands.pnueumatics.RetractHatchPanel;
  * interface to the commands and command groups that allow control of the robot.
  */
 
- //contains controller axis and buttons
- //Joysticks are normal logitech gamepads
+/*Joysticks are normal logitech gamepads*/
+
 public class OI {
 
-  //driver controllers
-	private static class Controller {
-		public static final int DRIVE = 0, OPERATOR = 1;
-	}
+    /*driver controllers*/
+    private static class Controller {
+        public static final int DRIVE = 0, OPERATOR = 1;
+    }
 
-	Command pixyDrive;
-	Command elevatorPID;
-	//create a pid command for the elevator the same way that
-    //the pixyDrive is a pid command for the driveTrain;
-	
-  //buttons of controller 
-  //access with OI.Buttons.BUTTONNAME
+  /*
+    buttons of controller,
+    access with OI.Buttons.BUTTONNAME
+   */
 	public static class Buttons {
-		public static int
+
+      public static int
 		A = 1,
-		B = 2,
-		X = 3,
-		Y = 4,
-		L = 5,
-		R = 6,
-		BACK = 7,
-		START = 8,
-		L_STICK = 9,
-		R_STICK = 10,
-		TOTAL_BUTTONS = 10;
-	}
-	
-  //controller axis  (including rTrigger and lTrigger) 
-  //access with OI.Axis.AXISNAME
-	public static class Axis {
-		public static int
-		LX = 0,
-		LY = 1,
-		LTrigger = 2,
-		RTrigger = 3,
-		RX = 4,
-		RY = 5,
-		AXIS_TOTAL = 6;
-	}
-	
-	//controllers
-	public static Joystick drive;
-	public static Joystick operator;
+      B = 2,
+      X = 3,
+      Y = 4,
+      L = 5,
+      R = 6,
+      BACK = 7,
+      START = 8,
+      L_STICK = 9,
+      R_STICK = 10,
+      TOTAL_BUTTONS = 10;
+  }
+    /*
+    Controller axis  (including rTrigger and lTrigger),
+    access with OI.Axis.AXISNAME
+   */
+    public static class Axis {
 
-	//Buttons
-	public static PixyButton pixyButton;
+        public static int
+      LX = 0,
+        LY = 1,
+        LTrigger = 2,
+        RTrigger = 3,
+        RX = 4,
+        RY = 5,
+        AXIS_TOTAL = 6;
 
-	public static Button hatchPanelButton;
-	public static Button hWheelDownButton;
-    public static Button hWheelUpButton;
+    }
+
+    Command pixyDrive;
+
+    /*controllers*/
+    public static Joystick drive;
+    public static Joystick operator;
+
+    /*Buttons*/
+    public static PixyButton pixyButton;
+
+    public static Button hatchPanelButton;
     public static Button extendHatch;
     public static Button retractHatch;
 
-
-	public static DPadButton rocketLevel1Button;
+    public static DPadButton rocketLevel1Button;
     public static DPadButton rocketLevel2Button;
-	public static DPadButton rocketLevel3Button;
+    public static DPadButton rocketLevel3Button;
     public static DPadButton loadingStationButton;
 
     public OI() {
-		//create controllers
+		/*create controllers*/
 		drive = new Joystick(Controller.DRIVE);
 		operator = new Joystick(Controller.OPERATOR);
 
 		/*create buttons*/
-		// pixyButton = new PixyButton(drive, OI.Buttons.L );
+		pixyButton = new PixyButton(drive, OI.Buttons.L );
 		hatchPanelButton = new JoystickButton(operator, Buttons.A);
-		hWheelDownButton = new JoystickButton(drive, Buttons.A);
-        hWheelUpButton = new JoystickButton(drive, Buttons.B);
 
         rocketLevel1Button = new DPadButton(operator, DPadButton.Direction.LEFT);
         rocketLevel2Button = new DPadButton(operator, DPadButton.Direction.UP);
