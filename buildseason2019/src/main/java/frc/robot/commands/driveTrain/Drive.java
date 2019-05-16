@@ -16,9 +16,12 @@ import frc.robot.subsystems.I2C;
 public class Drive extends Command {
 
     /**
-     *
+     *  This command is used to drive the robot in teleop mode.
+     *  It is the default command for the DriveTrain and only
+     *  does not run when PixyDrive is in use.
      */
 
+    /*Object needed to use the isTape() function*/
 	I2C wire = Robot.i2c;
 
 	/*Constructor*/
@@ -60,7 +63,7 @@ public class Drive extends Command {
 	@Override
 	protected boolean isFinished() {
 		/*
-		 * driveTrain command should always run but, should be interruptable so other
+		 * Drive command should always run but, should be interruptable so other
 		 * commands can control the drivetrain
 		 */
 		return false;

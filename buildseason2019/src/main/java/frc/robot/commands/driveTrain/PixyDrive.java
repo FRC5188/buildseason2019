@@ -13,17 +13,13 @@ import frc.robot.OI;
 import frc.robot.Robot;
 
 public class PixyDrive extends PIDCommand {
-    //TODO increase responsiveness of PID
-    //TODO handle losing arduino and pixy seperately
-
     /*
         PixyDrive is our main "auto" feature this season.
         PixyDrive's goal is to allow the driver to press a button and
         have the robot always stay pointed towards the cargo and hatch bays
         on the cargo ship, rocket ship, and loading station. PixyDrive only takes
         control of the robot's turning, allowing the driver to continue moving the
-        robot towards the cargo and hatch stations by driving forwards, backwards,
-        and strafing with the h-wheel.
+        robot towards the cargo and hatch stations by driving forwards and backwards.
 
         USE:
         The driver begins driving to a desired location, either to place hatch or cargo, or grab a hatch.
@@ -38,7 +34,8 @@ public class PixyDrive extends PIDCommand {
         at any moment on the field and immediately go back to arcade drive. I.E if strategy changes mid placing
      */
 
-    //need some refining on the comp bot
+
+    /*Initialize variables*/
     private static double kp = 0.07, ki = 0, kd = 0.49;
     private double throttle;
     public double turn;
@@ -46,27 +43,31 @@ public class PixyDrive extends PIDCommand {
     private boolean shifter;
     private double setpoint = 0;
 
+    /*Constructor*/
     public PixyDrive() {
-        //init PID loop
-        //passing a period helps reduce RoboRIO CPU usage by
-        //not allowing the PID loop to continuously run in the background without stopping.
-        //pwm motor controls can only update at 5ms anyway, and the main teleop loop runs every 20ms
+       /*
+           Initializes the PID loop. Passing a period helps reduce the CPU load on the RIO
+           by not allowing the PID loop to continuously run in the background.
+           pwm motor controls can only update at 5ms anyway.
+        */
         super("PixyDrive",kp, ki, kd, .02);
         this.requires(Robot.driveTrain);
         this.requires(Robot.i2c);//uses the i2c subsytem for arduino
         this.setInterruptible(true);
-        //it shouldn't make or break this PID loop to have an output range since the motors don't
-        //allow for output past -1 or 1 anyway
+
+        /*Set an output range and a range for error*/
         this.getPIDController().setOutputRange(-1, 1);
-        this.getPIDController().setAbsoluteTolerance(1);//allow +- a degree of error
+        this.getPIDController().setAbsoluteTolerance(1);
 
         SmartDashboard.putData("Pixy Drive", this);
-        //puts the PID controller on the dashboard, should be able to tune PID from dashboard
-        //with this
+        /*puts the PID controller on the dashboard*/
+
         SmartDashboard.putBoolean("Pixy Running", false);
-        //since switching between driving manually and with the pixy is one of our most import
-        //"auto" features this year, we put booleans on the dashboard letting us visually see if
-        //the commands are running correctly
+        /*
+          since switching between driving manually and with the pixy is one of our most import
+          "auto" features this year, we put booleans on the dashboard letting us visually see if
+          the commands are running correctly
+        */
     }
 
 
@@ -74,13 +75,13 @@ public class PixyDrive extends PIDCommand {
     protected void initialize() {
         this.getPIDController().setSetpoint(this.setpoint);
         this.getPIDController().enable();
-        //set and enable PID just before running the PixyDrive Command
+        /*set and enable PID just before running the PixyDrive Command*/
     }
 
     @Override
     protected void execute() {
-        //grab driver joystick values
-        //the values are not used in the method though
+        /*grab driver joystick values*/
+        /*the values are not used in this method though*/
         throttle = OI.drive.getRawAxis(OI.Axis.LY);
         strafe = OI.drive.getRawAxis(OI.Axis.LX);
         turn = OI.drive.getRawAxis(OI.Axis.RX);
@@ -91,12 +92,14 @@ public class PixyDrive extends PIDCommand {
 
     @Override
     protected boolean isFinished() {
-        //this command will start and finish a decent amount during a match.
-        //however, when the command is running it never "needs to finish" since
-        //it's sole job is to stay running to keep the robot looking at the tape.
-        //the command is instead canceled when it is "finished", I.E. the driver
-        //stops using the PixyDrive command and switches back to normal Drive.
-        //return this.getPIDController().onTarget();
+
+        /*
+          This command will start and finish a decent amount during a match.
+          However, when the command is running it never "needs to finish" since
+          it's sole job is to stay running to keep the robot looking at the tape.
+          the command is instead canceled when it is "finished", I.E. the driver
+          stops using the PixyDrive command and switches back to normal Drive.
+        */
         return false;
     }
 
@@ -105,15 +108,11 @@ public class PixyDrive extends PIDCommand {
         this.getPIDController().disable();
         SmartDashboard.putBoolean("Pixy Running", false);
         Robot.driveTrain.stop();
-        //might be worth deleting ^^^
         //disable PID before exiting
         //tell us on the dashboard that this command is no longer running
         //Stop the driveTrain to avoid motors becoming "stuck" with power
     }
 
-
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
     @Override
     protected void interrupted() {
         this.end();
@@ -126,17 +125,17 @@ public class PixyDrive extends PIDCommand {
     protected double returnPIDInput() {
         //This uses the getPixyAngle method from our I2C subsystem to
         //tell our PID loop how many degrees we are off from facing the Tape
-        double angle = Robot.i2c.getPixyAngle();
-		return angle;
+		return  Robot.i2c.getPixyAngle();
     }
 
     @Override
     protected void usePIDOutput(double output) {
-        /*DriveArcade takes (throttle, turn, strafe, shifter)
+        /*
+          DriveArcade takes (throttle, turn, shifter)
           replacing turn in driveArcade with the PID output, and feeding
           the normal joystick values to the rest, allows us to keep our
           robot always facing the tape while allowing the driver to
-          still move forwards, backwards, and sideways(h-wheel).
+          still move forwards and backwards.
           This makes PIxyDrive effectively  an "aimbot" for our robot
           and the tape on the field.
         */
@@ -148,10 +147,10 @@ public class PixyDrive extends PIDCommand {
         //When we are on target we still want PID to run so we will quickly snap 
         //back on target if knocked off, but we don't want the motors to move
         if(this.getPIDController().onTarget()){
-            Robot.driveTrain.driveArcade(throttle, 0, strafe, shifter);
+            Robot.driveTrain.driveArcade(throttle, 0, shifter);
         }
         else{
-           Robot.driveTrain.driveArcade(throttle, output, strafe, shifter);
+           Robot.driveTrain.driveArcade(throttle, output, shifter);
         }
     }
 }
