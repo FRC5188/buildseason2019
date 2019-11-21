@@ -31,7 +31,7 @@ public class ManualElevatorRaiseLower extends Command {
         boolean shifter = OI.operator.getRawButton(OI.Buttons.R);
 
         //move elevator
-        Robot.elevator.move(power, shifter);
+        Robot.elevator.move(power, !shifter);
 
         //put data to the dashboard for viewing
          SmartDashboard.putBoolean("Man Elevator Running", true);

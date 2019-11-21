@@ -44,14 +44,16 @@ public class DriveTrain extends Subsystem {
 		strafe = new VictorSP(RobotMap.H_WHEEL);
 
 		//config current limiting
-		leftDrive1.configPeakCurrentLimit(50, 10); /* 35 A */
+		leftDrive1.configPeakCurrentLimit(30, 10); /* 35 A */ //50
 		leftDrive1.configPeakCurrentDuration(200, 10); /* 200ms */
-		leftDrive1.configContinuousCurrentLimit(35, 10); /* 30 */
+		leftDrive1.configContinuousCurrentLimit(20, 10); /* 30 */ //35
+		leftDrive1.configOpenloopRamp(.135, 10);
 		leftDrive1.enableCurrentLimit(true); /* turn it on */
 
-		rightDrive1.configPeakCurrentLimit(50, 10); /* 35 A */
+		rightDrive1.configPeakCurrentLimit(30, 10); /* 35 A */
 		rightDrive1.configPeakCurrentDuration(200, 10); /* 200ms */
-		rightDrive1.configContinuousCurrentLimit(35, 10); /* 30 */
+		rightDrive1.configContinuousCurrentLimit(20, 10); /* 30 */ //35
+		rightDrive1.configOpenloopRamp(.135, 10);
 		rightDrive1.enableCurrentLimit(true); /* turn it on */
 	}
 
@@ -64,6 +66,9 @@ public class DriveTrain extends Subsystem {
 	 * 
      */
 	private void driveRaw(double left, double right, double strafe) {
+
+		if(Math.abs(left) < .02) left =0;
+		if(Math.abs(right) < .02) right =0;
 		leftDrive1.set(ControlMode.PercentOutput, -left);
 		leftDrive2.follow(leftDrive1);
 		rightDrive1.set(ControlMode.PercentOutput, right);
@@ -78,6 +83,10 @@ public class DriveTrain extends Subsystem {
 
 
     public void cheesyDrive(double throttle, double wheel, double quickTurn, boolean shifter) {
+
+		//creates a dead band
+        // if(Math.abs(throttle) < .02) throttle = 0;
+        if(Math.abs(wheel) < .15) wheel = 0;
 
         negInertia = wheel - oldWheel;
         oldWheel = wheel;
@@ -178,6 +187,7 @@ public class DriveTrain extends Subsystem {
 		SmartDashboard.putData("H Motor", this.strafe);
 		SmartDashboard.putNumber("Gyro Val", RobotMap.gyro.getAngle());
 		SmartDashboard.putData("Gyro", RobotMap.gyro);
+		// SmartDashboard.putData("LDRIVE 1", this.leftDrive1);
 		
 	}
 }
