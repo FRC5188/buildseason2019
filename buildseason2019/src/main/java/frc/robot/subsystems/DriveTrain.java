@@ -61,7 +61,7 @@ public class DriveTrain extends Subsystem {
 		rightDrive1.enableCurrentLimit(true); /* turn it on */
 	}
 
-    /**
+    /** 
      * Underlying driveTrain function. Feeds power directly to the motors.
      *
      * @param left left side of driveTrain power

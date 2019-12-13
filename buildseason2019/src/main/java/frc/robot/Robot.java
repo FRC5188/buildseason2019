@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -30,13 +31,16 @@ public class Robot extends TimedRobot {
   public UsbCamera camera;
   public UsbCamera camera1;
 
+  public String word;
 
   @Override
   public void robotInit() {
-
     RobotMap.gyro.reset();// reset gyro on robot start
 
-    camera = CameraServer.getInstance().startAutomaticCapture(0);
+      word = "hello";
+
+
+      camera = CameraServer.getInstance().startAutomaticCapture(0);
     camera.setBrightness(50);
     camera.setFPS(30);
     camera.setResolution(160, 120);
@@ -53,7 +57,7 @@ public class Robot extends TimedRobot {
     intake = new Intake();
     oi = new OI();// oi needs to be created last
 
-    //prevents CTRE timeout erros
+    //prevents CTRE timeout errors
     LiveWindow.disableAllTelemetry();
 
   }

@@ -28,7 +28,7 @@ public class Elevator extends PIDSubsystem {
     private Encoder elevatorEncoder;
 
     /*Determined using 3 trails of moving 6 inches each trail*/
-    private double TICKS_PER_INCH = 28.944444444;
+    private final double TICKS_PER_INCH = 28.944444444;
 
     /*PID values, PID loop will run every 20ms*/
     private static double kp = 0.365, ki = 0, kd = 0.2, kf = 0, period = 0.02;
@@ -85,6 +85,7 @@ public class Elevator extends PIDSubsystem {
     public void move(double power, boolean shifter) {
         /*move at half power if shifter is enabled*/
         double shiftVal = shifter ? .6 : 1;
+
         this.move(power * shiftVal);
     }
 
@@ -133,6 +134,7 @@ public class Elevator extends PIDSubsystem {
      * @return current elevator distance
      */
     public double getEncoderDistance() {
+
         return elevatorEncoder.getDistance();
     }
 
